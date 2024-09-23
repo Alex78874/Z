@@ -16,4 +16,16 @@ function getBasePath(): string
     return $basePath;
 }
 
+//  Simplifier la Génération des URLs pour le html
+function url($path = ''): string
+{
+    $basePath = getBasePath();
+    // S'assurer que $path commence par un slash
+    if ($path && $path[0] !== '/') {
+        $path = '/' . $path;
+    }
+    return $basePath . $path;
+}
+
+
 
