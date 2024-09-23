@@ -24,10 +24,8 @@ class HomeController
 
         // Inclure le header
         include __DIR__ . '/../views/layouts/header.php';
-
         // Inclure la vue principale
         include __DIR__ . '/../views/' . $view . '.php';
-
         // Inclure le footer
         include __DIR__ . '/../views/layouts/footer.php';
     }

@@ -1,4 +1,9 @@
-<h1><?php echo $title; ?></h1>
+<!-- Titre -->
+<h1>
+    <?php if (!empty($title)) {
+        echo $title;
+    } ?>
+</h1>
 
 <!-- Afficher les tweets -->
 <?php if (!empty($tweets)): ?>
@@ -9,5 +14,5 @@
         </div>
     <?php endforeach; ?>
 <?php else: ?>
-    <p>Aucun tweet à afficher.</p>∑
+    <p>Aucun tweet à afficher.</p>
 <?php endif; ?>
