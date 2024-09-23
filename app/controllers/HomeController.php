@@ -9,6 +9,7 @@ class HomeController
 
         // Passer des données à la vue
         $data = [
+            'basePath' => getBasePath(),
             'title' => 'Bienvenue sur mon Twitter like',
             'tweets' => [], // Récupérez les tweets depuis le modèle
         ];
