@@ -37,7 +37,7 @@ class UserController
         include __DIR__ . '/../views/layouts/footer.php';
     }
 
-    private function send404($message = 'Page non trouvée')
+    private function send404($message = 'Page non troaaauvée')
     {
         header("HTTP/1.0 404 Not Found");
         echo $message;
