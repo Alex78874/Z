@@ -9,8 +9,8 @@ const DB_NAME = 'z';
 const DB_USER = 'root';
 const DB_PASS = '';
 
-function getPDO()
-{
+// Connexion a la base de donnée
+function getPDO() {
     static $pdo;
 
     if ($pdo === null) {
@@ -23,18 +23,16 @@ function getPDO()
         try {
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
-            // Gérer l'erreur de connexion
             die('Erreur de connexion à la base de données : ' . $e->getMessage());
         }
     }
     return $pdo;
 }
 
-
-
 // Autoloader des classes
 spl_autoload_register(function ($class_name) {
     $paths = [
+        __DIR__ . '/../core/',
         __DIR__ . '/../app/controllers/',
         __DIR__ . '/../app/models/',
     ];
@@ -47,4 +45,5 @@ spl_autoload_register(function ($class_name) {
         }
     }
 });
+
 
