@@ -67,42 +67,61 @@ return [
         'action' => 'index', // Méthode du contrôleur : index()
     ],
 
-    // Route avec un paramètre dynamique (exemple : '/user/42')
+    // Route pour récupérer un utilisteur
     [
         'path' => '/user/(\d+)', // URL avec un paramètre ID utilisateur
         'controller' => 'UserController', // Contrôleur appelé : UserController
         'action' => 'profile', // Méthode du contrôleur : profile($id)
-        'params' => ['id'], // Nom du paramètre capturé : $id
+        'methods' => ['GET'],
+        'params' => ['id'],
     ],
 
     // Route pour la page de connexion
     [
-        'path' => '/login', // URL : '/login'
-        'controller' => 'UserController', // Contrôleur appelé : UserController
-        'action' => 'login', // Méthode du contrôleur : login()
+        'path' => '/login',
+        'controller' => 'UserController',
+        'action' => 'login',
     ],
 
     // Route pour la page d'inscription
     [
-        'path' => '/register', // URL : '/register'
-        'controller' => 'UserController', // Contrôleur appelé : UserController
-        'action' => 'register', // Méthode du contrôleur : register()
+        'path' => '/register',
+        'controller' => 'AuthController',
+        'action' => 'register',
+        'middlewares' => [
+            function() {
+                return new ValidationMiddleware(
+                    [
+                        'email' => 'required|email',
+                        'password' => 'required|min:6',
+                    ],
+                    [
+                        'email' => [
+                            'required' => 'L\'email est requis.',
+                            'email' => 'L\'email doit être valide.',
+                        ],
+                        'password' => [
+                            'required' => 'Le mot de passe est requis.',
+                            'min' => 'Le mot de passe doit comporter au moins 6 caractères.',
+                        ],
+                    ]
+                );
+            }
+        ],
     ],
 
     // Route pour créer un nouveau tweet
     [
-        'path' => '/tweet/create', // URL : '/tweet/create'
-        'controller' => 'TweetController', // Contrôleur appelé : TweetController
-        'action' => 'create', // Méthode du contrôleur : create()
+        'path' => '/tweet/create',
+        'controller' => 'TweetController',
+        'action' => 'create',
     ],
 
     // Route pour afficher un tweet spécifique (exemple : '/tweet/123')
     [
-        'path' => '/tweet/(\d+)', // URL avec un paramètre ID du tweet
-        'controller' => 'TweetController', // Contrôleur appelé : TweetController
-        'action' => 'view', // Méthode du contrôleur : view($id)
-        'params' => ['id'], // Nom du paramètre capturé : $id
+        'path' => '/tweet/(\d+)',
+        'controller' => 'TweetController',
+        'action' => 'view',
+        'params' => ['id'],
     ],
-
-    // Vous pouvez ajouter d'autres routes ici en suivant le même format
 ];

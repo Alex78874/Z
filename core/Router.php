@@ -11,14 +11,24 @@ class Router
         $this->routes = require __DIR__ . '/../config/routes.php';
     }
 
+    /**
+     * @throws Exception
+     */
     public function dispatch($uri)
     {
         $uri = $this->sanitizeUri($uri);
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
             $pattern = '#^' . $route['path'] . '$#';
 
             if (preg_match($pattern, $uri, $matches)) {
+                $allowedMethods = $route['methods'] ?? ['GET'];
+                if (!in_array($requestMethod, $allowedMethods)) {
+                    $this->send405($allowedMethods);
+                    return;
+                }
+
                 // Supprimer le premier élément (la correspondance complète)
                 array_shift($matches);
 
@@ -30,13 +40,51 @@ class Router
                     }
                 }
 
-                // Appeler le contrôleur et l'action
-                return $this->callAction($route['controller'], $route['action'], $params);
+                // Gérer les middlewares
+                $middlewares = $route['middlewares'] ?? [];
+                $this->callActionWithMiddlewares($middlewares, $route['controller'], $route['action'], $params);
+                return;
             }
         }
 
         // Si aucune route ne correspond, afficher une page 404
         $this->send404();
+    }
+
+    private function callActionWithMiddlewares($middlewares, $controllerName, $actionName, $params)
+    {
+        $middlewareStack = [];
+
+        foreach ($middlewares as $middlewareClass) {
+            if (class_exists($middlewareClass)) {
+                $middlewareStack[] = new $middlewareClass();
+            } else {
+                throw new Exception("Middleware '$middlewareClass' non trouvé.");
+            }
+        }
+
+        $request = $_REQUEST; // Vous pouvez créer un objet Request pour plus de sophistication.
+
+        $next = function ($request) use ($controllerName, $actionName, $params) {
+            $this->callAction($controllerName, $actionName, $params);
+        };
+
+        // Exécuter les middlewares
+        $this->executeMiddlewareStack($middlewareStack, $request, $next);
+    }
+
+    private function executeMiddlewareStack($stack, $request, $next)
+    {
+        if (empty($stack)) {
+            $next($request);
+            return;
+        }
+
+        $middleware = array_shift($stack);
+
+        $middleware->handle($request, function ($request) use ($stack, $next) {
+            $this->executeMiddlewareStack($stack, $request, $next);
+        });
     }
 
     private function sanitizeUri($uri)
@@ -95,6 +143,14 @@ class Router
     {
         header("HTTP/1.0 404 Not Found");
         echo $message;
+        exit();
+    }
+
+    private function send405($allowedMethods)
+    {
+        header('HTTP/1.1 405 Method Not Allowed');
+        header('Allow: ' . implode(', ', $allowedMethods));
+        echo 'Méthode non autorisée. Seules les méthodes suivantes sont autorisées : ' . implode(', ', $allowedMethods);
         exit();
     }
 }
