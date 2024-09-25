@@ -67,7 +67,7 @@ return [
         'action' => 'index', // Méthode du contrôleur : index()
     ],
 
-    // Route pour récupérer un utilisteur
+    // Route pour récupérer un utilisateur
     [
         'path' => '/user/(\d+)', // URL avec un paramètre ID utilisateur
         'controller' => 'UserController', // Contrôleur appelé : UserController
@@ -80,7 +80,7 @@ return [
     [
         'path' => '/login',
         'controller' => 'UserController',
-        'action' => 'login',
+        'action' => 'index',
     ],
 
     // Route pour la page d'inscription

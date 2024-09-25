@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Si la requête est pour un fichier ou un dossier existant, ne rien faire
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Sinon, rediriger toutes les autres requêtes vers index.php
+RewriteRule ^ index.php [QSA,L]

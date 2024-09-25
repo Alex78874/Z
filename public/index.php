@@ -13,8 +13,8 @@ $uri = $_SERVER['REQUEST_URI'];
 $basePath = getBasePath();
 
 // Pour déboguer
-// var_dump($uri);
-// var_dump($basePath);
+ var_dump($uri);
+ var_dump($basePath);
 
 // Dispatcher la requête
 $router->dispatch($uri);
