@@ -95,14 +95,14 @@ class Router
         // Obtenir le chemin de base
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
         
-        // Vérifier si le chemin de base est présent dans l'URI
-        if (strpos($uri, $basePath) === 0) {
-            // Supprimer le chemin de base de l'URI
-            $uri = substr($uri, strlen($basePath));
-        }
-    
-        // Supprimer le slash final s'il existe
-        $uri = rtrim($uri, '/');
+//        // Vérifier si le chemin de base est présent dans l'URI
+//        if (strpos($uri, $basePath) === 0) {
+//            // Supprimer le chemin de base de l'URI
+//            $uri = substr($uri, strlen($basePath));
+//        }
+//    
+//        // Supprimer le slash final s'il existe
+//        $uri = rtrim($uri, '/');
     
         // Si l'URI est vide, c'est la racine
         if ($uri === '') {
