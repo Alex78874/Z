@@ -20,7 +20,7 @@ class AuthController
         }
 
         // Afficher le formulaire d'inscription
-        $this->render('auth/register');
+        $this->render('user/register');
     }
 
     private function render($view, $data = [])

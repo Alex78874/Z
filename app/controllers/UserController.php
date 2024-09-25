@@ -1,12 +1,15 @@
 <?php
+// app/controllers/UserController.php
 
 class UserController
 {
-    public function index($id)
+    public function profile($id)
     {
         // Charger le modèle utilisateur
         $userModel = new User();
 
+        // Récupérer les informations de l'utilisateur
+        $user = $userModel->getUserById($id);
 
         if ($user) {
             // Passer les données à la vue
