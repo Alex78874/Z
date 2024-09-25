@@ -80,7 +80,7 @@ return [
     [
         'path' => '/login',
         'controller' => 'UserController',
-        'action' => 'login',
+        'action' => 'index',
     ],
 
     // Route pour la page d'inscription
