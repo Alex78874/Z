@@ -67,7 +67,7 @@ return [
         'action' => 'index', // Méthode du contrôleur : index()
     ],
 
-    // Route pour récupérer un utilisteur
+    // Route pour récupérer un utilisateur
     [
         'path' => '/user/(\d+)', // URL avec un paramètre ID utilisateur
         'controller' => 'UserController', // Contrôleur appelé : UserController
@@ -79,35 +79,35 @@ return [
     // Route pour la page de connexion
     [
         'path' => '/login',
-        'controller' => 'UserController',
-        'action' => 'index',
+        'controller' => 'AuthController',
+        'action' => 'index_login',
     ],
 
     // Route pour la page d'inscription
     [
         'path' => '/register',
         'controller' => 'AuthController',
-        'action' => 'register',
-        'middlewares' => [
-            function() {
-                return new ValidationMiddleware(
-                    [
-                        'email' => 'required|email',
-                        'password' => 'required|min:6',
-                    ],
-                    [
-                        'email' => [
-                            'required' => 'L\'email est requis.',
-                            'email' => 'L\'email doit être valide.',
-                        ],
-                        'password' => [
-                            'required' => 'Le mot de passe est requis.',
-                            'min' => 'Le mot de passe doit comporter au moins 6 caractères.',
-                        ],
-                    ]
-                );
-            }
-        ],
+        'action' => 'index_register',
+//        'middlewares' => [
+//            function() {
+//                return new ValidationMiddleware(
+//                    [
+//                        'email' => 'required|email',
+//                        'password' => 'required|min:6',
+//                    ],
+//                    [
+//                        'email' => [
+//                            'required' => 'L\'email est requis.',
+//                            'email' => 'L\'email doit être valide.',
+//                        ],
+//                        'password' => [
+//                            'required' => 'Le mot de passe est requis.',
+//                            'min' => 'Le mot de passe doit comporter au moins 6 caractères.',
+//                        ],
+//                    ]
+//                );
+//            }
+//        ],
     ],
 
     // Route pour créer un nouveau tweet

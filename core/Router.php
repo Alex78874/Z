@@ -100,7 +100,7 @@ class Router
             // Supprimer le chemin de base de l'URI
             $uri = substr($uri, strlen($basePath));
         }
-    
+
         // Supprimer le slash final s'il existe
         $uri = rtrim($uri, '/');
     

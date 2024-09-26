@@ -17,7 +17,7 @@ class UserController
                 'user' => $user,
             ];
 
-            $this->render('user/profile', $data);
+            $this->render('user/login', $data);
         } else {
             // Gérer l'utilisateur non trouvé
             $this->send404('Utilisateur non trouvé.');
