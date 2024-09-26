@@ -88,26 +88,34 @@ return [
         'path' => '/register',
         'controller' => 'AuthController',
         'action' => 'index_register',
-//        'middlewares' => [
-//            function() {
-//                return new ValidationMiddleware(
-//                    [
-//                        'email' => 'required|email',
-//                        'password' => 'required|min:6',
-//                    ],
-//                    [
-//                        'email' => [
-//                            'required' => 'L\'email est requis.',
-//                            'email' => 'L\'email doit être valide.',
-//                        ],
-//                        'password' => [
-//                            'required' => 'Le mot de passe est requis.',
-//                            'min' => 'Le mot de passe doit comporter au moins 6 caractères.',
-//                        ],
-//                    ]
-//                );
-//            }
-//        ],
+    ],
+
+    // Route pour la page d'inscription
+    [
+        'path' => '/register',
+        'controller' => 'AuthController',
+        'action' => 'register',
+        'methods' => ['POST'],
+        'middlewares' => [
+            function () {
+                return new ValidationMiddleware(
+                    [
+                        'email' => 'required|email',
+                        'password' => 'required|min:6',
+                    ],
+                    [
+                        'email' => [
+                            'required' => 'L\'email est requis.',
+                            'email' => 'L\'email doit être valide.',
+                        ],
+                        'password' => [
+                            'required' => 'Le mot de passe est requis.',
+                            'min' => 'Le mot de passe doit comporter au moins 6 caractères.',
+                        ],
+                    ]
+                );
+            }
+        ],
     ],
 
     // Route pour créer un nouveau tweet
