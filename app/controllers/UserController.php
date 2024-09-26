@@ -3,7 +3,7 @@
 
 class UserController
 {
-    public function profile($id)
+    public function profile($id): void
     {
         // Charger le modèle utilisateur
         $userModel = new User();
@@ -17,17 +17,17 @@ class UserController
                 'user' => $user,
             ];
 
-            $this->render('user/login', $data);
+            $this->render(view: 'user/login', data: $data);
         } else {
             // Gérer l'utilisateur non trouvé
-            $this->send404('Utilisateur non trouvé.');
+            $this->send404(message: 'Utilisateur non trouvé.');
         }
     }
 
-    private function render($view, $data = [])
+    private function render($view, $data = []): void
     {
         // Extraire les variables pour les utiliser dans la vue
-        extract($data);
+        extract(array: $data);
 
         // Inclure le header
         include __DIR__ . '/../views/layouts/header.php';
@@ -37,9 +37,9 @@ class UserController
         include __DIR__ . '/../views/layouts/footer.php';
     }
 
-    private function send404($message = 'Page non troaaauvée')
+    private function send404($message = 'Page non troaaauvée'): never
     {
-        header("HTTP/1.0 404 Not Found");
+        header(header: "HTTP/1.0 404 Not Found");
         echo $message;
         exit();
     }

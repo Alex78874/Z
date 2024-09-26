@@ -1,5 +1,4 @@
 <?php
-// config/routes.php
 
 /**
  * Ce fichier retourne un tableau de routes utilisées par le routeur pour
@@ -97,13 +96,13 @@ return [
         'action' => 'register',
         'methods' => ['POST'],
         'middlewares' => [
-            function () {
+            function (): ValidationMiddleware {
                 return new ValidationMiddleware(
-                    [
+                    rules: [
                         'email' => 'required|email',
                         'password' => 'required|min:6',
                     ],
-                    [
+                    messages: [
                         'email' => [
                             'required' => 'L\'email est requis.',
                             'email' => 'L\'email doit être valide.',

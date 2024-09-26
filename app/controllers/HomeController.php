@@ -2,7 +2,7 @@
 
 class HomeController
 {
-    public function index()
+    public function index(): void
     {
         // Charger le modèle si nécessaire
         // $model = new SomeModel();
@@ -15,13 +15,13 @@ class HomeController
         ];
 
         // Inclure la vue
-        $this->render('home/index', $data);
+        $this->render(view: 'home/index', data: $data);
     }
 
-    private function render($view, $data = [])
+    private function render($view, $data = []): void
     {
         // Extraire les variables pour les utiliser dans la vue
-        extract($data);
+        extract(array: $data);
 
         // Inclure le header
         include __DIR__ . '/../views/layouts/header.php';

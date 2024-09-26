@@ -14,23 +14,23 @@ class Router
     /**
      * @throws Exception
      */
-    public function dispatch($uri)
+    public function dispatch($uri): void
     {
-        $uri = $this->sanitizeUri($uri);
+        $uri = $this->sanitizeUri(uri: $uri);
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
             $pattern = '#^' . $route['path'] . '$#';
 
-            if (preg_match($pattern, $uri, $matches)) {
+            if (preg_match(pattern: $pattern, subject: $uri, matches: $matches)) {
                 $allowedMethods = $route['methods'] ?? ['GET'];
-                if (!in_array($requestMethod, $allowedMethods)) {
-                    $this->send405($allowedMethods);
+                if (!in_array(needle: $requestMethod, haystack: $allowedMethods)) {
+                    $this->send405(allowedMethods: $allowedMethods);
                     return;
                 }
 
                 // Supprimer le premier élément (la correspondance complète)
-                array_shift($matches);
+                array_shift(array: $matches);
 
                 // Récupérer les paramètres
                 $params = [];
@@ -42,7 +42,7 @@ class Router
 
                 // Gérer les middlewares
                 $middlewares = $route['middlewares'] ?? [];
-                $this->callActionWithMiddlewares($middlewares, $route['controller'], $route['action'], $params);
+                $this->callActionWithMiddlewares(middlewares: $middlewares, controllerName: $route['controller'], actionName: $route['action'], params: $params);
                 return;
             }
         }
@@ -56,53 +56,53 @@ class Router
         $middlewareStack = [];
 
         foreach ($middlewares as $middlewareClass) {
-            if (class_exists($middlewareClass)) {
+            if (class_exists(class: $middlewareClass)) {
                 $middlewareStack[] = new $middlewareClass();
             } else {
-                throw new Exception("Middleware '$middlewareClass' non trouvé.");
+                throw new Exception(message: "Middleware '$middlewareClass' non trouvé.");
             }
         }
 
         $request = $_REQUEST; // Vous pouvez créer un objet Request pour plus de sophistication.
 
-        $next = function ($request) use ($controllerName, $actionName, $params) {
-            $this->callAction($controllerName, $actionName, $params);
+        $next = function ($request) use ($controllerName, $actionName, $params): void {
+            $this->callAction(controllerName: $controllerName, actionName: $actionName, params: $params);
         };
 
         // Exécuter les middlewares
-        $this->executeMiddlewareStack($middlewareStack, $request, $next);
+        $this->executeMiddlewareStack(stack: $middlewareStack, request: $request, next: $next);
     }
 
-    private function executeMiddlewareStack($stack, $request, $next)
+    private function executeMiddlewareStack($stack, $request, $next): void
     {
         if (empty($stack)) {
             $next($request);
             return;
         }
 
-        $middleware = array_shift($stack);
+        $middleware = array_shift(array: $stack);
 
-        $middleware->handle($request, function ($request) use ($stack, $next) {
-            $this->executeMiddlewareStack($stack, $request, $next);
+        $middleware->handle($request, function ($request) use ($stack, $next): void {
+            $this->executeMiddlewareStack(stack: $stack, request: $request, next: $next);
         });
     }
 
-    private function sanitizeUri($uri)
+    private function sanitizeUri($uri): string
     {
         // Supprimer les query strings
-        $uri = parse_url($uri, PHP_URL_PATH);
+        $uri = parse_url(url: $uri, component: PHP_URL_PATH);
     
         // Obtenir le chemin de base
-        $basePath = dirname($_SERVER['SCRIPT_NAME']);
+        $basePath = dirname(path: $_SERVER['SCRIPT_NAME']);
         
         // Vérifier si le chemin de base est présent dans l'URI
-        if (strpos($uri, $basePath) === 0) {
+        if (strpos(haystack: $uri, needle: $basePath) === 0) {
             // Supprimer le chemin de base de l'URI
-            $uri = substr($uri, strlen($basePath));
+            $uri = substr(string: $uri, offset: strlen(string: $basePath));
         }
 
         // Supprimer le slash final s'il existe
-        $uri = rtrim($uri, '/');
+        $uri = rtrim(string: $uri, characters: '/');
     
         // Si l'URI est vide, c'est la racine
         if ($uri === '') {
@@ -113,7 +113,7 @@ class Router
     }
     
 
-    private function callAction($controllerName, $actionName, $params = [])
+    private function callAction($controllerName, $actionName, $params = []): void
     {
         // Ajouter le namespace si vous en utilisez
         $controllerClass = $controllerName;
@@ -122,35 +122,35 @@ class Router
         // require_once __DIR__ . '/../app/controllers/' . $controllerClass . '.php';
 
         // Vérifier si la classe existe
-        if (class_exists($controllerClass)) {
+        if (class_exists(class: $controllerClass)) {
             $controller = new $controllerClass();
 
             // Vérifier si la méthode existe
-            if (method_exists($controller, $actionName)) {
+            if (method_exists(object_or_class: $controller, method: $actionName)) {
                 // Appeler l'action avec les paramètres
-                call_user_func_array([$controller, $actionName], $params);
+                call_user_func_array(callback: [$controller, $actionName], args: $params);
             } else {
                 // Méthode non trouvée
-                $this->send404("Action '$actionName' non trouvée dans le contrôleur '$controllerClass'.");
+                $this->send404(message: "Action '$actionName' non trouvée dans le contrôleur '$controllerClass'.");
             }
         } else {
             // Contrôleur non trouvé
-            $this->send404("Contrôleur '$controllerClass' non trouvé.");
+            $this->send404(message: "Contrôleur '$controllerClass' non trouvé.");
         }
     }
 
-    private function send404($message = 'Page non trouvée')
+    private function send404($message = 'Page non trouvée'): never
     {
-        header("HTTP/1.0 404 Not Found");
+        header(header: "HTTP/1.0 404 Not Found");
         echo $message;
         exit();
     }
 
-    private function send405($allowedMethods)
+    private function send405($allowedMethods): never
     {
-        header('HTTP/1.1 405 Method Not Allowed');
-        header('Allow: ' . implode(', ', $allowedMethods));
-        echo 'Méthode non autorisée. Seules les méthodes suivantes sont autorisées : ' . implode(', ', $allowedMethods);
+        header(header: 'HTTP/1.1 405 Method Not Allowed');
+        header(header: 'Allow: ' . implode(separator: ', ', array: $allowedMethods));
+        echo 'Méthode non autorisée. Seules les méthodes suivantes sont autorisées : ' . implode(separator: ', ', array: $allowedMethods);
         exit();
     }
 }
