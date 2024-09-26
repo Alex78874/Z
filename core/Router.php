@@ -1,5 +1,4 @@
 <?php
-// core/Router.php
 
 class Router
 {
@@ -7,8 +6,7 @@ class Router
 
     public function __construct()
     {
-        // Charger les routes depuis le fichier de configuration
-        $this->routes = require __DIR__ . '/../config/routes.php';
+        $this->routes = require_once __DIR__ . '/../config/routes.php';
     }
 
     /**
@@ -51,7 +49,7 @@ class Router
         $this->send404();
     }
 
-    private function callActionWithMiddlewares($middlewares, $controllerName, $actionName, $params)
+    private function callActionWithMiddlewares($middlewares, $controllerName, $actionName, $params): void
     {
         $middlewareStack = [];
 
@@ -91,10 +89,10 @@ class Router
     {
         // Supprimer les query strings
         $uri = parse_url(url: $uri, component: PHP_URL_PATH);
-    
+
         // Obtenir le chemin de base
         $basePath = dirname(path: $_SERVER['SCRIPT_NAME']);
-        
+
         // Vérifier si le chemin de base est présent dans l'URI
         if (strpos(haystack: $uri, needle: $basePath) === 0) {
             // Supprimer le chemin de base de l'URI
@@ -103,15 +101,15 @@ class Router
 
         // Supprimer le slash final s'il existe
         $uri = rtrim(string: $uri, characters: '/');
-    
+
         // Si l'URI est vide, c'est la racine
         if ($uri === '') {
             $uri = '/';
         }
-    
+
         return $uri;
     }
-    
+
 
     private function callAction($controllerName, $actionName, $params = []): void
     {

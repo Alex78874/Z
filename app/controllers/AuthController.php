@@ -29,6 +29,12 @@ class AuthController
         $this->render(view: 'user/register');
     }
 
+    public function index_login(): void
+    {
+        // Afficher le formulaire d'inscription
+        $this->render(view: 'user/login');
+    }
+
     private function render($view, $data = []): void
     {
         // Extraire les variables pour les utiliser dans la vue

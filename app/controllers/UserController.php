@@ -1,5 +1,4 @@
 <?php
-// app/controllers/UserController.php
 
 class UserController
 {
@@ -9,7 +8,7 @@ class UserController
         $userModel = new User();
 
         // Récupérer les informations de l'utilisateur
-        $user = $userModel->getUserById($id);
+        $user = $userModel->getUserById(id: $id);
 
         if ($user) {
             // Passer les données à la vue
