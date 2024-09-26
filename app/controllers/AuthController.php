@@ -2,25 +2,99 @@
 
 class AuthController
 {
-    public function register(): void
+    private $pdo;
+    protected $userModel;
+
+    public function __construct()
     {
-        // Si le formulaire a été soumis
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Récupérer les données du formulaire
-            $username = $_POST['username'] ?? '';
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
+        $this->pdo = getPDO();
+    }
 
-            // Vous pouvez ajouter ici la logique de validation et d'enregistrement de l'utilisateur
-            // Par exemple, utiliser un modèle User pour enregistrer l'utilisateur en base de données
-
-            // Après l'inscription, vous pouvez rediriger l'utilisateur vers la page de connexion ou le tableau de bord
-            header(header: 'Location: /login');
+    public function register(): never {
+        $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+    
+        $email = $_POST['email'] ?? '';
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
+    
+        $errors = [];
+    
+        if (empty($username) || strlen($username) < 3) {
+            $errors[] = "Le nom d'utilisateur doit comporter au moins 3 caractères.";
+        }
+    
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "L'email n'est pas valide.";
+        }
+    
+        if (strlen($password) < 8) {
+            $errors[] = "Le mot de passe doit comporter au moins 8 caractères.";
+        }
+    
+        if ($password !== $confirmPassword) {
+            $errors[] = "Les mots de passe ne correspondent pas.";
+        }
+    
+        if (!empty($errors)) {
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'errors' => $errors]);
+                exit();
+            } else {
+                // Gestion classique (non-Ajax)
+                // Afficher les erreurs sur la page
+            }
+        }
+    
+        $userModel = new User();
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $userModel->createUser($username, $email, $hashedPassword);
+    
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true]);
+            exit();
+        } else {
+            // Redirection classique
+            header('Location: /dashboard');
             exit();
         }
+    }
+    
 
-        // Afficher le formulaire d'inscription
-        $this->render(view: 'user/register');
+
+    public function login($email, $password): void
+    {
+        // Démarrer la session si ce n'est pas déjà fait
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Préparer la requête SQL pour récupérer l'utilisateur par email
+        $user = $this->userModel->getUserByEmail(email: $email);
+
+        if ($user && password_verify(password: $password, hash: $user['password'])) {
+            session_start();
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['email'] = $user['email'];
+            header(header: 'Location: /profile');
+            exit();
+        } else {
+            echo 'Email ou mot de passe incorrect.';
+        }
+    }
+
+    public function logout(): void
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $_SESSION = [];
+        session_destroy();
+        header(header: 'Location: /login');
+        exit();
     }
 
     public function index_register(): void

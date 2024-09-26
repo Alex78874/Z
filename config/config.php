@@ -4,10 +4,10 @@ ini_set(option: 'display_errors', value: 1);
 ini_set(option: 'display_startup_errors', value: 1);
 error_reporting(error_level: E_ALL);
 
-const DB_HOST = 'localhost';
-const DB_NAME = 'z';
-const DB_USER = 'root';
-const DB_PASS = '';
+const DB_HOST = 'mysql-garibaldi.alwaysdata.net';
+const DB_NAME = 'garibaldi_z';
+const DB_USER = 'garibaldi';
+const DB_PASS = 'zozolerigolo123@';
 
 // Connexion a la base de donnée
 function getPDO(): PDO {
