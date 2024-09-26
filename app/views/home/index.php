@@ -1,4 +1,5 @@
 <!-- Titre -->
+<link rel="stylesheet" href="../../../public/css/style.css">
 <h1>
     <?php if (!empty($title)) {
         echo $title;
