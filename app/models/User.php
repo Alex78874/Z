@@ -15,8 +15,11 @@ class User {
         // Code pour authentifier un utilisateur
     }
 
-    public function getUserById($id): void {
+    public function getUserById($id): mixed {
         // Code pour récupérer un utilisateur par son ID
+        $stmt = $this->pdo->prepare(query: 'SELECT * FROM users WHERE id = :id');
+        $stmt->execute(params: ['id' => $id]);
+        return $stmt->fetch();
     }
 
     // Autres méthodes pour interagir avec la table des utilisateurs
