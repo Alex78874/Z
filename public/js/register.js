@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 // Inscription réussie, rediriger ou mettre à jour l'interface
                 alert('Inscription réussie !');
-                window.location.href = '/dashboard'; // Par exemple
+                window.location.href = '/profile'; // Par exemple
             } else {
                 // Afficher les erreurs
                 const errorDiv = document.getElementById('errorMessages');

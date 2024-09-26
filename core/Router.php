@@ -14,40 +14,62 @@ class Router
      */
     public function dispatch($uri): void
     {
-        $uri = $this->sanitizeUri(uri: $uri);
+        $uri = $this->sanitizeUri($uri);
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
+        $matchedRoute = null;
+        $allowedMethods = [];
+
+        // Parcours des routes définies
         foreach ($this->routes as $route) {
             $pattern = '#^' . $route['path'] . '$#';
 
-            if (preg_match(pattern: $pattern, subject: $uri, matches: $matches)) {
+            // Vérifie si l'URI correspond à la route
+            if (preg_match($pattern, $uri, $matches)) {
                 $allowedMethods = $route['methods'] ?? ['GET'];
-                if (!in_array(needle: $requestMethod, haystack: $allowedMethods)) {
-                    $this->send405(allowedMethods: $allowedMethods);
-                    return;
+
+                // Vérifie si la méthode HTTP est autorisée pour cette route
+                if (in_array($requestMethod, $allowedMethods)) {
+                    $matchedRoute = $route;
+                    break; // Route trouvée avec la bonne méthode, on sort de la boucle
                 }
-
-                // Supprimer le premier élément (la correspondance complète)
-                array_shift(array: $matches);
-
-                // Récupérer les paramètres
-                $params = [];
-                if (isset($route['params'])) {
-                    foreach ($route['params'] as $index => $paramName) {
-                        $params[$paramName] = $matches[$index];
-                    }
-                }
-
-                // Gérer les middlewares
-                $middlewares = $route['middlewares'] ?? [];
-                $this->callActionWithMiddlewares(middlewares: $middlewares, controllerName: $route['controller'], actionName: $route['action'], params: $params);
-                return;
             }
         }
 
-        // Si aucune route ne correspond, afficher une page 404
-        $this->send404();
+        // Gestion des erreurs 404 et 405
+        if (!$matchedRoute) {
+            // Si aucune route ne correspond à l'URI, envoyer une erreur 404
+            if (empty($allowedMethods)) {
+                $this->send404();
+            } else {
+                // Si l'URI correspond mais pas la méthode HTTP, envoyer une erreur 405
+                $this->send405($allowedMethods);
+            }
+            return;
+        }
+
+        // Supprime le premier élément des correspondances (la correspondance complète)
+        array_shift($matches);
+
+        // Récupérer les paramètres
+        $params = [];
+        if (isset($matchedRoute['params'])) {
+            foreach ($matchedRoute['params'] as $index => $paramName) {
+                $params[$paramName] = $matches[$index];
+            }
+        }
+
+        // Gérer les middlewares
+        $middlewares = $matchedRoute['middlewares'] ?? [];
+        $this->callActionWithMiddlewares(
+            middlewares: $middlewares,
+            controllerName: $matchedRoute['controller'],
+            actionName: $matchedRoute['action'],
+            params: $params
+        );
     }
+
+
 
     private function callActionWithMiddlewares($middlewares, $controllerName, $actionName, $params): void
     {
@@ -101,7 +123,6 @@ class Router
 
         // Supprimer le slash final s'il existe
         $uri = rtrim(string: $uri, characters: '/');
-
         // Si l'URI est vide, c'est la racine
         if ($uri === '') {
             $uri = '/';
@@ -116,23 +137,17 @@ class Router
         // Ajouter le namespace si vous en utilisez
         $controllerClass = $controllerName;
 
-        // Inclure le fichier du contrôleur s'il n'est pas autoloadé
-        // require_once __DIR__ . '/../app/controllers/' . $controllerClass . '.php';
-
         // Vérifier si la classe existe
         if (class_exists(class: $controllerClass)) {
             $controller = new $controllerClass();
 
             // Vérifier si la méthode existe
             if (method_exists(object_or_class: $controller, method: $actionName)) {
-                // Appeler l'action avec les paramètres
                 call_user_func_array(callback: [$controller, $actionName], args: $params);
             } else {
-                // Méthode non trouvée
                 $this->send404(message: "Action '$actionName' non trouvée dans le contrôleur '$controllerClass'.");
             }
         } else {
-            // Contrôleur non trouvé
             $this->send404(message: "Contrôleur '$controllerClass' non trouvé.");
         }
     }

@@ -57,7 +57,7 @@ class AuthController
             exit();
         } else {
             // Redirection classique
-            header('Location: /dashboard');
+            header('Location: /home');
             exit();
         }
     }
@@ -78,7 +78,7 @@ class AuthController
             session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
-            header(header: 'Location: /profile');
+            header(header: 'Location: /home');
             exit();
         } else {
             echo 'Email ou mot de passe incorrect.';

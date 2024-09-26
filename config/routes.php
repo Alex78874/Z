@@ -30,9 +30,9 @@
 return [
     // Route statique pour la page d'accueil
     [
-        'path' => '/', // URL : '/'
-        'controller' => 'HomeController', // Contrôleur appelé : HomeController
-        'action' => 'index', // Méthode du contrôleur : index()
+        'path' => '/',
+        'controller' => 'HomeController',
+        'action' => 'index',
     ],
 
     // Route statique pour la page de connexion
@@ -64,26 +64,26 @@ return [
         'controller' => 'AuthController',
         'action' => 'register',
         'methods' => ['POST'],
-        'middlewares' => [
-            function (): ValidationMiddleware {
-                return new ValidationMiddleware(
-                    rules: [
-                        'email' => 'required|email',
-                        'password' => 'required|min:6',
-                    ],
-                    messages: [
-                        'email' => [
-                            'required' => 'L\'email est requis.',
-                            'email' => 'L\'email doit être valide.',
-                        ],
-                        'password' => [
-                            'required' => 'Le mot de passe est requis.',
-                            'min' => 'Le mot de passe doit comporter au moins 6 caractères.',
-                        ],
-                    ]
-                );
-            }
-        ],
+        // 'middlewares' => [
+        //     function (): ValidationMiddleware {
+        //         return new ValidationMiddleware(
+        //             rules: [
+        //                 'email' => 'required|email',
+        //                 'password' => 'required|min:6',
+        //             ],
+        //             messages: [
+        //                 'email' => [
+        //                     'required' => 'L\'email est requis.',
+        //                     'email' => 'L\'email doit être valide.',
+        //                 ],
+        //                 'password' => [
+        //                     'required' => 'Le mot de passe est requis.',
+        //                     'min' => 'Le mot de passe doit comporter au moins 6 caractères.',
+        //                 ],
+        //             ]
+        //         );
+        //     }
+        // ],
     ],
 
     // Route pour la page de connexion
