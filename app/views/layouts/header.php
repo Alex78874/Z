@@ -18,13 +18,19 @@
                 <li><a href="<?php echo url(); ?>">Accueil</a></li>
                 <li><a href="<?php echo url('tweet/create'); ?>">Nouveau Tweet</a></li>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <li><a href="<?php echo url('user/' . $_SESSION['user']['id']); ?>">Profil</a></li>
+                    <li>
+                        <a href="<?php echo url('user/' . $_SESSION['user']['id']); ?>">
+                            <img src="<?php echo htmlspecialchars($_SESSION['user']['avatar']); ?>"
+                                alt="Avatar de <?php echo htmlspecialchars($_SESSION['user']['username']); ?>"
+                                style="width:30px; height:30px; border-radius:50%;">
+                            <?php echo htmlspecialchars($_SESSION['user']['username']); ?>
+                        </a>
+                    </li>
                     <li><a href="<?php echo url('logout'); ?>">Déconnexion</a></li>
                 <?php else: ?>
                     <li><a href="<?php echo url('login'); ?>">Connexion</a></li>
                     <li><a href="<?php echo url('register'); ?>">Inscription</a></li>
                 <?php endif; ?>
-
             </ul>
         </nav>
     </header>

@@ -18,19 +18,6 @@ class HomeController
         ];
 
         // Inclure la vue
-        $this->render(view: 'home/index', data: $data);
-    }
-
-    private function render($view, $data = []): void
-    {
-        // Extraire les variables pour les utiliser dans la vue
-        extract(array: $data);
-
-        // Inclure le header
-        include __DIR__ . '/../views/layouts/header.php';
-        // Inclure la vue principale
-        include __DIR__ . '/../views/' . $view . '.php';
-        // Inclure le footer
-        include __DIR__ . '/../views/layouts/footer.php';
+        view(view: 'home/index', data: $data);
     }
 }

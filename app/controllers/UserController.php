@@ -2,44 +2,33 @@
 
 class UserController
 {
+    protected $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new User();
+    }
     public function profile($id): void
     {
-        // Charger le modèle utilisateur
-        $userModel = new User();
-
-        // Récupérer les informations de l'utilisateur
-        $user = $userModel->getUserById(id: $id);
-
-        if ($user) {
-            // Passer les données à la vue
-            $data = [
-                'user' => $user,
-            ];
-
-            $this->render(view: 'user/login', data: $data);
-        } else {
-            // Gérer l'utilisateur non trouvé
-            $this->send404(message: 'Utilisateur non trouvé.');
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
         }
-    }
 
-    private function render($view, $data = []): void
-    {
-        // Extraire les variables pour les utiliser dans la vue
-        extract(array: $data);
+        if (!isset($_SESSION['user'])) {
+            redirect('/login');
+            exit();
+        }
 
-        // Inclure le header
-        include __DIR__ . '/../views/layouts/header.php';
-        // Inclure la vue principale
-        include __DIR__ . '/../views/' . $view . '.php';
-        // Inclure le footer
-        include __DIR__ . '/../views/layouts/footer.php';
-    }
+        $user = $this->userModel->getUserById(id: $id);
 
-    private function send404($message = 'Page non troaaauvée'): never
-    {
-        header(header: "HTTP/1.0 404 Not Found");
-        echo $message;
-        exit();
+        if (!$user) {
+            send404('Utilisateur non trouvé.');
+        }
+
+        $data = [
+            'user' => $user,
+        ];
+
+        view(view: '/user/profile', data: $data);
     }
 }

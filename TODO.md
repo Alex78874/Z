@@ -1,8 +1,7 @@
 # Todo
 
-<https://codepen.io/jouanmarcel/pen/RwweKqb>
-
-- [ ] Restructuré la base de donnée plus simplement (Faire en sorte que un commentaire soit lié a son post mais aussi au post parent)
+- [X] Restructuré la base de donnée plus simplement
+  - [X] Faire en sorte que un commentaire soit lié a son post mais aussi au post parent
 - [ ] Connexion de l'utilisateur
 - [ ] Page d'Accueil
   - [ ] Affichage des info utilisateur sur la page d'accueil
@@ -17,4 +16,6 @@
 
 ## Notes
 
-Considéré un commentaire de post comme un autre post, et pouvoir retrouvé le parent le plus haut de ce post (post originel)
+<https://codepen.io/jouanmarcel/pen/RwweKqb>
+
+- Considéré un commentaire de post comme un autre post, et pouvoir retrouvé le parent le plus haut de ce post

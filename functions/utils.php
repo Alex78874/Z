@@ -27,5 +27,36 @@ function url($path = ''): string
     return $basePath . $path;
 }
 
+// Afficher une vue avec des données
+function view($view, $data = []): void
+{
+    // Extraire les variables pour les utiliser dans la vue
+    extract(array: $data);
+    include __DIR__ . '/../app/views/layouts/header.php';
+    include __DIR__ . '/../app/views/' . $view . '.php';
+    include __DIR__ . '/../app/views/layouts/footer.php';
+}
 
+// Rediriger vers une URL
+function redirect($url): void
+{
+    header(header: 'Location: ' . url($url));
+    exit();
+}
+
+// Afficher une erreur 404
+function send404($message = 'Page non trouvée'): never
+{
+    header(header: "HTTP/1.0 404 Not Found");
+    echo $message;
+    exit();
+}
+
+function send405($allowedMethods): never
+{
+    header(header: 'HTTP/1.1 405 Method Not Allowed');
+    header(header: 'Allow: ' . implode(separator: ', ', array: $allowedMethods));
+    echo 'Méthode non autorisée. Seules les méthodes suivantes sont autorisées : ' . implode(separator: ', ', array: $allowedMethods);
+    exit();
+}
 

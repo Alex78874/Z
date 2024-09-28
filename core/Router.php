@@ -40,16 +40,16 @@ class Router
         if (!$matchedRoute) {
             // Si aucune route ne correspond à l'URI, envoyer une erreur 404
             if (empty($allowedMethods)) {
-                $this->send404();
+                send404();
             } else {
                 // Si l'URI correspond mais pas la méthode HTTP, envoyer une erreur 405
-                $this->send405($allowedMethods);
+                send405(allowedMethods: $allowedMethods);
             }
             return;
         }
 
         // Supprime le premier élément des correspondances (la correspondance complète)
-        array_shift($matches);
+        array_shift(array: $matches);
 
         // Récupérer les paramètres
         $params = [];
@@ -59,52 +59,12 @@ class Router
             }
         }
 
-        // Gérer les middlewares
-        $middlewares = $matchedRoute['middlewares'] ?? [];
-        $this->callActionWithMiddlewares(
-            middlewares: $middlewares,
+        // Appeler directement l'action du contrôleur sans exécuter les middlewares
+        $this->callAction(
             controllerName: $matchedRoute['controller'],
             actionName: $matchedRoute['action'],
             params: $params
         );
-    }
-
-
-
-    private function callActionWithMiddlewares($middlewares, $controllerName, $actionName, $params): void
-    {
-        $middlewareStack = [];
-
-        foreach ($middlewares as $middlewareClass) {
-            if (class_exists(class: $middlewareClass)) {
-                $middlewareStack[] = new $middlewareClass();
-            } else {
-                throw new Exception(message: "Middleware '$middlewareClass' non trouvé.");
-            }
-        }
-
-        $request = $_REQUEST; // Vous pouvez créer un objet Request pour plus de sophistication.
-
-        $next = function ($request) use ($controllerName, $actionName, $params): void {
-            $this->callAction(controllerName: $controllerName, actionName: $actionName, params: $params);
-        };
-
-        // Exécuter les middlewares
-        $this->executeMiddlewareStack(stack: $middlewareStack, request: $request, next: $next);
-    }
-
-    private function executeMiddlewareStack($stack, $request, $next): void
-    {
-        if (empty($stack)) {
-            $next($request);
-            return;
-        }
-
-        $middleware = array_shift(array: $stack);
-
-        $middleware->handle($request, function ($request) use ($stack, $next): void {
-            $this->executeMiddlewareStack(stack: $stack, request: $request, next: $next);
-        });
     }
 
     private function sanitizeUri($uri): string
@@ -131,7 +91,6 @@ class Router
         return $uri;
     }
 
-
     private function callAction($controllerName, $actionName, $params = []): void
     {
         // Ajouter le namespace si vous en utilisez
@@ -145,25 +104,10 @@ class Router
             if (method_exists(object_or_class: $controller, method: $actionName)) {
                 call_user_func_array(callback: [$controller, $actionName], args: $params);
             } else {
-                $this->send404(message: "Action '$actionName' non trouvée dans le contrôleur '$controllerClass'.");
+                send404(message: "Action '$actionName' non trouvée dans le contrôleur '$controllerClass'.");
             }
         } else {
-            $this->send404(message: "Contrôleur '$controllerClass' non trouvé.");
+            send404(message: "Contrôleur '$controllerClass' non trouvé.");
         }
-    }
-
-    private function send404($message = 'Page non trouvée'): never
-    {
-        header(header: "HTTP/1.0 404 Not Found");
-        echo $message;
-        exit();
-    }
-
-    private function send405($allowedMethods): never
-    {
-        header(header: 'HTTP/1.1 405 Method Not Allowed');
-        header(header: 'Allow: ' . implode(separator: ', ', array: $allowedMethods));
-        echo 'Méthode non autorisée. Seules les méthodes suivantes sont autorisées : ' . implode(separator: ', ', array: $allowedMethods);
-        exit();
     }
 }
