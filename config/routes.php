@@ -81,18 +81,18 @@ return [
         'params' => ['id'],
     ],
 
-    // Route pour créer un nouveau tweet
+    // Route pour créer un nouveau post
     [
-        'path' => '/tweet/create',
-        'controller' => 'TweetController',
+        'path' => '/post/',
+        'controller' => 'PostController',
         'action' => 'create',
         'methods' => ['POST'],
     ],
 
-    // Route pour afficher un tweet spécifique
+    // Route pour afficher un post spécifique
     [
-        'path' => '/tweet/(\d+)',
-        'controller' => 'TweetController',
+        'path' => '/post/(\d+)',
+        'controller' => 'PostController',
         'action' => 'view',
         'methods' => ['GET'],
         'params' => ['id'],
