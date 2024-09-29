@@ -2,22 +2,33 @@
 
 class HomeController
 {
-    private $pdo;
     protected $userModel;
+    protected $postModel;
 
-    public function __construct() {
-        $this->pdo = getPDO();
+    public function __construct()
+    {
+        $this->postModel = new Post();
+        $this->userModel = new User();
     }
 
     public function index(): void
     {
-        // Passer des données à la vue
-        $data = [
-            'title' => 'Bienvenue sur mon Twitter like',
-            'tweets' => [], // Récupérez les tweets depuis le modèle
-        ];
+        $posts = $this->postModel->getAll();
 
-        // Inclure la vue
-        view(view: 'home/index', data: $data);
+        // Préparer les données des tweets avec les informations d'utilisateur
+        $tweets = [];
+        foreach ($posts as $post) {
+            $user = $this->userModel->getById($post['user_id']);
+            $posts[] = [
+                'id' => $post['id'],
+                'username' => $user['username'],
+                'publication_date' => $post['publication_date'],
+                'content' => $post['content'],
+                'like_count' => $post['like_count']
+            ];
+        }
+
+        // Appeler la vue avec les tweets préparés
+        view('home/index', ['title' => 'Accueil', 'posts' => $posts]);
     }
 }

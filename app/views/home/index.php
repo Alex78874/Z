@@ -1,19 +1,14 @@
 <!-- Titre -->
-<link rel="stylesheet" href="../../../public/css/style.css">
+<link rel="stylesheet" href="<?php echo url(path: 'css/home.css'); ?>">
 <h1>
     <?php if (!empty($title)) {
-        echo $title;
+        echo htmlspecialchars(string: $title);
     } ?>
 </h1>
 
-<!-- Afficher les tweets -->
-<?php if (!empty($tweets)): ?>
-    <?php foreach ($tweets as $tweet): ?>
-        <div class="tweet">
-            <p><?php echo htmlspecialchars($tweet['content']); ?></p>
-            <small>Posté par <?php echo htmlspecialchars($tweet['author']); ?></small>
-        </div>
-    <?php endforeach; ?>
-<?php else: ?>
-    <p>Aucun tweet à afficher.</p>
-<?php endif; ?>
+<!-- Afficher les posts -->
+<!-- False pour ne pas re-afficher le header et le footer dans la vue en double-->
+<?php view(view: 'post/posts', data: ['posts' => $posts], layout: false); ?>
+
+<!-- Liens vers des fichiers JavaScript -->
+<script src="<?php echo url(path: 'js/scripts.js'); ?>"></script>

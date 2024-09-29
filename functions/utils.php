@@ -28,13 +28,20 @@ function url($path = ''): string
 }
 
 // Afficher une vue avec des données
-function view($view, $data = []): void
+function view($view, $data = [], $layout = true): void
 {
     // Extraire les variables pour les utiliser dans la vue
     extract(array: $data);
-    include __DIR__ . '/../app/views/layouts/header.php';
+
+    if ($layout) {
+        // Inclure le header
+        include __DIR__ . '/../app/views/layouts/header.php';
+    }
     include __DIR__ . '/../app/views/' . $view . '.php';
-    include __DIR__ . '/../app/views/layouts/footer.php';
+    if ($layout) {
+        // Inclure le footer
+        include __DIR__ . '/../app/views/layouts/footer.php';
+    }
 }
 
 // Rediriger vers une URL

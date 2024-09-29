@@ -6,8 +6,7 @@
     <title><?php echo isset($title) ? htmlspecialchars($title) : 'Mon Application'; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Liens vers les feuilles de style CSS -->
-    <link rel="stylesheet" href="<?php echo url('css/styles.css'); ?>">
-
+    <link rel="stylesheet" href="<?php echo url('css/header.css'); ?>">
 </head>
 
 <body>
@@ -16,7 +15,7 @@
         <nav>
             <ul>
                 <li><a href="<?php echo url(); ?>">Accueil</a></li>
-                <li><a href="<?php echo url('tweet/create'); ?>">Nouveau Tweet</a></li>
+                <li><a href="<?php echo url('tweet/create'); ?>">Nouveau Post</a></li>
                 <?php if (isset($_SESSION['user'])): ?>
                     <li>
                         <a href="<?php echo url('user/' . $_SESSION['user']['id']); ?>">
