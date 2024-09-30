@@ -13,13 +13,13 @@ class HomeController
 
     public function index(): void
     {
-        $posts = [];
         $posts = $this->postModel->getAll();
+        $postsWithUsernames = [];
 
         // Préparer les données des tweets avec les informations d'utilisateur
         foreach ($posts as $post) {
             $user = $this->userModel->getById($post['user_id']);
-            $posts[] = [
+            $postsWithUsernames[] = [
                 'id' => $post['id'],
                 'username' => $user['username'] ?? 'Utilisateur inconnu',
                 'publication_date' => $post['publication_date'],
@@ -29,6 +29,6 @@ class HomeController
         }
 
         // Appeler la vue avec les tweets préparés
-        view('home/index', ['title' => 'Accueil', 'posts' => $posts]);
+        view('home/index', ['title' => 'Accueil', 'posts' => $postsWithUsernames]);
     }
 }

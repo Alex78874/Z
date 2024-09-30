@@ -81,7 +81,7 @@ class PostController {
                 // Pour l'instant, nous simulons simplement l'insertion de la réponse.
                 
                 echo "Réponse enregistrée. (Ce code doit être adapté pour une vraie table des réponses.)";
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                redirect($_SERVER['HTTP_REFERER']);
             } else {
                 echo "Le contenu de la réponse ne peut pas être vide ou ID du post non valide.";
             }

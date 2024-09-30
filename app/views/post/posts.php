@@ -1,4 +1,5 @@
-<link rel="stylesheet" <?= url("css/posts.css") ?>>
+<link rel="stylesheet" href="<?= url("css/posts.css") ?>">
+
 
 <div class="create-post">
     <h2>Créer un nouveau post</h2>
