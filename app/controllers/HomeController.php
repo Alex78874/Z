@@ -13,15 +13,15 @@ class HomeController
 
     public function index(): void
     {
+        $posts = [];
         $posts = $this->postModel->getAll();
 
         // Préparer les données des tweets avec les informations d'utilisateur
-        $tweets = [];
         foreach ($posts as $post) {
             $user = $this->userModel->getById($post['user_id']);
             $posts[] = [
                 'id' => $post['id'],
-                'username' => $user['username'],
+                'username' => $user['username'] ?? 'Utilisateur inconnu',
                 'publication_date' => $post['publication_date'],
                 'content' => $post['content'],
                 'like_count' => $post['like_count']

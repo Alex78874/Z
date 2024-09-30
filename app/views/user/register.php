@@ -1,6 +1,6 @@
 <h1>Inscription</h1>
 <div id="errorMessages" style="color: red;"></div>
-<form id="registerForm" method="post" action="<?php url(path: 'register') ?>">
+<form id="registerForm" method="post" action="<?= url(path: 'register') ?>">
     <fieldset>
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" id="username" name="username" required minlength="3" maxlength="20" placeholder="Entrez votre nom d'utilisateur">

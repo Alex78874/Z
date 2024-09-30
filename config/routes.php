@@ -83,7 +83,7 @@ return [
 
     // Route pour créer un nouveau post
     [
-        'path' => '/post/',
+        'path' => '/post',
         'controller' => 'PostController',
         'action' => 'create',
         'methods' => ['POST'],

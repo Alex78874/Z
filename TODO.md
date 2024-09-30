@@ -2,10 +2,10 @@
 
 - [X] Restructuré la base de donnée plus simplement
   - [X] Faire en sorte que un commentaire soit lié a son post mais aussi au post parent
-- [ ] Connexion de l'utilisateur
+- [X] Connexion de l'utilisateur
 - [ ] Page d'Accueil
-  - [ ] Affichage des info utilisateur sur la page d'accueil
-  - [ ] Affichage des posts sur la page d'accueil
+  - [X] Affichage des info utilisateur sur la page d'accueil
+  - [X] Affichage des posts sur la page d'accueil
   - [ ] Listener AJAX pour ajout des post en temps réel sur la page d'accueil
 - [ ] Page Post
   - [ ] Récupérer count like et count de commentaire et les affiché sur les icones

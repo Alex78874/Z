@@ -13,19 +13,20 @@ class PostController {
     public function create(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_start();
-            if (!isset($_SESSION['user_id'])) {
+
+            if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
                 redirect('/login');
                 exit();
             }
 
-            $userId = $_SESSION['user_id'];
+            $userId = $_SESSION['user']['id'];
             $content = $_POST['content'] ?? '';
 
             if (!empty(trim($content))) {
                 $success = $this->postModel->createPost($userId, $content);
                 if ($success) {
-                    redirect('/home');
+                    redirect('/');
                 } else {
                     echo "Erreur lors de la création du post.";
                 }
@@ -39,7 +40,7 @@ class PostController {
     public function like(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_start();
-            if (!isset($_SESSION['user_id'])) {
+            if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
                 redirect('/login');
                 exit();
@@ -64,13 +65,13 @@ class PostController {
     public function reply() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_start();
-            if (!isset($_SESSION['user_id'])) {
+            if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
                 redirect('/login');
                 exit();
             }
 
-            $userId = $_SESSION['user_id'];
+            $userId = $_SESSION['user']['id'];
             $postId = $_POST['post_id'] ?? null;
             $replyContent = $_POST['reply_content'] ?? '';
 

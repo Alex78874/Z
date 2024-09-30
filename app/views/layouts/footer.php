@@ -2,7 +2,7 @@
 
 <!-- Pied de page -->
 <footer>
-    <p>&copy; <?php echo date('Y'); ?> Mon Application. Tous droits réservés.</p>
+    <p>&copy; <?= date('Y'); ?> Mon Application. Tous droits réservés.</p>
 </footer>
 
 <!-- Scripts JavaScript -->

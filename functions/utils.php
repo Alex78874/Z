@@ -35,12 +35,12 @@ function view($view, $data = [], $layout = true): void
 
     if ($layout) {
         // Inclure le header
-        include __DIR__ . '/../app/views/layouts/header.php';
+        include_once __DIR__ . '/../app/views/layouts/header.php';
     }
-    include __DIR__ . '/../app/views/' . $view . '.php';
+    include_once __DIR__ . '/../app/views/' . $view . '.php';
     if ($layout) {
         // Inclure le footer
-        include __DIR__ . '/../app/views/layouts/footer.php';
+        include_once __DIR__ . '/../app/views/layouts/footer.php';
     }
 }
 
