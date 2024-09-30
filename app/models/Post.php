@@ -32,6 +32,11 @@ class Post extends Model {
         // Requête personnalisée pour obtenir le dernier post inséré
         return $this->getLastInserted();
     }
+
+    // Méthode pour obtenir les nouveaux posts après un certain ID
+    public function getNewPosts($lastPostId): array {
+        return $this->getAfterId($lastPostId);
+    }    
     
 
     public function updatePost($id, $content): bool {

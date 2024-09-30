@@ -42,10 +42,47 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
+  // Intervalle pour vérifier les nouveaux posts toutes les 5 secondes
+  setInterval(fetchNewPosts, 5000);
+
+  function fetchNewPosts() {
+    // Récupérer l'ID du dernier post affiché
+    const postsContainer = document.querySelector(".posts-container");
+    const firstPost = postsContainer.querySelector(".post");
+    const lastPostId = firstPost ? firstPost.getAttribute("data-post-id") : 0;
+    console.log(lastPostId);
+
+    fetch("post/?last_post_id=" + lastPostId, {
+      method: "GET",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success && data.posts.length > 0) {
+          data.posts.forEach((post) => {
+            // Vérifiez si le post est déjà dans le DOM
+            if (!document.querySelector(`.post[data-post-id="${post.id}"]`)) {
+              const newPost = createPostElement(post);
+              postsContainer.insertAdjacentElement("afterbegin", newPost);
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(
+          "Erreur lors de la récupération des nouveaux posts:",
+          error
+        );
+      });
+  }
+
   // Fonction pour créer un élément DOM pour le nouveau post
   function createPostElement(post) {
     const postDiv = document.createElement("div");
     postDiv.classList.add("post");
+    postDiv.setAttribute("data-post-id", post.id);
 
     postDiv.innerHTML = `
             <div class="post-header">

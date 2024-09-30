@@ -76,6 +76,33 @@ class PostController {
             }
         }
     }
+
+    // Méthode pour récupérer les nouveaux posts apres un certain ID
+    public function fetchNewPosts(): never {
+        if ($this->isAjaxRequest()) {
+            $lastPostId = $_GET['last_post_id'] ?? 0;
+            $newPosts = $this->postModel->getNewPosts($lastPostId);
+    
+            $postsData = [];
+            foreach ($newPosts as $post) {
+                $user = $this->userModel->getById($post['user_id']);
+                $postsData[] = [
+                    'id' => $post['id'],
+                    'username' => $user['username'] ?? 'Utilisateur inconnu',
+                    'publication_date' => $post['publication_date'],
+                    'content' => $post['content'],
+                    'like_count' => $post['like_count']
+                ];
+            }
+    
+            echo json_encode(['success' => true, 'posts' => $postsData]);
+            exit();
+        } else {
+            // Si ce n'est pas une requête AJAX, rediriger ou afficher une erreur
+            redirect('/');
+        }
+    }
+    
     
     // Méthode pour liker un post
     public function like(): void {

@@ -58,4 +58,10 @@ class Model {
         $stmt = $this->pdo->query("SELECT * FROM {$this->table} WHERE id = LAST_INSERT_ID()");
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getAfterId($lastId): array {
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id > :lastId ORDER BY id DESC");
+        $stmt->execute(['lastId' => $lastId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="<?= url("css/posts.css") ?>">
 
-
 <div class="create-post">
     <h2>Créer un nouveau post</h2>
     <form id="create-post-form" method="post" action="post">
@@ -12,7 +11,7 @@
 <div class="posts-container">
     <?php if (!empty($posts)): ?>
         <?php foreach ($posts as $post): ?>
-            <div class="post">
+            <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>"> <!-- Ajout de l'attribut data-post-id -->
                 <div class="post-header">
                     <div class="post-user">
                         <strong><?= htmlspecialchars($post['username']) ?></strong> <!-- Nom de l'utilisateur -->
@@ -20,7 +19,7 @@
                     </div>
                 </div>
                 <div class="post-content">
-                    <p><?= nl2br(htmlspecialchars($post['content'])) ?></p> <!-- Contenu du tweet -->
+                    <p><?= nl2br(htmlspecialchars($post['content'])) ?></p> <!-- Contenu du post -->
                 </div>
                 <div class="post-footer">
                     <span class="like-count"><?= htmlspecialchars($post['like_count']) ?> Like(s)</span>

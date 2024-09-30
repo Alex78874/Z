@@ -91,6 +91,14 @@ return [
 
     // Route pour afficher un post spécifique
     [
+        'path' => '/post',
+        'controller' => 'PostController',
+        'action' => 'fetchNewPosts',
+        'methods' => ['GET'],
+    ],
+
+    // Route pour afficher un post spécifique
+    [
         'path' => '/post/(\d+)',
         'controller' => 'PostController',
         'action' => 'view',
