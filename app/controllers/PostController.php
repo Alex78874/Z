@@ -9,37 +9,81 @@ class PostController {
         $this->userModel = new User();
     }
 
+    // Méthode pour vérifier si la requête est une requête AJAX
+    private function isAjaxRequest() {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+    }
+
     // Méthode pour créer un nouveau post
     public function create(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            session_start();
-
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+    
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
-                redirect('/login');
-                exit();
+                if ($this->isAjaxRequest()) {
+                    echo json_encode(['success' => false, 'message' => 'Vous devez être connecté pour poster.']);
+                    exit();
+                } else {
+                    redirect('/login');
+                    exit();
+                }
             }
-
+    
             $userId = $_SESSION['user']['id'];
             $content = $_POST['content'] ?? '';
-
+    
             if (!empty(trim($content))) {
                 $success = $this->postModel->createPost($userId, $content);
                 if ($success) {
-                    redirect('/');
+                    $newPost = $this->postModel->getLastInsertedPost();
+                    $user = $this->userModel->getById($userId);
+    
+                    // Préparer les données du nouveau post
+                    $postData = [
+                        'id' => $newPost['id'],
+                        'username' => $user['username'] ?? 'Utilisateur inconnu',
+                        'publication_date' => $newPost['publication_date'],
+                        'content' => $newPost['content'],
+                        'like_count' => $newPost['like_count']
+                    ];
+    
+                    if ($this->isAjaxRequest()) {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => true, 'post' => $postData]);
+                        exit();
+                    } else {
+                        redirect('/');
+                    }
                 } else {
-                    echo "Erreur lors de la création du post.";
+                    if ($this->isAjaxRequest()) {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'message' => 'Erreur lors de la création du post.']);
+                        exit();
+                    } else {
+                        echo "Erreur lors de la création du post.";
+                    }
                 }
             } else {
-                echo "Le contenu du post ne peut pas être vide.";
+                if ($this->isAjaxRequest()) {
+                    echo json_encode(['success' => false, 'message' => 'Le contenu du post ne peut pas être vide.']);
+                    exit();
+                } else {
+                    echo "Le contenu du post ne peut pas être vide.";
+                }
             }
         }
     }
-
+    
     // Méthode pour liker un post
     public function like(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
                 redirect('/login');

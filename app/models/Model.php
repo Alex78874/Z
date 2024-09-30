@@ -42,7 +42,7 @@ class Model {
 
     // Récupère tous les enregistrements
     public function getAll(): array {
-        $stmt = $this->pdo->query("SELECT * FROM {$this->table}");
+        $stmt = $this->pdo->query("SELECT * FROM {$this->table} ORDER BY id DESC");
         return $stmt->fetchAll();
     }
 
@@ -52,5 +52,10 @@ class Model {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$whereClause}");
         $stmt->execute($conditions);
         return $stmt->fetchAll();
+    }
+
+    public function getLastInserted(): mixed {
+        $stmt = $this->pdo->query("SELECT * FROM {$this->table} WHERE id = LAST_INSERT_ID()");
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -3,7 +3,7 @@
 
 <div class="create-post">
     <h2>Créer un nouveau post</h2>
-    <form method="post" action="<?= url("post") ?>">
+    <form id="create-post-form" method="post" action="post">
         <textarea name="content" placeholder="Quoi de neuf ?" required></textarea>
         <button type="submit">Publier</button>
     </form>
@@ -45,3 +45,5 @@
         <p>Aucun post à afficher.</p>
     <?php endif; ?>
 </div>
+
+<script src="../js/create_post.js"></script>

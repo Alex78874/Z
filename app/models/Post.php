@@ -27,6 +27,13 @@ class Post extends Model {
         return $this->getWhere(['user_id' => $userId]);
     }
 
+    // Méthode pour obtenir les derniers posts
+    public function getLastInsertedPost(): mixed {
+        // Requête personnalisée pour obtenir le dernier post inséré
+        return $this->getLastInserted();
+    }
+    
+
     public function updatePost($id, $content): bool {
         // Utilisation de la méthode `update` de la classe parente pour mettre à jour un post
         return $this->update($id, ['content' => $content]);
