@@ -37,14 +37,14 @@ return [
 
     // Route pour afficher la page de connexion
     [
-        'path' => '/login',
+        'path' => 'login',
         'controller' => 'AuthController',
         'action' => 'login',
     ],
 
     // Route pour se connecter
     [
-        'path' => '/login',
+        'path' => 'login',
         'controller' => 'AuthController',
         'action' => 'login',
         'methods' => ['POST'],
@@ -52,14 +52,14 @@ return [
 
     // Route pour afficher la page d'inscription
     [
-        'path' => '/register',
+        'path' => 'register',
         'controller' => 'AuthController',
         'action' => 'register',
     ],
 
     // Route pour s'inscrire
     [
-        'path' => '/register',
+        'path' => 'register',
         'controller' => 'AuthController',
         'action' => 'register',
         'methods' => ['POST'],
@@ -67,14 +67,14 @@ return [
 
     // Route pour se déconnecter
     [
-        'path' => '/logout',
+        'path' => 'logout',
         'controller' => 'AuthController',
         'action' => 'logout',
     ],
 
     // Route pour récupérer un utilisateur
     [
-        'path' => '/user/(\d+)', // URL avec un paramètre ID utilisateur
+        'path' => 'user/(\d+)', // URL avec un paramètre ID utilisateur
         'controller' => 'UserController', // Contrôleur appelé : UserController
         'action' => 'profile', // Méthode du contrôleur : profile($id)
         'methods' => ['GET'],
@@ -83,7 +83,7 @@ return [
 
     // Route pour créer un nouveau post
     [
-        'path' => '/post',
+        'path' => 'post',
         'controller' => 'PostController',
         'action' => 'create',
         'methods' => ['POST'],
@@ -91,7 +91,7 @@ return [
 
     // Route pour afficher un post spécifique
     [
-        'path' => '/post',
+        'path' => 'post',
         'controller' => 'PostController',
         'action' => 'fetchNewPosts',
         'methods' => ['GET'],
@@ -99,7 +99,7 @@ return [
 
     // Route pour afficher un post spécifique
     [
-        'path' => '/post/(\d+)',
+        'path' => 'post/(\d+)',
         'controller' => 'PostController',
         'action' => 'view',
         'methods' => ['GET'],
