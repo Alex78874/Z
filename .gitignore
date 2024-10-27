@@ -2,3 +2,4 @@
 **/.idea/tasks.xml
 .htaccess
 public/.htaccess
+.env.local
