@@ -1,5 +1,5 @@
 <!-- Titre -->
-<link rel="stylesheet" href="<?= url(path: 'css/home.css'); ?>">
+<link rel="stylesheet" href='../css/home.css'>
 <h1>
     <?php if (!empty($title)) {
         echo htmlspecialchars(string: $title);
@@ -11,4 +11,4 @@
 <?php view(view: 'post/posts', data: ['posts' => $posts], layout: false); ?>
 
 <!-- Liens vers des fichiers JavaScript -->
-<script src="<?= url(path: 'js/scripts.js'); ?>"></script>
+<script src='js/scripts.js'></script>

@@ -43,14 +43,13 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Intervalle pour vérifier les nouveaux posts toutes les 5 secondes
-  setInterval(fetchNewPosts, 5000);
+  setInterval(fetchNewPosts, 15000);
 
   function fetchNewPosts() {
     // Récupérer l'ID du dernier post affiché
     const postsContainer = document.querySelector(".posts-container");
     const firstPost = postsContainer.querySelector(".post");
     const lastPostId = firstPost ? firstPost.getAttribute("data-post-id") : 0;
-    console.log(lastPostId);
 
     fetch("post/?last_post_id=" + lastPostId, {
       method: "GET",
