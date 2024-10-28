@@ -4,8 +4,8 @@ ini_set(option: 'display_errors', value: 1);
 ini_set(option: 'display_startup_errors', value: 1);
 error_reporting(error_level: E_ALL);
 
-if (file_exists(__DIR__ . '/.env.local')) {
-    $env = parse_ini_file(__DIR__ . '/.env.local');
+if (file_exists(__DIR__ . '/../.env.local')) {
+    $env = parse_ini_file(__DIR__ . '/../.env.local');
     define('DB_HOST', $env['DB_HOST']);
     define('DB_NAME', $env['DB_NAME']);
     define('DB_USER', $env['DB_USER']);
