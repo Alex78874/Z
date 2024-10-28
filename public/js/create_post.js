@@ -46,27 +46,42 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(fetchNewPosts, 15000);
 
   function fetchNewPosts() {
+    console.log("Fetching new posts..."); // Debugging
+
     // Récupérer l'ID du dernier post affiché
     const postsContainer = document.querySelector(".posts-container");
     const firstPost = postsContainer.querySelector(".post");
     const lastPostId = firstPost ? firstPost.getAttribute("data-post-id") : 0;
+
+    console.log("Last post ID:", lastPostId); // Debugging
 
     fetch("post/?last_post_id=" + lastPostId, {
       method: "GET",
       headers: {
         "X-Requested-With": "XMLHttpRequest",
       },
+      body: JSON.stringify(body),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log("Fetch response status:", response.status); // Debugging
+        return response.json();
+      })
       .then((data) => {
+        console.log("Fetch response data:", data); // Debugging
+
         if (data.success && data.posts.length > 0) {
           data.posts.forEach((post) => {
             // Vérifiez si le post est déjà dans le DOM
             if (!document.querySelector(`.post[data-post-id="${post.id}"]`)) {
               const newPost = createPostElement(post);
               postsContainer.insertAdjacentElement("afterbegin", newPost);
+              console.log("New post added:", post); // Debugging
+            } else {
+              console.log("Post already exists:", post.id); // Debugging
             }
           });
+        } else {
+          console.log("No new posts found or fetch unsuccessful."); // Debugging
         }
       })
       .catch((error) => {
