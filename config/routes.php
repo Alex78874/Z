@@ -101,7 +101,7 @@ return [
     [
         'path' => 'post/(\d+)',
         'controller' => 'PostController',
-        'action' => 'view',
+        'action' => 'show',
         'methods' => ['GET'],
         'params' => ['id'],
     ],

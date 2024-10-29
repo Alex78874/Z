@@ -17,7 +17,8 @@
                 <div class="post-header">
                     <div class="post-user">
                         <strong><?= htmlspecialchars($post['username']) ?></strong> <!-- Nom de l'utilisateur -->
-                        <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span> <!-- Date de publication -->
+                        <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span>
+                        <!-- Date de publication -->
                     </div>
                 </div>
                 <div class="post-content">
@@ -41,6 +42,9 @@
                         <textarea name="reply_content" placeholder="Répondre..." required></textarea>
                         <button type="submit">Répondre</button>
                     </form>
+
+                    <!-- Bouton pour afficher le post -->
+                    <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a>
                 </div>
             </div>
             <hr>

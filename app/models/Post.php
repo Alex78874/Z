@@ -54,6 +54,16 @@ class Post extends Model {
         return $stmt->fetchColumn();
     }
 
+    // Méthode pour obtenir les commentaire (posts) lié à un post
+    public function getComments($postId): array {
+        return $this->getWhere(['reply_to' => $postId]);
+    }
+
+    // Méthode pour obtenir les commentaire (posts) lié à un post parent
+    public function getCommentsParent($postId): array {
+        return $this->getWhere(['parent_id' => $postId]);
+    }
+
     public function updatePost($id, $content): bool {
         // Utilisation de la méthode `update` de la classe parente pour mettre à jour un post
         return $this->update($id, ['content' => $content]);
