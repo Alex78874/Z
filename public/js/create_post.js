@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("create-post-form");
   form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Empêche le rechargement de la page
+    event.preventDefault();
 
     const formData = new FormData(form);
     const content = formData.get("content").trim();
@@ -103,7 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p>${escapeHtml(post.content)}</p>
             </div>
             <div class="post-footer">
-                <span class="like-count">0 Like(s)</span>
+                <span class="like-count">${escapeHtml(post.like_count)} Like(s)</span>
+                <span class="comment-count">${escapeHtml(post.comment_count)} Commentaire(s)</span>
                 <!-- Formulaire pour liker un post -->
                 <form method="post" action="/post/like" class="like-form">
                     <input type="hidden" name="post_id" value="${escapeHtml(

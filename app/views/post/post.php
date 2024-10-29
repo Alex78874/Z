@@ -1,13 +1,5 @@
 <link rel="stylesheet" href="../css/posts.css">
 
-<div class="create-post">
-    <h2>Créer un nouveau post</h2>
-    <form id="create-post-form" method="post" action="post">
-        <textarea name="content" placeholder="Quoi de neuf ?" required></textarea>
-        <button type="submit">Publier</button>
-    </form>
-</div>
-
 <div class="posts-container">
     <?php if (!empty($post)): ?>
 
@@ -42,7 +34,7 @@
 
                 <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a>
             </div>
-
+            <hr>
             <div class="comments">
                 <h3>Commentaires</h3>
                 <?php if (!empty($post['comments'])): ?>
@@ -90,4 +82,4 @@
     <?php endif; ?>
 </div>
 
-<script src="../js/create_post.js"></script>
+<script src="../js/like_post.js"></script>

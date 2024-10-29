@@ -12,8 +12,7 @@ class Post extends Model {
         return $this->create([
             'user_id' => $userId,
             'content' => $content,
-            'publication_date' => date('Y-m-d H:i:s'), // Ajout de la date de publication actuelle
-            'like_count' => 0 // Initialiser le compteur de likes à 0
+            'publication_date' => date('Y-m-d H:i:s'),
         ]);
     }
 
@@ -22,7 +21,6 @@ class Post extends Model {
             'user_id' => $userId,
             'content' => $content,
             'publication_date' => date('Y-m-d H:i:s'),
-            'like_count' => 0,
             'reply_to' => $reply_to,
             'parent_id' => $parent_id
         ]);
