@@ -105,4 +105,20 @@ return [
         'methods' => ['GET'],
         'params' => ['id'],
     ],
+
+    // Route pour liker un post
+    [
+        'path' => 'post/like',
+        'controller' => 'PostController',
+        'action' => 'like',
+        'methods' => ['POST'],
+    ],
+
+    // Route pour répondre à un post
+    [
+        'path' => 'post/reply',
+        'controller' => 'PostController',
+        'action' => 'create_reply',
+        'methods' => ['POST'],
+    ],
 ];

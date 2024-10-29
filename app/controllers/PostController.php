@@ -4,11 +4,13 @@ class PostController
 {
     private $postModel;
     private $userModel;
+    private $likeModel;
 
     public function __construct()
     {
         $this->postModel = new Post();
         $this->userModel = new User();
+        $this->likeModel = new Like();
     }
 
     // Méthode pour vérifier si la requête est une requête AJAX
@@ -111,8 +113,7 @@ class PostController
         }
     }
 
-
-    // Méthode pour liker un post
+    // Méthode pour liker/disliker un post
     public function like(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -122,49 +123,106 @@ class PostController
 
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
-                redirect('/login');
-                exit();
-            }
-
-            $postId = $_POST['post_id'] ?? null;
-
-            if ($postId) {
-                $success = $this->postModel->incrementLikeCount($postId);
-                if ($success) {
-                    redirect($_SERVER['HTTP_REFERER']);
+                if ($this->isAjaxRequest()) {
+                    echo json_encode(['success' => false, 'message' => 'Vous devez être connecté pour liker.']);
+                    exit();
                 } else {
-                    echo "Erreur lors de l'ajout du like.";
+                    redirect('/login');
+                    exit();
                 }
-            } else {
-                echo "ID du post non valide.";
-            }
-        }
-    }
-
-    // Méthode pour répondre à un post
-    public function reply(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            session_start();
-            if (!isset($_SESSION['user']['id'])) {
-                // Vérifier si l'utilisateur est connecté
-                redirect('/login');
-                exit();
             }
 
             $userId = $_SESSION['user']['id'];
             $postId = $_POST['post_id'] ?? null;
-            $replyContent = $_POST['reply_content'] ?? '';
+            $userAlreadyLiked = $this->likeModel->hasUserLikedPost($userId, $postId);
 
-            if ($postId && !empty(trim($replyContent))) {
-                // Ici, vous devrez probablement insérer la réponse dans une table de réponse
-                // Par exemple, `replyModel->createReply($postId, $userId, $replyContent);`
-                // Pour l'instant, nous simulons simplement l'insertion de la réponse.
+            if ($postId && !$userAlreadyLiked) {
+                $success = $this->likeModel->addLike($userId, $postId);
+                if ($success) {
+                    if ($this->isAjaxRequest()) {
+                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès']);
+                        exit();
+                    } else {
+                        redirect('/');
+                    }
+                } else {
+                    if ($this->isAjaxRequest()) {
+                        echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'ajout du like.']);
+                        exit();
+                    } else {
+                        echo "Erreur lors de l'ajout du like.";
+                    }
+                }
+            } elseif ($postId && $userAlreadyLiked) {
+                // Unlike post
+                $success = $this->likeModel->removeLike($userId, $postId);
+                if ($success) {
+                    if ($this->isAjaxRequest()) {
+                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès']);
+                        exit();
+                    } else {
+                        redirect('/');
+                    }
+                } else {
+                    if ($this->isAjaxRequest()) {
+                        echo json_encode(['success' => false, 'message' => 'Erreur lors du retrait du like.']);
+                        exit();
+                    } else {
+                        echo "Erreur lors du retrait du like.";
+                    }
+                }
+            }
+        }
+    }
 
-                echo "Réponse enregistrée. (Ce code doit être adapté pour une vraie table des réponses.)";
-                redirect($_SERVER['HTTP_REFERER']);
+    // Méthode pour créer un post de réponse à un post
+    public function create_reply(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            if (!isset($_SESSION['user']['id'])) {
+                // Vérifier si l'utilisateur est connecté
+                if ($this->isAjaxRequest()) {
+                    echo json_encode(['success' => false, 'message' => 'Vous devez être connecté pour répondre.']);
+                    exit();
+                } else {
+                    redirect('/login');
+                    exit();
+                }
+            }
+
+            $userId = $_SESSION['user']['id'];
+            $content = $_POST['reply_content'] ?? '';
+            $replyTo = $_POST['post_id'] ?? null;
+            $parentId = $_POST['parent_id'] ?? null;
+
+            if (!empty(trim($content))) {
+                $success = $this->postModel->createReplyPost($userId, $content, $replyTo, $parentId);
+                if ($success) {
+                    if ($this->isAjaxRequest()) {
+                        echo json_encode(['success' => true, 'message' => 'Réponse créée avec succès']);
+                        exit();
+                    } else {
+                        redirect("/post/{$replyTo}");
+                    }
+                } else {
+                    if ($this->isAjaxRequest()) {
+                        echo json_encode(['success' => false, 'message' => 'Erreur lors de la création de la réponse']);
+                        exit();
+                    } else {
+                        echo "Erreur lors de la création de la réponse";
+                    }
+                }
             } else {
-                echo "Le contenu de la réponse ne peut pas être vide ou ID du post non valide.";
+                if ($this->isAjaxRequest()) {
+                    echo json_encode(['success' => false, 'message' => 'Le contenu de la réponse ne peut pas être vide.']);
+                    exit();
+                } else {
+                    echo "Le contenu de la réponse ne peut pas être vide.";
+                }
             }
         }
     }
@@ -175,25 +233,29 @@ class PostController
         $post = $this->postModel->getPostById($id);
         $comment_count = $this->postModel->getCommentCount($id);
         $comments = $this->postModel->getComments($id);
+        $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
 
         if ($post) {
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
             $post['comment_count'] = $comment_count;
+            $post['like_count'] = $like_count;
 
-            $post['comments'] = array_map(function($comment) {
+            $post['comments'] = array_map(function ($comment) {
                 $user = $this->userModel->getById($comment['user_id']);
                 $comment_count = $this->postModel->getCommentCount($comment['id']);
+                $like_count = $this->likeModel->getLikesCountByPostId($comment['id']);
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
                 $comment['comment_count'] = $comment_count;
+                $comment['like_count'] = $like_count;
                 return $comment;
             }, $comments);
 
             $data = [
                 'post' => $post,
             ];
-            view('post/post',  $data);
+            view('post/post', $data);
         } else {
             echo "Post non trouvé.";
         }

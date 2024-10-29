@@ -57,7 +57,7 @@ class Model
     public function getWhere(array $conditions): array
     {
         $whereClause = implode(" AND ", array_map(fn($key) => "$key = :$key", array_keys($conditions)));
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$whereClause}  ORDER BY id DESC");
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$whereClause} ORDER BY id DESC");
         $stmt->execute($conditions);
         return $stmt->fetchAll();
     }
@@ -66,8 +66,16 @@ class Model
     public function getWhereNull(array $conditions): array
     {
         $whereClause = implode(" AND ", array_map(fn($key) => "$key IS NULL", array_keys($conditions)));
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$whereClause}  ORDER BY id DESC");
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$whereClause} ORDER BY id DESC");
         return $stmt->execute() ? $stmt->fetchAll() : [];
+    }
+
+    public function getWhereCount(array $conditions): int
+    {
+        $whereClause = implode(" AND ", array_map(fn($key) => "$key = :$key", array_keys($conditions)));
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM {$this->table} WHERE {$whereClause}");
+        $stmt->execute($conditions);
+        return $stmt->fetchColumn();
     }
 
     public function getLastInserted(): mixed

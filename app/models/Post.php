@@ -17,6 +17,17 @@ class Post extends Model {
         ]);
     }
 
+    public function createReplyPost($userId, $content, $reply_to, $parent_id): bool {
+        return $this->create([
+            'user_id' => $userId,
+            'content' => $content,
+            'publication_date' => date('Y-m-d H:i:s'),
+            'like_count' => 0,
+            'reply_to' => $reply_to,
+            'parent_id' => $parent_id
+        ]);
+    }
+
     public function getPostById($id): mixed {
         // Utilisation de la méthode `getById` de la classe parente pour obtenir un post par son ID
         return $this->getById($id);

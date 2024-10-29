@@ -12,8 +12,7 @@
     <?php if (!empty($post)): ?>
 
         <!-- Pour debug -->
-        <pre><?= json_encode($post, JSON_PRETTY_PRINT) ?></pre>
-
+        <!-- <pre><?= json_encode($post, JSON_PRETTY_PRINT) ?></pre> -->
 
         <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>">
             <div class="post-header"></div>
@@ -48,6 +47,10 @@
                 <h3>Commentaires</h3>
                 <?php if (!empty($post['comments'])): ?>
                     <?php foreach ($post['comments'] as $comment): ?>
+
+                        <!-- Pour debug -->
+                        <!-- <pre><?= json_encode($comment, JSON_PRETTY_PRINT) ?></pre> -->
+
                         <div class="comment" data-comment-id="<?= htmlspecialchars($comment['id']) ?>">
                             <div class="comment-user">
                                 <strong><?= htmlspecialchars($comment['username']) ?></strong>
@@ -59,15 +62,16 @@
                             </div>
 
                             <div class="comment-footer">
-                                <span class="like-count
-                                "><?= htmlspecialchars($comment['like_count']) ?> Like(s)</span>
+                                <span class="like-count"><?= htmlspecialchars($comment['like_count']) ?> Like(s)</span>
                                 <span class="reply-count"><?= htmlspecialchars($comment['comment_count']) ?> Réponse(s)</span>
+                                
                                 <form method="post" action="<?= url("/post/like") ?>" class="like-form">
-                                    <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id']) ?>">
+                                    <input type="hidden" name="post_id" value="<?= htmlspecialchars($comment['id']) ?>">
                                     <button type="submit">Like</button>
                                 </form>
                                 <form method="post" action="<?= url("/post/reply") ?>" class="reply-form">
-                                    <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id']) ?>">
+                                    <input type="hidden" name="post_id" value="<?= htmlspecialchars($comment['id']) ?>">
+                                    <input type="hidden" name="parent_id" value="<?= htmlspecialchars($comment['parent_id']) ?>">
                                     <textarea name="reply_content" placeholder="Répondre..." required></textarea>
                                     <button type="submit">Répondre</button>
                                 </form>

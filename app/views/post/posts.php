@@ -39,6 +39,7 @@
                     <!-- Bouton pour répondre à un post -->
                     <form method="post" action="<?= url("/post/reply") ?>" class="reply-form">
                         <input type="hidden" name="post_id" value="<?= htmlspecialchars($post['id']) ?>">
+                        <input type="hidden" name="parent_id" value="<?= htmlspecialchars($post['id']) ?>">
                         <textarea name="reply_content" placeholder="Répondre..." required></textarea>
                         <button type="submit">Répondre</button>
                     </form>
