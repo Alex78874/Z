@@ -4,10 +4,15 @@ ini_set(option: 'display_errors', value: 1);
 ini_set(option: 'display_startup_errors', value: 1);
 error_reporting(error_level: E_ALL);
 
-const DB_HOST = 'mysql-garibaldi.alwaysdata.net';
-const DB_NAME = 'garibaldi_z';
-const DB_USER = 'garibaldi';
-const DB_PASS = 'zozolerigolo123@';
+if (file_exists(__DIR__ . '/../.env.local')) {
+    $env = parse_ini_file(__DIR__ . '/../.env.local');
+    define('DB_HOST', $env['DB_HOST']);
+    define('DB_NAME', $env['DB_NAME']);
+    define('DB_USER', $env['DB_USER']);
+    define('DB_PASS', $env['DB_PASS']);
+} else {
+    die('.env.local file not found');
+}
 
 // Connexion a la base de donnée
 function getPDO(): PDO {

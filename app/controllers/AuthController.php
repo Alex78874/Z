@@ -1,13 +1,12 @@
 <?php
 
-class AuthController
+class AuthController extends Controller
 {
-    private $pdo;
     protected $userModel;
 
     public function __construct()
     {
-        $this->pdo = getPDO();
+        parent::__construct();
         $this->userModel = new User();
     }
 
@@ -38,27 +37,26 @@ class AuthController
             }
 
             if (!empty($errors)) {
-                header('Content-Type: application/json');
-                echo json_encode(['success' => false, 'errors' => $errors]);
-                exit();
+                if ($this->isAjaxRequest()) {
+                    $this->json(['success' => false, 'errors' => $errors]);
+                } else {
+                    $this->view('user/register', ['errors' => $errors]);
+                }
+                return;
             }
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $this->userModel->createUser($username, $email, $hashedPassword);
 
-            // Redirection classique
-            redirect('/login');
-            exit();
+            $this->redirect('/login');
         } else {
-            view(view: 'user/register');
+            $this->view('user/register');
         }
     }
 
     public function login(): void
     {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        $this->startSession();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
@@ -74,14 +72,14 @@ class AuthController
             }
 
             if (!empty($errors)) {
-                view('user/login', ['errors' => $errors]);
+                $this->view('user/login', ['errors' => $errors]);
                 return;
             }
 
             // Récupérer l'utilisateur par email
-            $user = $this->userModel->getUserByEmail(email: $email);
+            $user = $this->userModel->getUserByEmail($email);
 
-            if ($user && password_verify(password: $password, hash: $user['password'])) {
+            if ($user && password_verify($password, $user['password'])) {
                 // Authentification réussie
                 $_SESSION['user'] = [
                     'id' => $user['id'],
@@ -90,27 +88,22 @@ class AuthController
                     'avatar' => $user['avatar_url'] ?? "/../app/assets/images/default_avatar.png",
                     'registration_date' => $user['registration_date'],
                 ];
-                redirect(url: '/');
-                exit();
+                $this->redirect('/');
             } else {
                 // Authentification échouée
                 $errors[] = 'Email ou mot de passe incorrect.';
-                view(view: 'user/login', data: ['errors' => $errors]);
+                $this->view('user/login', ['errors' => $errors]);
             }
         } else {
-            view(view: 'user/login');
+            $this->view('user/login');
         }
     }
 
     public function logout(): void
     {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
+        $this->startSession();
         $_SESSION = [];
         session_destroy();
-        redirect('/');
-        exit();
+        $this->redirect('/');
     }
 }
