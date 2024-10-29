@@ -55,12 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Last post ID:", lastPostId); // Debugging
 
-    fetch("post/?last_post_id=" + lastPostId, {
+    fetch("post?last_post_id=" + lastPostId, {
       method: "GET",
       headers: {
         "X-Requested-With": "XMLHttpRequest",
       },
-      body: JSON.stringify(body),
     })
       .then((response) => {
         console.log("Fetch response status:", response.status); // Debugging

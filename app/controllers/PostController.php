@@ -78,8 +78,7 @@ class PostController {
     }
 
     // Méthode pour récupérer les nouveaux posts apres un certain ID
-    public function fetchNewPosts(): never {
-        var_dump($_GET);
+    public function fetchNewPosts(): void {
         if ($this->isAjaxRequest()) {
             // vardump for debugging
             $lastPostId = $_GET['last_post_id'] ?? 0;
