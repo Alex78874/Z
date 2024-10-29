@@ -6,13 +6,11 @@
 - [ ] Page d'Accueil
   - [X] Affichage des info utilisateur sur la page d'accueil
   - [X] Affichage des posts sur la page d'accueil
-  - [ ] Listener AJAX pour ajout des post en temps réel sur la page d'accueil
+  - [X] Listener AJAX pour ajout des post en temps réel sur la page d'accueil
 - [ ] Page Post
-  - [ ] Récupérer count like et count de commentaire et les affiché sur les icones
+  - [X] Récupérer count like et count de commentaire et les affiché sur les icones
   - [ ] Ajout de commentaire a un post
-    - [ ] Model Commentaire seulement pour ajout (récupération dans Model Post)
-    - [ ] Affichage Commentaire (Post)
-    - [ ] Créer Model Like et LikeController pour pouvoir liker des post et commentaire
+  - [ ] Ajout pouvoir like un post
 
 ## Notes
 

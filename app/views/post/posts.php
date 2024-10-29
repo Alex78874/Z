@@ -10,12 +10,15 @@
 
 <div class="posts-container">
     <?php if (!empty($posts)): ?>
+        <?= "<pre>" . json_encode($posts, JSON_PRETTY_PRINT) . "</pre>" ?>
+
         <?php foreach ($posts as $post): ?>
             <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>"> <!-- Ajout de l'attribut data-post-id -->
                 <div class="post-header">
                     <div class="post-user">
                         <strong><?= htmlspecialchars($post['username']) ?></strong> <!-- Nom de l'utilisateur -->
-                        <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span> <!-- Date de publication -->
+                        <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span>
+                        <!-- Date de publication -->
                     </div>
                 </div>
                 <div class="post-content">
@@ -36,9 +39,13 @@
                     <!-- Bouton pour répondre à un post -->
                     <form method="post" action="<?= url("/post/reply") ?>" class="reply-form">
                         <input type="hidden" name="post_id" value="<?= htmlspecialchars($post['id']) ?>">
+                        <input type="hidden" name="parent_id" value="<?= htmlspecialchars($post['id']) ?>">
                         <textarea name="reply_content" placeholder="Répondre..." required></textarea>
                         <button type="submit">Répondre</button>
                     </form>
+
+                    <!-- Bouton pour afficher le post -->
+                    <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a>
                 </div>
             </div>
             <hr>

@@ -17,6 +17,17 @@ class Post extends Model {
         ]);
     }
 
+    public function createReplyPost($userId, $content, $reply_to, $parent_id): bool {
+        return $this->create([
+            'user_id' => $userId,
+            'content' => $content,
+            'publication_date' => date('Y-m-d H:i:s'),
+            'like_count' => 0,
+            'reply_to' => $reply_to,
+            'parent_id' => $parent_id
+        ]);
+    }
+
     public function getPostById($id): mixed {
         // Utilisation de la méthode `getById` de la classe parente pour obtenir un post par son ID
         return $this->getById($id);
@@ -35,9 +46,34 @@ class Post extends Model {
 
     // Méthode pour obtenir les nouveaux posts après un certain ID
     public function getNewPosts($lastPostId): array {
-        return $this->getAfterId($lastPostId);
+        $stmt = $this->pdo->prepare("SELECT * FROM Post WHERE id > :lastId AND parent_id IS NULL ORDER BY id DESC");
+        $stmt->execute(['lastId' => $lastPostId]);
+        return $stmt->fetchAll();
     }    
     
+    // Méthode pour le compte de commentaire (posts) lié à un post
+    public function getCommentCount($postId): int {
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM Post WHERE reply_to = :post_id');
+        $stmt->execute(['post_id' => $postId]);
+        return $stmt->fetchColumn();
+    }
+
+    // Méthode pour le compte de commentaire (posts) lié à un post parent
+    public function getCommentCountParent($postId): int {
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM Post WHERE parent_id = :post_id');
+        $stmt->execute(['post_id' => $postId]);
+        return $stmt->fetchColumn();
+    }
+
+    // Méthode pour obtenir les commentaire (posts) lié à un post
+    public function getComments($postId): array {
+        return $this->getWhere(['reply_to' => $postId]);
+    }
+
+    // Méthode pour obtenir les commentaire (posts) lié à un post parent
+    public function getCommentsParent($postId): array {
+        return $this->getWhere(['parent_id' => $postId]);
+    }
 
     public function updatePost($id, $content): bool {
         // Utilisation de la méthode `update` de la classe parente pour mettre à jour un post
