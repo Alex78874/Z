@@ -82,4 +82,4 @@
     <?php endif; ?>
 </div>
 
-<script src="../js/create_post.js"></script>
+<script src="../js/like_post.js"></script>

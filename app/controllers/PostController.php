@@ -137,8 +137,13 @@ class PostController
                 }
             }
 
+            // Get the raw POST data
+            $rawData = file_get_contents("php://input");
+            $postData = json_decode($rawData, true);
+
             $userId = $_SESSION['user']['id'];
-            $postId = $_POST['post_id'] ?? null;
+            $postId = $postData['post_id'] ?? null;
+
             $userAlreadyLiked = $this->likeModel->hasUserLikedPost($userId, $postId);
 
             if ($postId && !$userAlreadyLiked) {
