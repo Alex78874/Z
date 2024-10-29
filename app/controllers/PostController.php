@@ -40,6 +40,7 @@ class PostController {
                 if ($success) {
                     $newPost = $this->postModel->getLastInsertedPost();
                     $user = $this->userModel->getById($userId);
+                    $comment_count = $this->postModel->getCommentCount($newPost['id']);
     
                     // Préparer les données du nouveau post
                     $postData = [
@@ -47,7 +48,8 @@ class PostController {
                         'username' => $user['username'] ?? 'Utilisateur inconnu',
                         'publication_date' => $newPost['publication_date'],
                         'content' => $newPost['content'],
-                        'like_count' => $newPost['like_count']
+                        'like_count' => $newPost['like_count'],
+                        'comment_count' => $comment_count
                     ];
     
                     if ($this->isAjaxRequest()) {

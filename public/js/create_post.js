@@ -43,17 +43,13 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Intervalle pour vérifier les nouveaux posts toutes les 5 secondes
-  setInterval(fetchNewPosts, 15000);
+  setInterval(fetchNewPosts, 5000);
 
   function fetchNewPosts() {
-    console.log("Fetching new posts..."); // Debugging
-
-    // Récupérer l'ID du dernier post affiché
+    // console.log("Fetching new posts...");
     const postsContainer = document.querySelector(".posts-container");
     const firstPost = postsContainer.querySelector(".post");
     const lastPostId = firstPost ? firstPost.getAttribute("data-post-id") : 0;
-
-    console.log("Last post ID:", lastPostId); // Debugging
 
     fetch("post?last_post_id=" + lastPostId, {
       method: "GET",
@@ -62,12 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     })
       .then((response) => {
-        console.log("Fetch response status:", response.status); // Debugging
         return response.json();
       })
       .then((data) => {
-        console.log("Fetch response data:", data); // Debugging
-
         if (data.success && data.posts.length > 0) {
           data.posts.forEach((post) => {
             // Vérifiez si le post est déjà dans le DOM

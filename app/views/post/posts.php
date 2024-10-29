@@ -10,6 +10,8 @@
 
 <div class="posts-container">
     <?php if (!empty($posts)): ?>
+        <?= "<pre>" . json_encode($posts, JSON_PRETTY_PRINT) . "</pre>" ?>
+
         <?php foreach ($posts as $post): ?>
             <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>"> <!-- Ajout de l'attribut data-post-id -->
                 <div class="post-header">
