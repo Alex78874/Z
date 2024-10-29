@@ -137,26 +137,26 @@ class PostController
                 }
             }
 
-            // Get the raw POST data
-            $rawData = file_get_contents("php://input");
-            $postData = json_decode($rawData, true);
-
             $userId = $_SESSION['user']['id'];
-            $postId = $postData['post_id'] ?? null;
+            $data = json_decode(file_get_contents('php://input'), true);
+            $postId = $data['post_id'] ?? null;
 
             $userAlreadyLiked = $this->likeModel->hasUserLikedPost($userId, $postId);
 
             if ($postId && !$userAlreadyLiked) {
                 $success = $this->likeModel->addLike($userId, $postId);
+                $likeCount = $this->likeModel->getLikesCountByPostId($postId);
                 if ($success) {
                     if ($this->isAjaxRequest()) {
-                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès']);
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès', 'likeCount' => $likeCount]);
                         exit();
                     } else {
                         redirect('/');
                     }
                 } else {
                     if ($this->isAjaxRequest()) {
+                        header('Content-Type: application/json');
                         echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'ajout du like.']);
                         exit();
                     } else {
@@ -166,15 +166,18 @@ class PostController
             } elseif ($postId && $userAlreadyLiked) {
                 // Unlike post
                 $success = $this->likeModel->removeLike($userId, $postId);
+                $likeCount = $this->likeModel->getLikesCountByPostId($postId);
                 if ($success) {
                     if ($this->isAjaxRequest()) {
-                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès']);
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès', 'likeCount' => $likeCount]);
                         exit();
                     } else {
                         redirect('/');
                     }
                 } else {
                     if ($this->isAjaxRequest()) {
+                        header('Content-Type: application/json');
                         echo json_encode(['success' => false, 'message' => 'Erreur lors du retrait du like.']);
                         exit();
                     } else {
