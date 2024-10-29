@@ -15,7 +15,6 @@
         <nav>
             <ul>
                 <li><a href="<?= url('/'); ?>">Accueil</a></li>
-                <li><a href="<?= url('tweet/create'); ?>">Nouveau Post</a></li>
                 <?php if (isset($_SESSION['user'])): ?>
                     <li>
                         <a href="<?= url('user/' . $_SESSION['user']['id']); ?>">

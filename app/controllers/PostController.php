@@ -47,6 +47,7 @@ class PostController
                     $newPost = $this->postModel->getLastInsertedPost();
                     $user = $this->userModel->getById($userId);
                     $comment_count = $this->postModel->getCommentCount($newPost['id']);
+                    $like_count = $this->likeModel->getLikesCountByPostId($newPost['id']);
 
                     // Préparer les données du nouveau post
                     $postData = [
@@ -54,8 +55,8 @@ class PostController
                         'username' => $user['username'] ?? 'Utilisateur inconnu',
                         'publication_date' => $newPost['publication_date'],
                         'content' => $newPost['content'],
-                        'like_count' => $newPost['like_count'],
-                        'comment_count' => $comment_count
+                        'comment_count' => $comment_count,
+                        'like_count' => $like_count
                     ];
 
                     if ($this->isAjaxRequest()) {
@@ -96,12 +97,16 @@ class PostController
             $postsData = [];
             foreach ($newPosts as $post) {
                 $user = $this->userModel->getById($post['user_id']);
+                $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
+                $comment_count = $this->postModel->getCommentCountParent($post['id']);
+
                 $postsData[] = [
                     'id' => $post['id'],
                     'username' => $user['username'] ?? 'Utilisateur inconnu',
                     'publication_date' => $post['publication_date'],
                     'content' => $post['content'],
-                    'like_count' => $post['like_count']
+                    'like_count' => $like_count,
+                    'comment_count' => $comment_count,
                 ];
             }
 

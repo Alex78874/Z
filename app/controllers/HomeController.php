@@ -15,7 +15,6 @@ class HomeController
 
     public function index(): void
     {
-        // $posts = $this->postModel->getAll();
         $posts = $this->postModel->getWhereNull(conditions: ['parent_id' => null]);
         $postsData = [];
 
