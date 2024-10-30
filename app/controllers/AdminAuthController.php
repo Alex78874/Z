@@ -2,12 +2,12 @@
 
 class AuthController extends Controller
 {
-    protected $userModel;
+    protected $adminModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->userModel = new User();
+        $this->adminModel = new Admin();
     }
 
     public function register(): void
@@ -40,7 +40,7 @@ class AuthController extends Controller
                 if ($this->isAjaxRequest()) {
                     $this->json(['success' => false, 'errors' => $errors]);
                 } else {
-                    $this->view('user/register', ['errors' => $errors]);
+                    $this->view('admin/register', ['errors' => $errors]);
                 }
                 return;
             }
@@ -48,9 +48,9 @@ class AuthController extends Controller
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $this->userModel->createUser($username, $email, $hashedPassword);
 
-            $this->redirect('/login');
+            $this->redirect('/admin/login');
         } else {
-            $this->view('user/register');
+            $this->view('admin/register');
         }
     }
 
@@ -70,31 +70,31 @@ class AuthController extends Controller
             }
 
             if (!empty($errors)) {
-                $this->view('user/login', ['errors' => $errors]);
+                $this->view('admin/login', ['errors' => $errors]);
                 return;
             }
 
             // Récupérer l'utilisateur par email
-            $user = $this->userModel->getUserByEmail($email);
+            $admin = $this->adminModel->getUserByEmail($email);
 
-            if ($user && password_verify($password, $user['password'])) {
+            if ($admin && password_verify($password, $admin['password'])) {
                 // Authentification réussie
                 $this->startSession();
-                $_SESSION['user'] = [
-                    'id' => $user['id'],
-                    'username' => $user['username'],
-                    'email' => $user['email'],
-                    'avatar' => $user['avatar_url'] ?? "/../app/assets/images/default_avatar.png",
-                    'registration_date' => $user['registration_date'],
+                $_SESSION['admin'] = [
+                    'id' => $admin['id'],
+                    'username' => $admin['username'],
+                    'email' => $admin['email'],
+                    'avatar' => $admin['avatar_url'] ?? "/../app/assets/images/default_avatar.png",
+                    'registration_date' => $admin['registration_date'],
                 ];
                 $this->redirect('/');
             } else {
                 // Authentification échouée
                 $errors[] = 'Email ou mot de passe incorrect.';
-                $this->view('user/login', ['errors' => $errors]);
+                $this->view('admin/login', ['errors' => $errors]);
             }
         } else {
-            $this->view('user/login');
+            $this->view('admin/login');
         }
     }
 

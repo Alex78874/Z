@@ -65,6 +65,36 @@ return [
         'methods' => ['POST'],
     ],
 
+    // Route pour afficher la page de connexion des aministrateurs
+    [
+        'path' => 'admin/login',
+        'controller' => 'AdminAuthController',
+        'action' => 'login',
+    ],
+
+    // Route pour se connecter en tant qu'administrateur
+    [
+        'path' => 'admin/login',
+        'controller' => 'AdminAuthController',
+        'action' => 'login',
+        'methods' => ['POST'],
+    ],
+
+    // Route pour afficher la page d'inscription des administrateurs
+    [
+        'path' => 'admin/register',
+        'controller' => 'AdminAuthController',
+        'action' => 'register',
+    ],
+
+    // Route pour s'inscrire en tant qu'administrateur
+    [
+        'path' => 'admin/register',
+        'controller' => 'AdminAuthController',
+        'action' => 'register',
+        'methods' => ['POST'],
+    ],
+
     // Route pour se déconnecter
     [
         'path' => 'logout',
