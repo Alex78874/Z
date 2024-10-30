@@ -16,8 +16,8 @@ class Post extends Model {
         ]);
     }
 
-    public function createReplyPost($userId, $content, $reply_to, $parent_id): bool {
-        return $this->create([
+    public function createReplyPost($userId, $content, $reply_to, $parent_id): mixed {
+        return $this->createAndGet([
             'user_id' => $userId,
             'content' => $content,
             'publication_date' => date('Y-m-d H:i:s'),

@@ -208,15 +208,31 @@ class PostController
             }
 
             $userId = $_SESSION['user']['id'];
-            $content = $_POST['reply_content'] ?? '';
-            $replyTo = $_POST['post_id'] ?? null;
-            $parentId = $_POST['parent_id'] ?? null;
+
+            if ($this->isAjaxRequest()) {
+                $inputData = json_decode(file_get_contents('php://input'), true);
+                $content = $inputData['reply_content'] ?? '';
+                $replyTo = $inputData['post_id'] ?? null;
+                $parentId = $inputData['parent_id'] ?? null;
+            } else {
+                $content = $_POST['reply_content'] ?? '';
+                $replyTo = $_POST['post_id'] ?? null;
+                $parentId = $_POST['parent_id'] ?? null;
+            }
 
             if (!empty(trim($content))) {
-                $success = $this->postModel->createReplyPost($userId, $content, $replyTo, $parentId);
-                if ($success) {
+                $reply = $this->postModel->createReplyPost($userId, $content, $replyTo, $parentId);
+                if ($reply) {
                     if ($this->isAjaxRequest()) {
-                        echo json_encode(['success' => true, 'message' => 'Réponse créée avec succès']);
+                        $comment = [
+                            'id' => $reply['id'],
+                            'username' => $this->userModel->getById($userId)['username'] ?? 'Utilisateur inconnu',
+                            'publication_date' => $reply['publication_date'],
+                            'content' => $reply['content'],
+                            'like_count' => 0,
+                            'comment_count' => 0,
+                        ];
+                        echo json_encode(['success' => true, 'message' => 'Réponse créée avec succès', 'comment' => $comment]);
                         exit();
                     } else {
                         redirect("/post/{$replyTo}");

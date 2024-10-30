@@ -20,6 +20,24 @@ class Model
         return $stmt->execute($data);
     }
 
+    // Crée un nouvel enregistrement et le retourne
+    public function createAndGet(array $data): mixed
+    {
+        $columns = implode(", ", array_keys($data));
+        $placeholders = ":" . implode(", :", array_keys($data));
+
+        $stmt = $this->pdo->prepare("INSERT INTO {$this->table} ({$columns}) VALUES ({$placeholders})");
+
+        if ($stmt->execute($data)) {
+            $lastId = $this->pdo->lastInsertId();
+            $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = :id");
+            $stmt->execute(['id' => $lastId]);
+            return $stmt->fetch();
+        }
+
+        return null;
+    }
+
     // Récupère un enregistrement par ID
     public function getById($id): mixed
     {

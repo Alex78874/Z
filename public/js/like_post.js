@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
       event.preventDefault();
 
-      const postElement = form.closest('.post');
-      const post_id = postElement.getAttribute('data-post-id');
+      const postElement = form.closest('.post') || form.closest('.comment');
+      const post_id = postElement.getAttribute('data-post-id') || postElement.getAttribute('data-comment-id');
 
       fetch('/post/like/', {
         method: 'POST',
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .then(response => {
         if (response.success) {
-          // Handle successful like (e.g., update the UI)
           const likeCountSpan = postElement.querySelector('.like-count');
           likeCountSpan.textContent = `${response.likeCount} Like(s)`;
         } else {
