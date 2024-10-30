@@ -5,21 +5,21 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
       event.preventDefault();
 
-      const postElement = form.closest('.post');
-      const post_id = postElement.getAttribute('data-post-id');
-      const data = {
-        post_id: post_id // Ensure this matches the PHP code
-      };
-      console.log('Data:', JSON.stringify(data));
+      const postElement = form.closest('.post') || form.closest('.comment');
+      const post_id = postElement.getAttribute('data-post-id') || postElement.getAttribute('data-comment-id');
 
-      fetch('/post/like', {
+      fetch('/post/like/', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=UTF-8'
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          post_id: post_id
+        })
       })
       .then(response => {
+        console.log(response);
         if (response.headers.get('content-type')?.includes('application/json')) {
           return response.json();
         } else {
@@ -28,17 +28,13 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .then(response => {
         if (response.success) {
-          // Handle successful like (e.g., update the UI)
-          alert('Post liked successfully!');
           const likeCountSpan = postElement.querySelector('.like-count');
           likeCountSpan.textContent = `${response.likeCount} Like(s)`;
         } else {
-          // Handle error
           alert('Error liking post: ' + response.message);
         }
       })
       .catch(error => {
-        // Handle network errors
         alert('Network error: ' + error.message);
         console.error('Network error:', error);
       });

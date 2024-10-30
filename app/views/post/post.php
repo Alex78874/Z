@@ -26,49 +26,53 @@
                     <button type="submit">Like</button>
                 </form>
 
-                <form method="post" action="<?= url("/post/reply") ?>" class="reply-form">
+                <form method="post" action="<?= url("/post/reply") ?>" class="parent-reply-form">
                     <input type="hidden" name="post_id" value="<?= htmlspecialchars($post['id']) ?>">
+                    <input type="hidden" name="parent_id" value="<?= htmlspecialchars($post['id']) ?>">
                     <textarea name="reply_content" placeholder="Répondre..." required></textarea>
                     <button type="submit">Répondre</button>
                 </form>
 
                 <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a>
             </div>
-            <hr>
-            <div class="comments">
-                <h3>Commentaires</h3>
-                <?php if (!empty($post['comments'])): ?>
-                    <?php foreach ($post['comments'] as $comment): ?>
+        </div>
 
-                        <!-- Pour debug -->
-                        <!-- <pre><?= json_encode($comment, JSON_PRETTY_PRINT) ?></pre> -->
+        <hr>
 
-                        <div class="comment" data-comment-id="<?= htmlspecialchars($comment['id']) ?>">
-                            <div class="comment-user">
-                                <strong><?= htmlspecialchars($comment['username']) ?></strong>
-                                <span class="comment-date"><?= htmlspecialchars($comment['publication_date']) ?></span>
-                            </div>
+        <h3>Commentaires</h3>
+        <div class="comments">
+            <?php if (!empty($post['comments'])): ?>
+                <?php foreach ($post['comments'] as $comment): ?>
 
-                            <div class="comment-content">
-                                <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
-                            </div>
+                    <!-- Pour debug -->
+                    <!-- <pre><?= json_encode($comment, JSON_PRETTY_PRINT) ?></pre> -->
 
-                            <div class="comment-footer">
-                                <span class="like-count"><?= htmlspecialchars($comment['like_count']) ?> Like(s)</span>
-                                <span class="reply-count"><?= htmlspecialchars($comment['comment_count']) ?> Réponse(s)</span>
-                                
-                                <form method="post" action="<?= url("/post/like") ?>" class="like-form">
-                                    <input type="hidden" name="post_id" value="<?= htmlspecialchars($comment['id']) ?>">
-                                    <button type="submit">Like</button>
-                                </form>
-                                <form method="post" action="<?= url("/post/reply") ?>" class="reply-form">
-                                    <input type="hidden" name="post_id" value="<?= htmlspecialchars($comment['id']) ?>">
-                                    <input type="hidden" name="parent_id" value="<?= htmlspecialchars($comment['parent_id']) ?>">
-                                    <textarea name="reply_content" placeholder="Répondre..." required></textarea>
-                                    <button type="submit">Répondre</button>
-                                </form>
+                    <div class="comment" data-comment-id="<?= htmlspecialchars($comment['id']) ?>">
+                        <div class="comment-user">
+                            <strong><?= htmlspecialchars($comment['username']) ?></strong>
+                            <span class="comment-date"><?= htmlspecialchars($comment['publication_date']) ?></span>
+                        </div>
 
-                                <a href="<?= url("/post/{$comment['id']}") ?>">Voir le post</a>
+                        <div class="comment-content">
+                            <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+                        </div>
+
+                        <div class="comment-footer">
+                            <span class="like-count"><?= htmlspecialchars($comment['like_count']) ?> Like(s)</span>
+                            <span class="reply-count"><?= htmlspecialchars($comment['comment_count']) ?> Réponse(s)</span>
+
+                            <form method="post" action="<?= url("/post/like") ?>" class="like-form">
+                                <input type="hidden" name="post_id" value="<?= htmlspecialchars($comment['id']) ?>">
+                                <button type="submit">Like</button>
+                            </form>
+                            <form method="post" action="<?= url("/post/reply") ?>" class="reply-form">
+                                <input type="hidden" name="post_id" value="<?= htmlspecialchars($comment['id']) ?>">
+                                <input type="hidden" name="parent_id" value="<?= htmlspecialchars($comment['parent_id']) ?>">
+                                <textarea name="reply_content" placeholder="Répondre..." required></textarea>
+                                <button type="submit">Répondre</button>
+                            </form>
+
+                            <a href="<?= url("/post/{$comment['id']}") ?>">Voir le post</a>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -83,3 +87,4 @@
 </div>
 
 <script src="../js/like_post.js"></script>
+<script src="../js/reply_to_post.js"></script>

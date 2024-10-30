@@ -15,20 +15,18 @@ document.addEventListener("DOMContentLoaded", function () {
       method: "POST",
       body: formData,
       headers: {
-        "X-Requested-With": "XMLHttpRequest", // Indique que c'est une requête AJAX
+        "X-Requested-With": "XMLHttpRequest"
       },
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Erreur lors de la requête");
         }
-        return response.json(); // Récupérer la réponse directement en JSON
+        return response.json();
       })
       .then((data) => {
         if (data.success) {
-          // Réinitialiser le formulaire
           form.reset();
-
           // Ajouter le nouveau post en haut de la liste des posts
           const postsContainer = document.querySelector(".posts-container");
           const newPost = createPostElement(data.post);
@@ -46,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(fetchNewPosts, 5000);
 
   function fetchNewPosts() {
-    // console.log("Fetching new posts...");
     const postsContainer = document.querySelector(".posts-container");
     const firstPost = postsContainer.querySelector(".post");
     const lastPostId = firstPost ? firstPost.getAttribute("data-post-id") : 0;
@@ -54,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("post?last_post_id=" + lastPostId, {
       method: "GET",
       headers: {
-        "X-Requested-With": "XMLHttpRequest",
+        "X-Requested-With": "XMLHttpRequest"
       },
     })
       .then((response) => {
@@ -63,17 +60,16 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.success && data.posts.length > 0) {
           data.posts.forEach((post) => {
-            // Vérifiez si le post est déjà dans le DOM
             if (!document.querySelector(`.post[data-post-id="${post.id}"]`)) {
               const newPost = createPostElement(post);
               postsContainer.insertAdjacentElement("afterbegin", newPost);
-              console.log("New post added:", post); // Debugging
+              // console.log("New post added:", post);
             } else {
-              console.log("Post already exists:", post.id); // Debugging
+              // console.log("Post already exists:", post.id);
             }
           });
         } else {
-          console.log("No new posts found or fetch unsuccessful."); // Debugging
+          // console.log("No new posts found or fetch unsuccessful.");
         }
       })
       .catch((error) => {
@@ -120,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <textarea name="reply_content" placeholder="Répondre..." required></textarea>
                     <button type="submit">Répondre</button>
                 </form>
+                <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a>
             </div>
             <hr>
         `;

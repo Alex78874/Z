@@ -137,26 +137,26 @@ class PostController
                 }
             }
 
-            // Get the raw POST data
-            $rawData = file_get_contents("php://input");
-            $postData = json_decode($rawData, true);
-
             $userId = $_SESSION['user']['id'];
-            $postId = $postData['post_id'] ?? null;
+            $data = json_decode(file_get_contents('php://input'), true);
+            $postId = $data['post_id'] ?? null;
 
             $userAlreadyLiked = $this->likeModel->hasUserLikedPost($userId, $postId);
 
             if ($postId && !$userAlreadyLiked) {
                 $success = $this->likeModel->addLike($userId, $postId);
+                $likeCount = $this->likeModel->getLikesCountByPostId($postId);
                 if ($success) {
                     if ($this->isAjaxRequest()) {
-                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès']);
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès', 'likeCount' => $likeCount]);
                         exit();
                     } else {
                         redirect('/');
                     }
                 } else {
                     if ($this->isAjaxRequest()) {
+                        header('Content-Type: application/json');
                         echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'ajout du like.']);
                         exit();
                     } else {
@@ -166,15 +166,18 @@ class PostController
             } elseif ($postId && $userAlreadyLiked) {
                 // Unlike post
                 $success = $this->likeModel->removeLike($userId, $postId);
+                $likeCount = $this->likeModel->getLikesCountByPostId($postId);
                 if ($success) {
                     if ($this->isAjaxRequest()) {
-                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès']);
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès', 'likeCount' => $likeCount]);
                         exit();
                     } else {
                         redirect('/');
                     }
                 } else {
                     if ($this->isAjaxRequest()) {
+                        header('Content-Type: application/json');
                         echo json_encode(['success' => false, 'message' => 'Erreur lors du retrait du like.']);
                         exit();
                     } else {
@@ -205,15 +208,31 @@ class PostController
             }
 
             $userId = $_SESSION['user']['id'];
-            $content = $_POST['reply_content'] ?? '';
-            $replyTo = $_POST['post_id'] ?? null;
-            $parentId = $_POST['parent_id'] ?? null;
+
+            if ($this->isAjaxRequest()) {
+                $inputData = json_decode(file_get_contents('php://input'), true);
+                $content = $inputData['reply_content'] ?? '';
+                $replyTo = $inputData['post_id'] ?? null;
+                $parentId = $inputData['parent_id'] ?? null;
+            } else {
+                $content = $_POST['reply_content'] ?? '';
+                $replyTo = $_POST['post_id'] ?? null;
+                $parentId = $_POST['parent_id'] ?? null;
+            }
 
             if (!empty(trim($content))) {
-                $success = $this->postModel->createReplyPost($userId, $content, $replyTo, $parentId);
-                if ($success) {
+                $reply = $this->postModel->createReplyPost($userId, $content, $replyTo, $parentId);
+                if ($reply) {
                     if ($this->isAjaxRequest()) {
-                        echo json_encode(['success' => true, 'message' => 'Réponse créée avec succès']);
+                        $comment = [
+                            'id' => $reply['id'],
+                            'username' => $this->userModel->getById($userId)['username'] ?? 'Utilisateur inconnu',
+                            'publication_date' => $reply['publication_date'],
+                            'content' => $reply['content'],
+                            'like_count' => 0,
+                            'comment_count' => 0,
+                        ];
+                        echo json_encode(['success' => true, 'message' => 'Réponse créée avec succès', 'comment' => $comment]);
                         exit();
                     } else {
                         redirect("/post/{$replyTo}");
