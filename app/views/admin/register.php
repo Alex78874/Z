@@ -1,8 +1,8 @@
-<h1>Inscription</h1>
+<h1>Ajouter compte Admin</h1>
 <div id="errorMessages" style="color: red;"></div>
 <form id="registerForm" method="post" action="<?= url(path: 'register') ?>">
     <fieldset>
-        <label for="username">Nom d'utilisateur :</label>
+        <label for="username">Nom de l'admin :</label>
         <input type="text" id="username" name="username" required minlength="3" maxlength="20" placeholder="Entrez votre nom d'utilisateur">
 
         <label for="email">Email :</label>
@@ -15,7 +15,5 @@
         <input type="password" id="confirm_password" name="confirm_password" required placeholder="Confirmez votre mot de passe">
     </fieldset>
 
-    <button type="submit">S'inscrire</button>
-
-    <p class="privacy-notice">En vous inscrivant, vous acceptez notre <a href="#">Politique de confidentialité</a>.</p>
+    <button type="submit">Ajouter</button>
 </form>
