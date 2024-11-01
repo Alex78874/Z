@@ -28,21 +28,21 @@ function url($path = ''): string
 }
 
 // Afficher une vue avec des données
-function view($view, $data = [], $layout = true): void
-{
-    // Extraire les variables pour les utiliser dans la vue
-    extract(array: $data);
+// function view($view, $data = [], $layout = true): void
+// {
+//     // Extraire les variables pour les utiliser dans la vue
+//     extract(array: $data);
 
-    if ($layout) {
-        // Inclure le header
-        include_once __DIR__ . '/../app/views/layouts/header.php';
-    }
-    include_once __DIR__ . '/../app/views/' . $view . '.php';
-    if ($layout) {
-        // Inclure le footer
-        include_once __DIR__ . '/../app/views/layouts/footer.php';
-    }
-}
+//     if ($layout) {
+//         // Inclure le header
+//         include_once __DIR__ . '/../app/views/layouts/header.php';
+//     }
+//     include_once __DIR__ . '/../app/views/' . $view . '.php';
+//     if ($layout) {
+//         // Inclure le footer
+//         include_once __DIR__ . '/../app/views/layouts/footer.php';
+//     }
+// }
 
 // Rediriger vers une URL
 function redirect($url): void

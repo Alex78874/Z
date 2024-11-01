@@ -1,6 +1,6 @@
 <?php
 
-class AuthController extends Controller
+class AdminAuthController extends Controller
 {
     protected $adminModel;
 
@@ -46,9 +46,9 @@ class AuthController extends Controller
             }
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $this->userModel->createUser($username, $email, $hashedPassword);
+            $this->adminModel->createUser($username, $email, $hashedPassword);
 
-            $this->redirect('/admin/login');
+            $this->redirect('admin/login');
         } else {
             $this->view('admin/register');
         }

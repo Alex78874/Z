@@ -1,6 +1,6 @@
 <?php
 
-class PostController
+class PostController extends Controller
 {
     private $postModel;
     private $userModel;
@@ -13,19 +13,11 @@ class PostController
         $this->likeModel = new Like();
     }
 
-    // Méthode pour vérifier si la requête est une requête AJAX
-    private function isAjaxRequest(): bool
-    {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
-    }
-
     // Méthode pour créer un nouveau post
     public function create(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+            $this->startSession();
 
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
@@ -122,9 +114,7 @@ class PostController
     public function like(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+            $this->startSession();
 
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
@@ -192,9 +182,7 @@ class PostController
     public function create_reply(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+            $this->startSession();
 
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
@@ -284,7 +272,7 @@ class PostController
             $data = [
                 'post' => $post,
             ];
-            view('post/post', $data);
+            $this->view('post/post', $data);
         } else {
             echo "Post non trouvé.";
         }
@@ -295,6 +283,6 @@ class PostController
     {
         $posts = $this->postModel->getPostsByUserId($userId);
         $user = $this->userModel->getById($userId);
-        view('post/user_posts', ['posts' => $posts, 'user' => $user]);
+        $this->view('post/user_posts', ['posts' => $posts, 'user' => $user]);
     }
 }

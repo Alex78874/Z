@@ -1,6 +1,6 @@
 <?php
 
-class HomeController
+class HomeController extends Controller
 {
     protected $userModel;
     protected $postModel;
@@ -35,6 +35,6 @@ class HomeController
         }
 
         // Appeler la vue avec les tweets préparés
-        view('home/index', ['title' => 'Accueil', 'posts' => $postsData]);
+        $this->view('home/index', ['title' => 'Accueil', 'posts' => $postsData]);
     }
 }
