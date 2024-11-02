@@ -1,5 +1,5 @@
 <h1>Connexion</h1>
-<form method="post" action="<?= url(path: 'login') ?>">
+<form method="post" action="<?= url(path: 'admin/login') ?>">
     <label for="email">Email :</label>
     <input type="email" id="email" name="email" required placeholder="Entrez votre adresse email">
 

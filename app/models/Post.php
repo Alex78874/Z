@@ -79,8 +79,8 @@ class Post extends Model {
     }
 
     public function deletePost($id): bool {
-        // Utilisation de la méthode `delete` de la classe parente pour supprimer un post
-        return $this->delete($id);
+        $stmt = $this->pdo->prepare('DELETE FROM Post WHERE id = :id');
+        return $stmt->execute(['id' => $id]);
     }
 
     public function incrementLikeCount($id): bool {

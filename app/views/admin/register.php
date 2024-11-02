@@ -1,6 +1,6 @@
 <h1>Ajouter compte Admin</h1>
 <div id="errorMessages" style="color: red;"></div>
-<form id="registerForm" method="post" action="<?= url(path: 'register') ?>">
+<form id="registerForm" method="post" action="<?= url(path: 'admin/register') ?>">
     <fieldset>
         <label for="username">Nom de l'admin :</label>
         <input type="text" id="username" name="username" required minlength="3" maxlength="20" placeholder="Entrez votre nom d'utilisateur">

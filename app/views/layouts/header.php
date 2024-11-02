@@ -15,7 +15,17 @@
         <nav>
             <ul>
                 <li><a href="<?= url('/'); ?>">Accueil</a></li>
-                <?php if (isset($_SESSION['user'])): ?>
+                <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                    <li>
+                        <a href="<?= url('admin/profile'); ?>">
+                            <img src="<?= htmlspecialchars($_SESSION['admin']['avatar']); ?>"
+                                alt="Avatar de <?= htmlspecialchars($_SESSION['admin']['username']); ?>"
+                                style="width:30px; height:30px; border-radius:50%;">
+                            <?= htmlspecialchars($_SESSION['admin']['username']); ?>
+                        </a>
+                    </li>
+                    <li><a href="<?= url('admin/logout'); ?>">Déconnexion</a></li>
+                <?php elseif (isset($_SESSION['user'])): ?>
                     <li>
                         <a href="<?= url('user/' . $_SESSION['user']['id']); ?>">
                             <img src="<?= htmlspecialchars($_SESSION['user']['avatar']); ?>"
@@ -34,4 +44,4 @@
     </header>
 
     <!-- Contenu principal -->
-    <main>
+    <main></main>

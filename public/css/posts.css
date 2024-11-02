@@ -2,3 +2,13 @@ body {
     background: #c7c7c7;
     color: rgb(32, 32, 32);
 }
+
+.btn-delete {
+    color: red;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.btn-delete:hover {
+    text-decoration: underline;
+}

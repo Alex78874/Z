@@ -3,11 +3,13 @@
 class AdminAuthController extends Controller
 {
     protected $adminModel;
+    protected $userModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->adminModel = new Admin();
+        $this->userModel = new User();
     }
 
     public function register(): void
@@ -46,7 +48,11 @@ class AdminAuthController extends Controller
             }
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $this->adminModel->createUser($username, $email, $hashedPassword);
+
+            // Créer le compte administrateur
+            $this->adminModel->createAdmin($username, $email, $hashedPassword);
+            // Créer le compte utilisateur correspondant
+            $this->userModel->createUser($username, $email, $hashedPassword);
 
             $this->redirect('admin/login');
         } else {
@@ -74,11 +80,11 @@ class AdminAuthController extends Controller
                 return;
             }
 
-            // Récupérer l'utilisateur par email
+            // Récupérer l'administrateur par email
             $admin = $this->adminModel->getUserByEmail($email);
 
             if ($admin && password_verify($password, $admin['password'])) {
-                // Authentification réussie
+                // Authentification administrateur réussie
                 $this->startSession();
                 $_SESSION['admin'] = [
                     'id' => $admin['id'],
@@ -87,6 +93,20 @@ class AdminAuthController extends Controller
                     'avatar' => $admin['avatar_url'] ?? "/../app/assets/images/default_avatar.png",
                     'registration_date' => $admin['registration_date'],
                 ];
+                $_SESSION['admin_logged_in'] = true;
+
+                // Connecter le compte utilisateur correspondant
+                $user = $this->userModel->getUserByEmail($email);
+                if ($user) {
+                    $_SESSION['user'] = [
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                        'email' => $user['email'],
+                        'avatar' => $user['avatar_url'] ?? "/../app/assets/images/default_avatar.png",
+                        'registration_date' => $user['registration_date'],
+                    ];
+                }
+
                 $this->redirect('/');
             } else {
                 // Authentification échouée
@@ -101,7 +121,10 @@ class AdminAuthController extends Controller
     public function logout(): void
     {
         $this->startSession();
-        $_SESSION = [];
+        unset($_SESSION['user']);
+        unset($_SESSION['admin']);
+        unset($_SESSION['admin_logged_in']);
+        session_unset();
         session_destroy();
         $this->redirect('/');
     }

@@ -102,6 +102,13 @@ return [
         'action' => 'logout',
     ],
 
+    // Route pour se déconnecter en tant qu'administrateur
+    [
+        'path' => 'admin/logout',
+        'controller' => 'AdminAuthController',
+        'action' => 'logout',
+    ],
+
     // Route pour récupérer un utilisateur
     [
         'path' => 'user/(\d+)', // URL avec un paramètre ID utilisateur
@@ -150,5 +157,23 @@ return [
         'controller' => 'PostController',
         'action' => 'create_reply',
         'methods' => ['POST'],
+    ],
+
+    // Route pour supprimer un post
+    [
+        'path' => 'post/delete/(\d+)',
+        'controller' => 'PostController',
+        'action' => 'delete',
+        'methods' => ['GET', 'POST'],
+        'params' => ['id'],
+    ],
+
+    // Route pour supprimer un post via AJAX
+    [
+        'path' => 'post/delete/(\d+)',
+        'controller' => 'PostController',
+        'action' => 'delete',
+        'methods' => ['DELETE'],
+        'params' => ['id'],
     ],
 ];

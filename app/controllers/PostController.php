@@ -285,4 +285,34 @@ class PostController extends Controller
         $user = $this->userModel->getById($userId);
         $this->view('post/user_posts', ['posts' => $posts, 'user' => $user]);
     }
+
+    public function delete($id): void
+    {
+        $this->startSession();
+        if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+            if ($this->isAjaxRequest()) {
+                echo json_encode(['success' => false, 'message' => 'Accès non autorisé.']);
+                exit();
+            } else {
+                $this->redirect('/admin/login');
+                exit();
+            }
+        }
+
+        $success = $this->postModel->deletePost($id);
+        if ($this->isAjaxRequest()) {
+            if ($success) {
+                echo json_encode(['success' => true, 'message' => 'Post supprimé avec succès.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Erreur lors de la suppression du post.']);
+            }
+            exit();
+        } else {
+            if ($success) {
+                $this->redirect('/');
+            } else {
+                echo "Erreur lors de la suppression du post.";
+            }
+        }
+    }
 }

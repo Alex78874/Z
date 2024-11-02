@@ -7,16 +7,15 @@
         <!-- <pre><?= json_encode($post, JSON_PRETTY_PRINT) ?></pre> -->
 
         <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>">
-            <div class="post-header"></div>
-            <div class="post-user">
-                <strong><?= htmlspecialchars($post['username']) ?></strong>
-                <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span>
+            <div class="post-header">
+                <div class="post-user">
+                    <strong><?= htmlspecialchars($post['username']) ?></strong>
+                    <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span>
+                </div>
             </div>
-
             <div class="post-content">
                 <p><?= nl2br(htmlspecialchars($post['content'])) ?></p>
             </div>
-
             <div class="post-footer">
                 <span class="like-count"><?= htmlspecialchars($post['like_count']) ?> Like(s)</span>
                 <span class="comment-count"><?= htmlspecialchars($post['comment_count']) ?> Commentaire(s)</span>
@@ -34,6 +33,11 @@
                 </form>
 
                 <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a>
+
+                <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                    <!-- <a href="<?= url('post/delete/' . $post['id']); ?>" class="btn-delete">Supprimer le post</a> -->
+                    <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($post['id']); ?>">Supprimer le post</button>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -88,3 +92,4 @@
 
 <script src="../js/like_post.js"></script>
 <script src="../js/reply_to_post.js"></script>
+<script src="../js/delete_post.js"></script>

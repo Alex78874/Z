@@ -49,6 +49,12 @@
 
                     <!-- Bouton pour afficher le post -->
                     <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a>
+
+                    <!-- Autres actions (like, commenter, etc.) -->
+                    <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                        <!-- <a href="<?= url('post/delete/' . $post['id']); ?>" class="btn-delete">Supprimer le post</a> -->
+                        <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($post['id']); ?>">Supprimer le post</button>
+                    <?php endif; ?>
                 </div>
             </div>
             <hr>
@@ -60,3 +66,4 @@
 
 <script src="../js/create_post.js"></script>
 <script src="../js/like_post.js"></script>
+<script src="<?= url('js/delete_post.js') ?>"></script>
