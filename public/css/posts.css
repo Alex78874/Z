@@ -12,3 +12,32 @@ body {
 .btn-delete:hover {
     text-decoration: underline;
 }
+
+.post-createresponse {
+    padding:8px;
+    border: 1px solid black;
+    margin-top:8px;
+
+}
+
+.parent-reply-form {
+    display:flex;
+    flex-direction: column;
+    gap:8px;
+}
+
+.post {
+    border:1px solid black;
+    width:100%;
+    padding:4Px;
+
+}
+
+.post>* {
+    flex:1;
+}
+
+.post-footer {
+    display:flex;
+    justify-content: space-between;
+}

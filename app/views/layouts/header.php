@@ -7,11 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="<?= url('images/favicon.ico'); ?>">
     <link rel="stylesheet" href="<?= url('css/header.css'); ?>">
+    <link rel="stylesheet" href="../css/posts.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/home.css">
 </head>
 
 <body>
     <!-- Navigation principale -->
-    <header>
+    <header class="nav">
         <nav>
             <ul>
                 <li><a href="<?= url('/'); ?>">Accueil</a></li>
@@ -29,9 +32,10 @@
                     <li>
                         <a href="<?= url('user/' . $_SESSION['user']['id']); ?>">
                             <img src="<?= htmlspecialchars($_SESSION['user']['avatar']); ?>"
-                                alt="Avatar de <?= htmlspecialchars($_SESSION['user']['username']); ?>"
+                                alt=""
                                 style="width:30px; height:30px; border-radius:50%;">
-                            <?= htmlspecialchars($_SESSION['user']['username']); ?>
+                                Profile
+
                         </a>
                     </li>
                     <li><a href="<?= url('logout'); ?>">Déconnexion</a></li>
@@ -44,4 +48,4 @@
     </header>
 
     <!-- Contenu principal -->
-    <main></main>
+    <main>

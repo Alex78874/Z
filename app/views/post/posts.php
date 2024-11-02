@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="../css/posts.css">
 
 <div class="create-post">
     <h2>Créer un nouveau post</h2>
@@ -36,19 +35,19 @@
                     <!-- Formulaire pour liker un post -->
                     <form method="post" action="<?= url("/post/like") ?>" class="like-form">
                         <input type="hidden" name="post_id" value="<?= htmlspecialchars($post['id']) ?>">
-                        <button type="submit">Like</button>
+                        <button type="submit">J'aime ce post</button>
                     </form>
 
                     <!-- Bouton pour répondre à un post -->
-                    <form method="post" action="<?= url("/post/reply") ?>" class="reply-form">
+                    <!-- <form method="post" action="<?= url("/post/reply") ?>" class="reply-form">
                         <input type="hidden" name="post_id" value="<?= htmlspecialchars($post['id']) ?>">
                         <input type="hidden" name="parent_id" value="<?= htmlspecialchars($post['id']) ?>">
                         <textarea name="reply_content" placeholder="Répondre..." required></textarea>
                         <button type="submit">Répondre</button>
-                    </form>
+                    </form> -->
 
                     <!-- Bouton pour afficher le post -->
-                    <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a>
+                    <!-- <a href="<?= url("/post/{$post['id']}") ?>">Voir le post</a> -->
 
                     <!-- Autres actions (like, commenter, etc.) -->
                     <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
