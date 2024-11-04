@@ -1,15 +1,31 @@
-/* body {
-    background: #ffffff;
-    color: white;
-} */
+a:visited { text-decoration: none; color:rgb(255, 255, 255); }
+a:hover { text-decoration: none; color:rgb(255, 255, 255); }
+a:focus { text-decoration: none; color:rgb(255, 255, 255); }
+a:hover, a:active { text-decoration: none; color:rgb(255, 255, 255) }
+
+/* Make mediaqueries for the navbar for phone here */
+@media (max-width: 768px) {
+    nav {
+        position:fixed;
+        bottom:0;
+        
+        font-size: 18px;
+        display: flex;
+        flex-direction: row;
+    }
+}
 
 nav {
-    position:fixed;
-    bottom:0;
     width:100vw;
-    border: 1px solid black;
+    border: 1px solid rgb(45, 45, 45);
     font-size:22px;
-    background-color: white;
+    background-color: #0F1113;
+}
+
+.nav-links {
+    display:flex;
+    justify-content: space-around;
+    width:100%;
 }
 
 nav ul {
@@ -20,7 +36,7 @@ nav ul {
     display:flex;
     justify-content: space-around;
     width:100%;
-    padding:16px 0;
+    padding:10px 0;
 }
 
 nav ul li,li>a {
