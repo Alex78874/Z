@@ -15,6 +15,7 @@
         <!-- <?= "<pre>" . json_encode($posts, JSON_PRETTY_PRINT) . "</pre>" ?> -->
 
         <?php foreach ($posts as $post): ?>
+            <hr class="post-separator">
             <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>"> <!-- Ajout de l'attribut data-post-id -->
                 <div class="post-header">
                     <div class="post-user">
@@ -56,7 +57,6 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <hr>
         <?php endforeach; ?>
     <?php else: ?>
         <p>Aucun post à afficher.</p>

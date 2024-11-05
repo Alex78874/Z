@@ -21,11 +21,42 @@
     gap:8px;
 }
 
-.post {
-    border:1px solid black;
-    width:100%;
-    padding:4Px;
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:50%
+}
 
+.post {
+    border-radius: 14px;
+    width: 100%;
+}
+.post-header, .post-content, .post-footer {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.post-header {
+    display:flex;
+    justify-content: left;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    gap: 8px;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    gap: 8px;
+}
+
+.post:hover {
+    background-color: #2B3236;
 }
 
 .post>* {
@@ -33,7 +64,16 @@
     color: white;
 }
 
-.post-footer {
-    display:flex;
-    justify-content: space-between;
+.post-separator {
+    width: 100%;
+    margin: 10px 0;
+    border: 0.5px solid rgb(45, 45, 45);
+    border-radius: 1px;
+}
+
+/* Make mediaqueries for the navbar for phone here */
+@media (max-width: 768px) {
+    .posts-container {
+        width:320px;
+    }
 }
