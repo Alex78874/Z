@@ -84,10 +84,9 @@ class AuthController extends Controller
                     'id' => $user['id'],
                     'username' => $user['username'],
                     'email' => $user['email'],
-                    'avatar' => $user['avatar_url'] ?? "images/avatar.png",
+                    'avatar' => $user['avatar_url'] ?? url("images/avatar.png"),
                     'registration_date' => $user['registration_date'],
                 ];
-                var_dump(__DIR__);
                 $this->redirect('/');
             } else {
                 // Authentification échouée

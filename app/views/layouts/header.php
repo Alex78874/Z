@@ -44,10 +44,12 @@
                     <div class="nav-user">
                         <div class="nav-profile">
                             <a href="<?= url('user/' . $_SESSION['user']['id']); ?>">
-                                <?= htmlspecialchars($_SESSION['user']['username']); ?>
+                                <p>
+                                    <?= htmlspecialchars($_SESSION['user']['username']); ?>
+                                </p>
+                                <img src="<?= htmlspecialchars($_SESSION['user']['avatar']); ?>"
+                                    alt="Avatar de <?= htmlspecialchars($_SESSION['user']['username']); ?>">
                             </a>
-                            <img src="<?= htmlspecialchars($_SESSION['user']['avatar']); ?>"
-                                alt="Avatar de <?= htmlspecialchars($_SESSION['user']['username']); ?>">
                         </div>
 
                         <div class="nav-logout">

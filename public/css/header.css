@@ -36,8 +36,10 @@ input:focus {
 }
 
 nav {
+    position: fixed;
+    top: 0;
     width: 100vw;
-    height: 50px;
+    height: 55px;
     border-bottom: 1px solid rgb(45, 45, 45);
     font-size: 22px;
     background-color: #0F1113;
@@ -90,6 +92,7 @@ nav {
     background-color: #2B3236;
     text-decoration: none;
     border-radius: 18px;
+    transition: background-color 0.1s;
 }
 
 .nav-search svg {
@@ -119,6 +122,10 @@ nav {
 
 .nav-search input::placeholder {
     color: #8BA2AD;
+}
+
+.nav-search:hover {
+    background-color: #3a4247;
 }
 
 .nav-login {
@@ -160,6 +167,7 @@ nav {
 }
 
 .nav-user {
+    overflow: hidden;
     height: 100%;
     font-size: 15px;
     gap: 20px;
@@ -173,16 +181,39 @@ nav {
 }
 
 .nav-profile {
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     vertical-align: middle;
+    border-radius: 2px;
+    background-color: #2B3236;
+    padding-left: 12px;
+    transition: background-color 0.1s;
+}
+
+.nav-profile:hover {
+    background-color: #3a4247;
+}
+
+.nav-profile a {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    flex-direction: row;
     gap: 15px;
 }
 
+.nav-profile p {
+    overflow: hidden;
+    color: white;
+}
+
 .nav-profile img {
-    display: flex;
-    width: 40px;
+    width: 45px;
+    padding-right: 2px;
 }
 
 .nav-logout {
@@ -191,6 +222,7 @@ nav {
     justify-content: center;
     align-items: center;
     vertical-align: middle;
+    transition: background-color 0.1s;
 }
 .nav-logout svg {
     justify-content: center;
@@ -199,17 +231,12 @@ nav {
     width: 30px;
     height: 30px;
 }
+.nav-logout:hover {
+    background-color: #3a4247;
+}
 
 /* Make mediaqueries for the navbar for phone here */
 @media (max-width: 768px) {
-    nav {
-        position: fixed;
-        bottom: 0;
-        font-size: 18px;
-        display: flex;
-        flex-direction: row;
-    }
-
     .nav-search {
         display: none;
     }

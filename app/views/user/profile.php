@@ -3,7 +3,7 @@
     <main>
         <section class="profile">
             <div class="profile-header">
-                <img src="<?= htmlspecialchars($user['avatar_url']); ?>"
+                <img style="width: 100px;" src="<?= htmlspecialchars($user['avatar_url'] ?? url('images/avatar.png')); ?>"
                     alt="Avatar de <?= htmlspecialchars($user['username']); ?>"">
                 <h1><?= htmlspecialchars($user['username']); ?></h1>
                 <p>Email : <?= htmlspecialchars($user['email']); ?></p>
