@@ -4,8 +4,7 @@
         <section class="profile">
             <div class="profile-header">
                 <img src="<?= htmlspecialchars($admin['avatar_url']); ?>"
-                    alt="Avatar de <?= htmlspecialchars($admin['username']); ?>"
-                    style="width: 100px; height: 100px; border-radius: 50%;">
+                    alt="Avatar de <?= htmlspecialchars($admin['username']); ?>">
                 <h1><?= htmlspecialchars($admin['username']); ?></h1>
                 <p>Email : <?= htmlspecialchars($admin['email']); ?></p>
             </div>
