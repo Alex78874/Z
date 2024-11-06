@@ -1,8 +1,18 @@
 <div class="create-post">
     <h2>Créer un nouveau post</h2>
-    <form id="create-post-form" method="post" action="post">
+    <form class="create-post-form" id="create-post-form" method="post" action="post" enctype="multipart/form-data">
         <textarea name="content" placeholder="Quoi de neuf ?" required></textarea>
-        <button type="submit">Publier</button>
+        <div class="create-post-form-footer">
+            <button type="submit">Publier</button>
+            <label for="attachment" class="attachment-label">
+                <input type="file" id="attachment" name="attachment" accept="image/*" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-paperclip" viewBox="0 0 16 16">
+                    <path
+                        d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z" />
+                </svg>
+            </label>
+        </div>
     </form>
 </div>
 
@@ -19,7 +29,8 @@
             <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>"> <!-- Ajout de l'attribut data-post-id -->
                 <div class="post-header">
                     <div class="post-user">
-                        <img class="post-avatar" src="<?= htmlspecialchars($post['user_avatar']) ?>" alt="Avatar de l'utilisateur">
+                        <img class="post-avatar" src="<?= htmlspecialchars($post['user_avatar']) ?>"
+                            alt="Avatar de l'utilisateur">
                         <strong><?= htmlspecialchars($post['username']) ?></strong> <!-- Nom de l'utilisateur -->
                         <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span>
                         <!-- Date de publication -->
@@ -27,6 +38,10 @@
                 </div>
                 <div class="post-content">
                     <p><?= nl2br(htmlspecialchars($post['content'])) ?></p> <!-- Contenu du post -->
+                    <?php if ($post['attachment']): ?>
+                        <img class="post-attachment" src="<?= htmlspecialchars($post['attachment']) ?>"
+                            alt="Image attachée au post">
+                    <?php endif; ?>
                 </div>
 
                 <div class="post-footer">
@@ -93,6 +108,6 @@
     <?php endif; ?>
 </div>
 
-<script src="../js/create_post.js"></script>
-<script src="../js/like_post.js"></script>
-<script src="<?= url('js/delete_post.js') ?>"></script>
+<script src="../js/create_post.js" type="module"></script>
+<script src="../js/like_post.js" type="module"></script>
+<script src="../js/delete_post.js"></script>

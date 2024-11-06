@@ -95,6 +95,6 @@
     <?php endif; ?>
 </div>
 
-<script src="../js/like_post.js"></script>
+<script src="../js/like_post.js" type="module"></script>
 <script src="../js/reply_to_post.js"></script>
 <script src="../js/delete_post.js"></script>

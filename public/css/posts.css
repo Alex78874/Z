@@ -8,11 +8,91 @@
     text-decoration: underline;
 }
 
+.create-post {
+    width: 40%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.create-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.create-post-form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.attachment-label {
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #2B3236;
+}
+.attachment-label svg {
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-post h2 {
+    font-size: 30px;
+    font-weight: 500;
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.create-post button, p, a, input, textarea {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.create-post button {
+    font-size: 20px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+    background-color: #2B3236;
+    color: white;
+    cursor: pointer;
+}
+
+.create-post button:hover {
+    background-color: #3a4247;
+}
+
+.create-post input {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+
+.create-post .attachment-label:hover {
+    cursor: pointer;
+}
+
+.create-post textarea {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+    resize: none;
+}
+
 .post-createresponse {
     padding:8px;
     border: 1px solid black;
     margin-top:8px;
-
 }
 
 .parent-reply-form {
@@ -26,7 +106,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width:50%
+    width:40%
 }
 
 .post {
@@ -39,6 +119,7 @@
     font-optical-sizing: auto;
     font-style: normal;
 }
+
 .post-header, .post-content, .post-footer {
     padding-left: 8px;
     padding-right: 8px;
@@ -48,8 +129,13 @@
     justify-content: left;
     align-items: center;
     padding-top: 5px;
-    padding-bottom: 5px;
     gap: 8px;
+}
+
+.post-content p {
+    font-size: 20px;
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
 
 .post-footer {
@@ -62,7 +148,7 @@
 }
 
 .post:hover {
-    background-color: #4a5053;
+    background-color: #181C1F;
     cursor: pointer;
 }
 
@@ -86,6 +172,10 @@
     background-color: #2B3236;
     border-radius: 18px;
     gap: 4px;
+}
+
+.post-like:hover {
+    background-color: #3a4247;
 }
 
 .like-button {
@@ -112,6 +202,10 @@
     gap: 4px;
 }
 
+.post-comment-count:hover {
+    background-color: #3a4247;
+}
+
 .comment-button {
     display: flex;
     align-items: center;
@@ -126,9 +220,22 @@
     height: 18px;
 }
 
-.post-avatar img {
+.post-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-avatar {
     width: 30px;
-    border-radius: 50%;
+}
+
+.post-attachment {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 14px;
+    padding-bottom: 10px;
 }
 
 /* Make mediaqueries for the navbar for phone here */

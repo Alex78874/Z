@@ -33,12 +33,13 @@ class HomeController extends Controller
             $postsData[] = [
                 'id' => $post['id'],
                 'username' => $user['username'] ?? 'Utilisateur inconnu',
-                'user_avatar' => $user['avatar'] ?? '',
+                'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                 'publication_date' => $post['publication_date'],
                 'content' => $post['content'],
                 'like_count' => $like_count,
                 'comment_count' => $comment_count,
-                'liked' => $liked
+                'liked' => $liked,
+                'attachment' => $post['attachment'] ?? null
             ];
         }
 

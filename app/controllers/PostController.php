@@ -32,9 +32,29 @@ class PostController extends Controller
 
             $userId = $_SESSION['user']['id'];
             $content = $_POST['content'] ?? '';
+            $attachmentPath = null;
+
+            // Vérifier si un fichier a été téléchargé sans erreur
+            if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES['attachment']['tmp_name'];
+                $fileType = mime_content_type($fileTmpPath);
+
+                // Types MIME autorisés
+                $allowedMimeTypes = ['image/webp'];
+                if (in_array($fileType, $allowedMimeTypes)) {
+                    $uploadDir = __DIR__ . '/../../public/images/';
+                    // Générer un nom de fichier unique
+                    $newFileName = uniqid('img_') . '.webp';
+                    $destPath = $uploadDir . $newFileName;
+
+                    if (move_uploaded_file($fileTmpPath, $destPath)) {
+                        $attachmentPath = '/images/' . $newFileName;
+                    }
+                }
+            }
 
             if (!empty(trim($content))) {
-                $success = $this->postModel->createPost($userId, $content);
+                $success = $this->postModel->createPost($userId, $content, $attachmentPath);
                 if ($success) {
                     $newPost = $this->postModel->getLastInsertedPost();
                     $user = $this->userModel->getById($userId);
@@ -45,11 +65,12 @@ class PostController extends Controller
                     $postData = [
                         'id' => $newPost['id'],
                         'username' => $user['username'] ?? 'Utilisateur inconnu',
-                        'user_avatar' => $user['avatar'] ?? '',
+                        'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                         'publication_date' => $newPost['publication_date'],
                         'content' => $newPost['content'],
                         'comment_count' => $comment_count,
-                        'like_count' => $like_count
+                        'like_count' => $like_count,
+                        'attachment' => $newPost['attachment']
                     ];
 
                     if ($this->isAjaxRequest()) {
@@ -97,12 +118,13 @@ class PostController extends Controller
                 $postsData[] = [
                     'id' => $post['id'],
                     'username' => $user['username'] ?? 'Utilisateur inconnu',
-                    'user_avatar' => $user['avatar'] ?? '',
+                    'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                     'publication_date' => $post['publication_date'],
                     'content' => $post['content'],
                     'like_count' => $like_count,
                     'comment_count' => $comment_count,
-                    'liked' => $liked
+                    'liked' => $liked,
+                    'attachment' => $post['attachment']
                 ];
             }
 
@@ -220,11 +242,13 @@ class PostController extends Controller
                         $comment = [
                             'id' => $reply['id'],
                             'username' => $user['username'] ?? 'Utilisateur inconnu',
-                            'user_avatar' => $user['avatar'] ?? '',
+                            'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                             'publication_date' => $reply['publication_date'],
                             'content' => $reply['content'],
                             'like_count' => 0,
                             'comment_count' => 0,
+                            'liked' => false,
+                            'attachment' => $reply['attachment']
                         ];
                         echo json_encode(['success' => true, 'message' => 'Réponse créée avec succès', 'comment' => $comment]);
                         exit();
@@ -262,7 +286,7 @@ class PostController extends Controller
         if ($post) {
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
-            $post['user_avatar'] = $user['avatar'] ?? '';
+            $post['user_avatar'] = $user['avatar_url'] ?? 'images/avatar.png';
             $post['comment_count'] = $comment_count;
             $post['like_count'] = $like_count;
             $post['liked'] = $liked;
@@ -274,7 +298,7 @@ class PostController extends Controller
                 $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $comment['id']);
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
-                $comment['user_avatar'] = $user['avatar'] ?? '';
+                $comment['user_avatar'] = $user['avatar_url'] ?? 'images/avatar.png';
                 $comment['comment_count'] = $comment_count;
                 $comment['like_count'] = $like_count;
                 $comment['liked'] = $liked;

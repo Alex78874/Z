@@ -7,12 +7,13 @@ class Post extends Model {
         parent::__construct(); // Appel au constructeur de la classe parente
     }
 
-    public function createPost($userId, $content): bool {
+    public function createPost($userId, $content, $attachementPath): bool {
         // Utilisation de la méthode `create` de la classe parente pour insérer un post
         return $this->create([
             'user_id' => $userId,
             'content' => $content,
             'publication_date' => date('Y-m-d H:i:s'),
+            'attachment' => $attachementPath
         ]);
     }
 
