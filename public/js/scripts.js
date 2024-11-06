@@ -12,7 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-$("#scrollup").click(function () {
-  $("html, body").animate({ scrollTop: 0 }, "slow");
-  return false;
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollUpButton = document.querySelector('.button-scroll-up');
+  scrollUpButton.addEventListener('click', function() {
+      window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+      });
+  });
 });

@@ -32,6 +32,12 @@
 .post {
     border-radius: 14px;
     width: 100%;
+    transition: background-color 0.1s;
+}
+.post p, span, strong {
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 .post-header, .post-content, .post-footer {
     padding-left: 8px;
@@ -56,7 +62,8 @@
 }
 
 .post:hover {
-    background-color: #2B3236;
+    background-color: #4a5053;
+    cursor: pointer;
 }
 
 .post>* {
@@ -69,6 +76,59 @@
     margin: 10px 0;
     border: 0.5px solid rgb(45, 45, 45);
     border-radius: 1px;
+}
+
+.post-like {
+    display: flex;
+    align-items: center;
+    padding: 7px;
+    padding-right: 16px;
+    background-color: #2B3236;
+    border-radius: 18px;
+    gap: 4px;
+}
+
+.like-button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.like-button svg {
+    color: white;
+    width: 18px;
+    height: 18px;
+}
+
+.post-comment-count {
+    display: flex;
+    align-items: center;
+    padding: 7px;
+    padding-right: 16px;
+    background-color: #2B3236;
+    border-radius: 18px;
+    gap: 4px;
+}
+
+.comment-button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.comment-button svg {
+    color: white;
+    width: 18px;
+    height: 18px;
+}
+
+.post-avatar img {
+    width: 30px;
+    border-radius: 50%;
 }
 
 /* Make mediaqueries for the navbar for phone here */

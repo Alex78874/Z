@@ -29,11 +29,18 @@ main {
     transition: background-color 0.1s;
 }
 
+.scroll-up button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
 .scroll-up:hover {
     background-color: #2B3236;
 }
 
 .scroll-up svg {
+    color: white;
     width: 20px;
     height: 20px;
 }

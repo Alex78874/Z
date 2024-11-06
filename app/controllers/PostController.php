@@ -45,6 +45,7 @@ class PostController extends Controller
                     $postData = [
                         'id' => $newPost['id'],
                         'username' => $user['username'] ?? 'Utilisateur inconnu',
+                        'user_avatar' => $user['avatar'] ?? '',
                         'publication_date' => $newPost['publication_date'],
                         'content' => $newPost['content'],
                         'comment_count' => $comment_count,
@@ -91,14 +92,17 @@ class PostController extends Controller
                 $user = $this->userModel->getById($post['user_id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
                 $comment_count = $this->postModel->getCommentCountParent($post['id']);
+                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
 
                 $postsData[] = [
                     'id' => $post['id'],
                     'username' => $user['username'] ?? 'Utilisateur inconnu',
+                    'user_avatar' => $user['avatar'] ?? '',
                     'publication_date' => $post['publication_date'],
                     'content' => $post['content'],
                     'like_count' => $like_count,
                     'comment_count' => $comment_count,
+                    'liked' => $liked
                 ];
             }
 
@@ -139,7 +143,7 @@ class PostController extends Controller
                 if ($success) {
                     if ($this->isAjaxRequest()) {
                         header('Content-Type: application/json');
-                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès', 'likeCount' => $likeCount]);
+                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès', 'liked' => true, 'likeCount' => $likeCount]);
                         exit();
                     } else {
                         redirect('/');
@@ -160,7 +164,7 @@ class PostController extends Controller
                 if ($success) {
                     if ($this->isAjaxRequest()) {
                         header('Content-Type: application/json');
-                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès', 'likeCount' => $likeCount]);
+                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès', 'liked' => false, 'likeCount' => $likeCount]);
                         exit();
                     } else {
                         redirect('/');
@@ -212,9 +216,11 @@ class PostController extends Controller
                 $reply = $this->postModel->createReplyPost($userId, $content, $replyTo, $parentId);
                 if ($reply) {
                     if ($this->isAjaxRequest()) {
+                        $user = $this->userModel->getById($userId);
                         $comment = [
                             'id' => $reply['id'],
-                            'username' => $this->userModel->getById($userId)['username'] ?? 'Utilisateur inconnu',
+                            'username' => $user['username'] ?? 'Utilisateur inconnu',
+                            'user_avatar' => $user['avatar'] ?? '',
                             'publication_date' => $reply['publication_date'],
                             'content' => $reply['content'],
                             'like_count' => 0,
@@ -251,21 +257,27 @@ class PostController extends Controller
         $comment_count = $this->postModel->getCommentCount($id);
         $comments = $this->postModel->getComments($id);
         $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
+        $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
 
         if ($post) {
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
+            $post['user_avatar'] = $user['avatar'] ?? '';
             $post['comment_count'] = $comment_count;
             $post['like_count'] = $like_count;
+            $post['liked'] = $liked;
 
             $post['comments'] = array_map(function ($comment) {
                 $user = $this->userModel->getById($comment['user_id']);
                 $comment_count = $this->postModel->getCommentCount($comment['id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($comment['id']);
+                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $comment['id']);
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
+                $comment['user_avatar'] = $user['avatar'] ?? '';
                 $comment['comment_count'] = $comment_count;
                 $comment['like_count'] = $like_count;
+                $comment['liked'] = $liked;
                 return $comment;
             }, $comments);
 

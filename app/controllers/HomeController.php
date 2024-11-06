@@ -23,14 +23,22 @@ class HomeController extends Controller
             $user = $this->userModel->getById($post['user_id']);
             $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
             $comment_count = $this->postModel->getCommentCountParent($post['id']);
-            
+
+            if ($_SESSION['user'] ?? false) {
+                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+            } else {
+                $liked = false;
+            }
+                
             $postsData[] = [
                 'id' => $post['id'],
                 'username' => $user['username'] ?? 'Utilisateur inconnu',
+                'user_avatar' => $user['avatar'] ?? '',
                 'publication_date' => $post['publication_date'],
                 'content' => $post['content'],
                 'like_count' => $like_count,
                 'comment_count' => $comment_count,
+                'liked' => $liked
             ];
         }
 

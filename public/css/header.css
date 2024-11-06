@@ -25,6 +25,8 @@ a:active {
 
 a,
 p,
+span,
+strong
 input {
     font-family: "Reddit Sans", sans-serif;
     font-optical-sizing: auto;
