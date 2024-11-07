@@ -233,9 +233,6 @@ nav {
     width: 30px;
     height: 30px;
 }
-.nav-logout:hover {
-    background-color: #3a4247;
-}
 
 /* Make mediaqueries for the navbar for phone here */
 @media (max-width: 768px) {
