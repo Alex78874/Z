@@ -7,12 +7,13 @@ class Post extends Model {
         parent::__construct(); // Appel au constructeur de la classe parente
     }
 
-    public function createPost($userId, $content): bool {
+    public function createPost($userId, $content, $attachementPath): bool {
         // Utilisation de la méthode `create` de la classe parente pour insérer un post
         return $this->create([
             'user_id' => $userId,
             'content' => $content,
             'publication_date' => date('Y-m-d H:i:s'),
+            'attachment' => $attachementPath
         ]);
     }
 
@@ -79,8 +80,8 @@ class Post extends Model {
     }
 
     public function deletePost($id): bool {
-        // Utilisation de la méthode `delete` de la classe parente pour supprimer un post
-        return $this->delete($id);
+        $stmt = $this->pdo->prepare('DELETE FROM Post WHERE id = :id');
+        return $stmt->execute(['id' => $id]);
     }
 
     public function incrementLikeCount($id): bool {

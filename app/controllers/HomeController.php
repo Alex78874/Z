@@ -1,6 +1,6 @@
 <?php
 
-class HomeController
+class HomeController extends Controller
 {
     protected $userModel;
     protected $postModel;
@@ -23,18 +23,27 @@ class HomeController
             $user = $this->userModel->getById($post['user_id']);
             $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
             $comment_count = $this->postModel->getCommentCountParent($post['id']);
-            
+
+            if ($_SESSION['user'] ?? false) {
+                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+            } else {
+                $liked = false;
+            }
+                
             $postsData[] = [
                 'id' => $post['id'],
                 'username' => $user['username'] ?? 'Utilisateur inconnu',
+                'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                 'publication_date' => $post['publication_date'],
                 'content' => $post['content'],
                 'like_count' => $like_count,
                 'comment_count' => $comment_count,
+                'liked' => $liked,
+                'attachment' => $post['attachment'] ?? null
             ];
         }
 
         // Appeler la vue avec les tweets préparés
-        view('home/index', ['title' => 'Accueil', 'posts' => $postsData]);
+        $this->view('home/index', ['title' => 'Accueil', 'posts' => $postsData]);
     }
 }

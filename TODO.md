@@ -12,9 +12,9 @@
   - [X] Ajout de commentaire a un post
   - [X] Ajout pouvoir like un post
   - [ ] Ajout pouvoir rajouter une image
+- [ ] Randomiser avatar
+- [ ] CSS Page profile
+- [ ] CSS Page Post
+- [ ] Barre de recherche
 
 ## Notes
-
-<https://codepen.io/jouanmarcel/pen/RwweKqb>
-
-- Considéré un commentaire de post comme un autre post, et pouvoir retrouvé le parent le plus haut de ce post

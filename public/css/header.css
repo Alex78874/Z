@@ -1,4 +1,242 @@
-/* body {
-    background: #ffffff;
+a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+a:visited {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+a:hover {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+a:focus {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+a:active {
+    text-decoration: none;
+    color: rgb(255, 255, 255)
+}
+
+a,
+p,
+span,
+strong
+input {
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+input:focus {
+    outline-width: 0;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 55px;
+    border-bottom: 1px solid rgb(45, 45, 45);
+    font-size: 22px;
+    background-color: #0F1113;
+    vertical-align: middle;
+}
+
+.nav-links {
+    display: flex;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    height: 100%;
+    align-items: center;
+}
+
+.nav-links:first-child>div {
+    flex: 1;
+    flex-basis: 0;
+}
+
+.nav-links:last-child>div {
+    flex-basis: 0;
+}
+
+.nav-home {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
     color: white;
-} */
+    text-decoration: none;
+}
+
+.nav-home img {
+    vertical-align: middle;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.nav-search {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    vertical-align: middle;
+    width: 25%;
+    height: 35px;
+    color: white;
+    background-color: #2B3236;
+    text-decoration: none;
+    border-radius: 18px;
+    transition: background-color 0.1s;
+}
+
+.nav-search svg {
+    width: 20px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+
+.nav-search form {
+    display: flex;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+
+.nav-search input {
+    display: flex;
+    width: 80%;
+    background: none;
+    border: none;
+    color: white;
+}
+
+.nav-search input::placeholder {
+    color: #8BA2AD;
+}
+
+.nav-search:hover {
+    background-color: #3a4247;
+}
+
+.nav-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    background-color: #979797;
+    padding: 10px;
+
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+}
+
+.nav-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    background-color: #D93900;
+    padding: 10px;
+
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+}
+
+.nav-connection {
+    height: 100%;
+    font-size: 15px;
+    gap: 4px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: fit-content;
+    color: white;
+    text-decoration: none
+}
+
+.nav-user {
+    overflow: hidden;
+    height: 100%;
+    font-size: 15px;
+    gap: 20px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    vertical-align: middle;
+    width: fit-content;
+    color: white;
+    text-decoration: none
+}
+
+.nav-profile {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    border-radius: 2px;
+    background-color: #2B3236;
+    padding-left: 12px;
+    transition: background-color 0.1s;
+}
+
+.nav-profile:hover {
+    background-color: #3a4247;
+}
+
+.nav-profile a {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.nav-profile p {
+    overflow: hidden;
+    color: white;
+}
+
+.nav-profile img {
+    width: 45px;
+    padding-right: 2px;
+}
+
+.nav-logout {
+    display: flex;
+    margin-right: 15px;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    transition: background-color 0.1s;
+}
+.nav-logout svg {
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+}
+
+/* Make mediaqueries for the navbar for phone here */
+@media (max-width: 768px) {
+    .nav-search {
+        display: none;
+    }
+}

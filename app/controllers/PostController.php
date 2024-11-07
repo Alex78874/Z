@@ -1,6 +1,6 @@
 <?php
 
-class PostController
+class PostController extends Controller
 {
     private $postModel;
     private $userModel;
@@ -13,19 +13,11 @@ class PostController
         $this->likeModel = new Like();
     }
 
-    // Méthode pour vérifier si la requête est une requête AJAX
-    private function isAjaxRequest(): bool
-    {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
-    }
-
     // Méthode pour créer un nouveau post
     public function create(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+            $this->startSession();
 
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
@@ -40,9 +32,29 @@ class PostController
 
             $userId = $_SESSION['user']['id'];
             $content = $_POST['content'] ?? '';
+            $attachmentPath = null;
+
+            // Vérifier si un fichier a été téléchargé sans erreur
+            if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES['attachment']['tmp_name'];
+                $fileType = mime_content_type($fileTmpPath);
+
+                // Types MIME autorisés
+                $allowedMimeTypes = ['image/webp'];
+                if (in_array($fileType, $allowedMimeTypes)) {
+                    $uploadDir = __DIR__ . '/../../public/images/';
+                    // Générer un nom de fichier unique
+                    $newFileName = uniqid('img_') . '.webp';
+                    $destPath = $uploadDir . $newFileName;
+
+                    if (move_uploaded_file($fileTmpPath, $destPath)) {
+                        $attachmentPath = '/images/' . $newFileName;
+                    }
+                }
+            }
 
             if (!empty(trim($content))) {
-                $success = $this->postModel->createPost($userId, $content);
+                $success = $this->postModel->createPost($userId, $content, $attachmentPath);
                 if ($success) {
                     $newPost = $this->postModel->getLastInsertedPost();
                     $user = $this->userModel->getById($userId);
@@ -53,10 +65,12 @@ class PostController
                     $postData = [
                         'id' => $newPost['id'],
                         'username' => $user['username'] ?? 'Utilisateur inconnu',
+                        'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                         'publication_date' => $newPost['publication_date'],
                         'content' => $newPost['content'],
                         'comment_count' => $comment_count,
-                        'like_count' => $like_count
+                        'like_count' => $like_count,
+                        'attachment' => $newPost['attachment']
                     ];
 
                     if ($this->isAjaxRequest()) {
@@ -99,14 +113,18 @@ class PostController
                 $user = $this->userModel->getById($post['user_id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
                 $comment_count = $this->postModel->getCommentCountParent($post['id']);
+                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
 
                 $postsData[] = [
                     'id' => $post['id'],
                     'username' => $user['username'] ?? 'Utilisateur inconnu',
+                    'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                     'publication_date' => $post['publication_date'],
                     'content' => $post['content'],
                     'like_count' => $like_count,
                     'comment_count' => $comment_count,
+                    'liked' => $liked,
+                    'attachment' => $post['attachment']
                 ];
             }
 
@@ -122,9 +140,7 @@ class PostController
     public function like(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+            $this->startSession();
 
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
@@ -149,7 +165,7 @@ class PostController
                 if ($success) {
                     if ($this->isAjaxRequest()) {
                         header('Content-Type: application/json');
-                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès', 'likeCount' => $likeCount]);
+                        echo json_encode(['success' => true, 'message' => 'Post liké avec succès', 'liked' => true, 'likeCount' => $likeCount]);
                         exit();
                     } else {
                         redirect('/');
@@ -170,7 +186,7 @@ class PostController
                 if ($success) {
                     if ($this->isAjaxRequest()) {
                         header('Content-Type: application/json');
-                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès', 'likeCount' => $likeCount]);
+                        echo json_encode(['success' => true, 'message' => 'Like retiré avec succès', 'liked' => false, 'likeCount' => $likeCount]);
                         exit();
                     } else {
                         redirect('/');
@@ -192,9 +208,7 @@ class PostController
     public function create_reply(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+            $this->startSession();
 
             if (!isset($_SESSION['user']['id'])) {
                 // Vérifier si l'utilisateur est connecté
@@ -224,13 +238,17 @@ class PostController
                 $reply = $this->postModel->createReplyPost($userId, $content, $replyTo, $parentId);
                 if ($reply) {
                     if ($this->isAjaxRequest()) {
+                        $user = $this->userModel->getById($userId);
                         $comment = [
                             'id' => $reply['id'],
-                            'username' => $this->userModel->getById($userId)['username'] ?? 'Utilisateur inconnu',
+                            'username' => $user['username'] ?? 'Utilisateur inconnu',
+                            'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                             'publication_date' => $reply['publication_date'],
                             'content' => $reply['content'],
                             'like_count' => 0,
                             'comment_count' => 0,
+                            'liked' => false,
+                            'attachment' => $reply['attachment']
                         ];
                         echo json_encode(['success' => true, 'message' => 'Réponse créée avec succès', 'comment' => $comment]);
                         exit();
@@ -263,28 +281,34 @@ class PostController
         $comment_count = $this->postModel->getCommentCount($id);
         $comments = $this->postModel->getComments($id);
         $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
+        $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
 
         if ($post) {
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
+            $post['user_avatar'] = $user['avatar_url'] ?? 'images/avatar.png';
             $post['comment_count'] = $comment_count;
             $post['like_count'] = $like_count;
+            $post['liked'] = $liked;
 
             $post['comments'] = array_map(function ($comment) {
                 $user = $this->userModel->getById($comment['user_id']);
                 $comment_count = $this->postModel->getCommentCount($comment['id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($comment['id']);
+                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $comment['id']);
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
+                $comment['user_avatar'] = $user['avatar_url'] ?? 'images/avatar.png';
                 $comment['comment_count'] = $comment_count;
                 $comment['like_count'] = $like_count;
+                $comment['liked'] = $liked;
                 return $comment;
             }, $comments);
 
             $data = [
                 'post' => $post,
             ];
-            view('post/post', $data);
+            $this->view('post/post', $data);
         } else {
             echo "Post non trouvé.";
         }
@@ -295,6 +319,36 @@ class PostController
     {
         $posts = $this->postModel->getPostsByUserId($userId);
         $user = $this->userModel->getById($userId);
-        view('post/user_posts', ['posts' => $posts, 'user' => $user]);
+        $this->view('post/user_posts', ['posts' => $posts, 'user' => $user]);
+    }
+
+    public function delete($id): void
+    {
+        $this->startSession();
+        if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+            if ($this->isAjaxRequest()) {
+                echo json_encode(['success' => false, 'message' => 'Accès non autorisé.']);
+                exit();
+            } else {
+                $this->redirect('/admin/login');
+                exit();
+            }
+        }
+
+        $success = $this->postModel->deletePost($id);
+        if ($this->isAjaxRequest()) {
+            if ($success) {
+                echo json_encode(['success' => true, 'message' => 'Post supprimé avec succès.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Erreur lors de la suppression du post.']);
+            }
+            exit();
+        } else {
+            if ($success) {
+                $this->redirect('/');
+            } else {
+                echo "Erreur lors de la suppression du post.";
+            }
+        }
     }
 }

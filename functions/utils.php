@@ -67,3 +67,12 @@ function send405($allowedMethods): never
     exit();
 }
 
+function check_admin_auth(): void
+{
+    session_start();
+    if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+        header('Location: ' . url('admin/login'));
+        exit;
+    }
+}
+

@@ -1,12 +1,14 @@
 <?php
 
-class AuthController extends Controller
+class AdminAuthController extends Controller
 {
+    protected $adminModel;
     protected $userModel;
 
     public function __construct()
     {
         parent::__construct();
+        $this->adminModel = new Admin();
         $this->userModel = new User();
     }
 
@@ -40,17 +42,21 @@ class AuthController extends Controller
                 if ($this->isAjaxRequest()) {
                     $this->json(['success' => false, 'errors' => $errors]);
                 } else {
-                    $this->view('user/register', ['errors' => $errors]);
+                    $this->view('admin/register', ['errors' => $errors]);
                 }
                 return;
             }
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            // Créer le compte administrateur
+            $this->adminModel->createAdmin($username, $email, $hashedPassword);
+            // Créer le compte utilisateur correspondant
             $this->userModel->createUser($username, $email, $hashedPassword);
 
-            $this->redirect('/login');
+            $this->redirect('admin/login');
         } else {
-            $this->view('user/register');
+            $this->view('admin/register');
         }
     }
 
@@ -70,38 +76,55 @@ class AuthController extends Controller
             }
 
             if (!empty($errors)) {
-                $this->view('user/login', ['errors' => $errors]);
+                $this->view('admin/login', ['errors' => $errors]);
                 return;
             }
 
-            // Récupérer l'utilisateur par email
-            $user = $this->userModel->getUserByEmail($email);
+            // Récupérer l'administrateur par email
+            $admin = $this->adminModel->getUserByEmail($email);
 
-            if ($user && password_verify($password, $user['password'])) {
-                // Authentification réussie
+            if ($admin && password_verify($password, $admin['password'])) {
+                // Authentification administrateur réussie
                 $this->startSession();
-                $_SESSION['user'] = [
-                    'id' => $user['id'],
-                    'username' => $user['username'],
-                    'email' => $user['email'],
-                    'avatar' => $user['avatar_url'] ?? url("images/avatar.png"),
-                    'registration_date' => $user['registration_date'],
+                $_SESSION['admin'] = [
+                    'id' => $admin['id'],
+                    'username' => $admin['username'],
+                    'email' => $admin['email'],
+                    'avatar' => $admin['avatar_url'] ?? url("images/avatar.png"),
+                    'registration_date' => $admin['registration_date'],
                 ];
+                $_SESSION['admin_logged_in'] = true;
+
+                // Connecter le compte utilisateur correspondant
+                $user = $this->userModel->getUserByEmail($email);
+                if ($user) {
+                    $_SESSION['user'] = [
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                        'email' => $user['email'],
+                        'avatar' => $user['avatar_url'] ?? url("images/avatar.png"),
+                        'registration_date' => $user['registration_date'],
+                    ];
+                }
+
                 $this->redirect('/');
             } else {
                 // Authentification échouée
                 $errors[] = 'Email ou mot de passe incorrect.';
-                $this->view('user/login', ['errors' => $errors]);
+                $this->view('admin/login', ['errors' => $errors]);
             }
         } else {
-            $this->view('user/login');
+            $this->view('admin/login');
         }
     }
 
     public function logout(): void
     {
         $this->startSession();
-        $_SESSION = [];
+        unset($_SESSION['user']);
+        unset($_SESSION['admin']);
+        unset($_SESSION['admin_logged_in']);
+        session_unset();
         session_destroy();
         $this->redirect('/');
     }
