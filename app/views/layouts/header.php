@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <title><?= isset($title) ? htmlspecialchars($title) : 'Z'; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="X social media">
     <link rel="icon" type="image/x-icon" href="<?= url('images/favicon.ico'); ?>">
-    <link rel="stylesheet" href="<?= url('css/header.css'); ?>">
+    
+    <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/posts.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/profile.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
