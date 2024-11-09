@@ -286,7 +286,7 @@ class PostController extends Controller
         if ($post) {
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
-            $post['user_avatar'] = $user['avatar_url'] ?? 'images/avatar.png';
+            $post['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
             $post['comment_count'] = $comment_count;
             $post['like_count'] = $like_count;
             $post['liked'] = $liked;
@@ -298,7 +298,7 @@ class PostController extends Controller
                 $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $comment['id']);
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
-                $comment['user_avatar'] = $user['avatar_url'] ?? 'images/avatar.png';
+                $comment['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
                 $comment['comment_count'] = $comment_count;
                 $comment['like_count'] = $like_count;
                 $comment['liked'] = $liked;
@@ -308,19 +308,19 @@ class PostController extends Controller
             $data = [
                 'post' => $post,
             ];
-            $this->view('post/post', $data);
+            $this->view('post/post', data: $data);
         } else {
             echo "Post non trouvé.";
         }
     }
 
-    // Méthode pour afficher tous les posts d'un utilisateur
-    public function userPosts($userId): void
-    {
-        $posts = $this->postModel->getPostsByUserId($userId);
-        $user = $this->userModel->getById($userId);
-        $this->view('post/user_posts', ['posts' => $posts, 'user' => $user]);
-    }
+    // // Méthode pour afficher tous les posts d'un utilisateur
+    // public function userPosts($userId): void
+    // {
+    //     $posts = $this->postModel->getPostsByUserId($userId);
+    //     $user = $this->userModel->getById($userId);
+    //     $this->view('post/user_posts', ['posts' => $posts, 'user' => $user]);
+    // }
 
     public function delete($id): void
     {

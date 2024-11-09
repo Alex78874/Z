@@ -18,7 +18,10 @@ class User extends Model {
 
     public function getUserById($id): mixed {
         // Utilisation de la méthode `getById` de la classe parente pour obtenir un utilisateur par son ID
-        return $this->getById($id);
+        $user =  $this->getById($id);
+        // Remove password from user data
+        unset($user['password']);
+        return $user;
     }
 
     public function getUserByEmail($email): mixed {

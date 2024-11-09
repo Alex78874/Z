@@ -9,6 +9,11 @@ class Like extends Model
         return $this->getWhere(['user_id' => $userId]);
     }
 
+    public function getLikesCountByUserId(int $userId): int
+    {
+        return $this->getWhereCount(['user_id' => $userId]);
+    }
+
     public function getLikesByPostId(int $postId): array
     {
         return $this->getWhere(['post_id' => $postId]);
