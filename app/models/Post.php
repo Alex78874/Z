@@ -37,6 +37,21 @@ class Post extends Model {
         return $this->getWhere(['user_id' => $userId]);
     }
 
+    public function getPostsCountsByUserId($userId): int {
+        // Requête personnalisée pour obtenir le nombre de posts par l'utilisateur
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM Post WHERE user_id = :user_id');
+        $stmt->execute(['user_id' => $userId]);
+        return $stmt->fetchColumn();
+    }
+
+    public function getCommentsCountsByUserId($userId): int {
+        // Requête personnalisée pour obtenir le nombre de commentaires par l'utilisateur
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM Post WHERE user_id = :user_id AND reply_to IS NOT NULL');
+        $stmt->execute(['user_id' => $userId]);
+        return $stmt->fetchColumn();
+    }
+    
+
     // Méthode pour obtenir les derniers posts
     public function getLastInsertedPost(): mixed {
         // Requête personnalisée pour obtenir le dernier post inséré

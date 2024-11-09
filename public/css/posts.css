@@ -90,10 +90,55 @@
 }
 
 .post-createresponse {
-    padding:8px;
-    border: 1px solid black;
-    margin-top:8px;
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #2B3236;
+    border-radius: 8px;
+    background-color: #181C1F;
+
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
+
+.post-createresponse .parent-reply-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.post-createresponse textarea {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #2B3236;
+    background-color: #2B3236;
+    color: white;
+    resize: none;
+
+    
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.post-createresponse button {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+    background-color: #2B3236;
+    color: white;
+    cursor: pointer;
+
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.post-createresponse button:hover {
+    background-color: #3a4247;
+}
+
 
 .parent-reply-form {
     display:flex;
@@ -102,6 +147,7 @@
 }
 
 .posts-container {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -176,6 +222,11 @@
 
 .post-like:hover {
     background-color: #3a4247;
+}
+
+.comments {
+    padding-top: 20px;
+    width: 100%;
 }
 
 .like-button {

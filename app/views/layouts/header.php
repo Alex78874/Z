@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/posts.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/profile.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap"
