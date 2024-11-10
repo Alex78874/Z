@@ -8,12 +8,12 @@
     <meta name="description" content="X social media">
     <link rel="icon" type="image/x-icon" href="<?= url('images/favicon.ico'); ?>">
     
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/posts.css">
-    <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="../css/profile.css">
-    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="<?= url('css/header.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/posts.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/footer.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/home.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/profile.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/auth.css'); ?>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
