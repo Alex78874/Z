@@ -1,6 +1,4 @@
 **/.idea/workspace.xml 
 **/.idea/tasks.xml
-.htaccess
-public/.htaccess
 .env.local
 public/images/*.webp
