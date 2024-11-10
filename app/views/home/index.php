@@ -14,4 +14,4 @@
 <?php view(view: 'post/posts', data: ['posts' => $posts], layout: false); ?>
 
 <!-- Liens vers des fichiers JavaScript -->
-<script src='js/scripts.js'></script>
+<script src='../js/scripts.js'></script>
