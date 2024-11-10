@@ -13,7 +13,7 @@
   - [X] Ajout pouvoir like un post
   - [X] Ajout pouvoir rajouter une image
 - [ ] Randomiser avatar
-- [ ] CSS Page profile
+- [X] CSS Page profile
 - [X] CSS Page Login
 - [X] CSS Page Register
 - [X] CSS Page Post
