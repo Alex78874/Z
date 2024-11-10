@@ -69,7 +69,7 @@
                                 </button>
                             </div>
                             <div class="admin-actions">
-                                <button class="btn-ban-user" data-post-id="<?= htmlspecialchars($post['user_id']); ?>">
+                                <button class="btn-ban-user" data-user-id="<?= htmlspecialchars($post['user_id']); ?>">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-person-fill-slash" viewBox="0 0 16 16">
                                         <path
@@ -162,7 +162,7 @@
                                             </button>
                                         </div>
                                         <div class="admin-actions">
-                                            <button class="btn-ban-user" data-post-id="<?= htmlspecialchars($comment['user_id']); ?>">
+                                            <button class="btn-ban-user" data-user-id="<?= htmlspecialchars($comment['user_id']); ?>">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                     class="bi bi-person-fill-slash" viewBox="0 0 16 16">
                                                     <path

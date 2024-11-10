@@ -1,6 +1,6 @@
 <?php
 
-class Admin extends User {
+class Admin extends Model {
     protected $table = 'Admin';
 
     public function __construct() {

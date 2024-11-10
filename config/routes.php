@@ -80,20 +80,20 @@ return [
         'methods' => ['POST'],
     ],
 
-    // Route pour afficher la page d'inscription des administrateurs
-    [
-        'path' => 'admin/register',
-        'controller' => 'AdminAuthController',
-        'action' => 'register',
-    ],
+    // // Route pour afficher la page d'inscription des administrateurs
+    // [
+    //     'path' => 'admin/register',
+    //     'controller' => 'AdminAuthController',
+    //     'action' => 'register',
+    // ],
 
-    // Route pour s'inscrire en tant qu'administrateur
-    [
-        'path' => 'admin/register',
-        'controller' => 'AdminAuthController',
-        'action' => 'register',
-        'methods' => ['POST'],
-    ],
+    // // Route pour s'inscrire en tant qu'administrateur
+    // [
+    //     'path' => 'admin/register',
+    //     'controller' => 'AdminAuthController',
+    //     'action' => 'register',
+    //     'methods' => ['POST'],
+    // ],
 
     // Route pour se déconnecter
     [
@@ -174,6 +174,15 @@ return [
         'controller' => 'PostController',
         'action' => 'delete',
         'methods' => ['DELETE'],
+        'params' => ['id'],
+    ],
+
+    // Route pour bannir un utilisateur
+    [
+        'path' => 'user/ban/(\d+)',
+        'controller' => 'UserController',
+        'action' => 'ban',
+        'methods' => ['POST'],
         'params' => ['id'],
     ],
 ];

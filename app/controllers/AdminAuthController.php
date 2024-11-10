@@ -81,7 +81,7 @@ class AdminAuthController extends Controller
             }
 
             // Récupérer l'administrateur par email
-            $admin = $this->adminModel->getUserByEmail($email);
+            $admin = $this->adminModel->getAdminByEmail($email);
 
             if ($admin && password_verify($password, $admin['password'])) {
                 // Authentification administrateur réussie
