@@ -18,7 +18,7 @@
 - [X] CSS Page Register
 - [X] CSS Page Post
 - [ ] Barre de recherche
-- [ ] Clean up BDD
+- [X] Clean up BDD
 
 ## Notes
 

@@ -64,6 +64,7 @@ class PostController extends Controller
                     // Préparer les données du nouveau post
                     $postData = [
                         'id' => $newPost['id'],
+                        'user_id' => $user['id'],
                         'username' => $user['username'] ?? 'Utilisateur inconnu',
                         'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                         'publication_date' => $newPost['publication_date'],
@@ -122,6 +123,7 @@ class PostController extends Controller
 
                 $postsData[] = [
                     'id' => $post['id'],
+                    'user_id' => $user['id'],
                     'username' => $user['username'] ?? 'Utilisateur inconnu',
                     'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                     'publication_date' => $post['publication_date'],
@@ -246,6 +248,7 @@ class PostController extends Controller
                         $user = $this->userModel->getById($userId);
                         $comment = [
                             'id' => $reply['id'],
+                            'user_id' => $user['id'],
                             'username' => $user['username'] ?? 'Utilisateur inconnu',
                             'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                             'publication_date' => $reply['publication_date'],
@@ -296,6 +299,7 @@ class PostController extends Controller
         if ($post) {
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
+            $post['user_id'] = $user['id'];
             $post['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
             $post['comment_count'] = $comment_count;
             $post['like_count'] = $like_count;
@@ -313,6 +317,7 @@ class PostController extends Controller
                 }
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
+                $comment['user_id'] = $user['id'];
                 $comment['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
                 $comment['comment_count'] = $comment_count;
                 $comment['like_count'] = $like_count;

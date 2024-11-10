@@ -36,6 +36,7 @@
     border-radius: 8px;
     border: 2px solid #2B3236;
 }
+
 .attachment-label svg {
     vertical-align: middle;
     align-items: center;
@@ -50,7 +51,11 @@
     font-style: normal;
 }
 
-.create-post > button, .create-post > p, .create-post > a, .create-post > input, .create-post textarea {
+.create-post>button,
+.create-post>p,
+.create-post>a,
+.create-post>input,
+.create-post textarea {
     font-size: 20px;
     font-weight: 500;
     font-family: "Reddit Sans", sans-serif;
@@ -116,7 +121,7 @@
     color: white;
     resize: none;
 
-    
+
     font-family: "Reddit Sans", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
@@ -141,9 +146,17 @@
 
 
 .parent-reply-form {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    gap:8px;
+    gap: 8px;
+}
+
+.posts-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40%
 }
 
 .posts-container {
@@ -152,7 +165,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width:40%
+    width: 100%
 }
 
 .post {
@@ -160,18 +173,24 @@
     width: 100%;
     transition: background-color 0.1s;
 }
-.post p, span, strong {
+
+.post p,
+span,
+strong {
     font-family: "Reddit Sans", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
 }
 
-.post-header, .post-content, .post-footer {
+.post-header,
+.post-content,
+.post-footer {
     padding-left: 8px;
     padding-right: 8px;
 }
+
 .post-header {
-    display:flex;
+    display: flex;
     justify-content: left;
     align-items: center;
     padding-top: 5px;
@@ -199,7 +218,7 @@
 }
 
 .post>* {
-    flex:1;
+    flex: 1;
     color: white;
 }
 
@@ -241,6 +260,36 @@
     color: white;
     width: 18px;
     height: 18px;
+}
+
+.admin-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.admin-actions {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 7px;
+    background-color: #ff3300;
+    border-radius: 18px;
+}
+
+.admin-actions:hover {
+    background-color: #d62b00;
+}
+
+.admin-actions button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 .post-comment-count {
@@ -292,6 +341,10 @@
 /* Make mediaqueries for the navbar for phone here */
 @media (max-width: 768px) {
     .posts-container {
-        width:320px;
+        width: 320px;
+    }
+
+    .posts-root {
+        width: 320px;
     }
 }

@@ -86,6 +86,26 @@
     background-color: #0056b3;
 }
 
+/* Admin Buttons */
+.login-button-admin,
+.register-button-admin {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #ff3300;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.login-button:hover,
+.register-button:hover {
+    background-color: #d62b00;
+}
+
 /* Privacy notice and forgot password links */
 .register-privacy-notice,
 .login-forgot-password {
