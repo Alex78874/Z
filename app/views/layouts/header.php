@@ -26,7 +26,7 @@
         <nav>
             <div class="nav-links">
                 <div class="nav-home">
-                    <a href="<?= url('/'); ?>">
+                    <a href="<?= url('/'); ?>" aria-label="Accueil">
                         <img src="<?= url('images/logo.svg'); ?>" alt="Logo">
                     </a>
                 </div>
@@ -47,7 +47,7 @@
 
                     <div class="nav-user">
                         <div class="nav-profile">
-                            <a href="<?= url('user/' . $_SESSION['user']['id']); ?>">
+                            <a href="<?= url('user/' . $_SESSION['user']['id']); ?>" aria-label="Profil de <?= htmlspecialchars($_SESSION['user']['username']); ?>">
                                 <p>
                                     <?= htmlspecialchars($_SESSION['user']['username']); ?>
                                 </p>
@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="nav-logout">
-                            <a href="<?= url('logout'); ?>">
+                            <a href="<?= url('logout'); ?>" aria-label="Déconnexion">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -73,12 +73,12 @@
 
                     <div class="nav-connection">
                         <div class="nav-login">
-                            <a href="<?= url('login'); ?>">
+                            <a href="<?= url('login'); ?>" aria-label="Connexion">
                                 Connexion
                             </a>
                         </div>
                         <div class="nav-register">
-                            <a href="<?= url('register'); ?>">
+                            <a href="<?= url('register'); ?>" aria-label="Inscription">
                                 Inscription
                             </a>
                         </div>

@@ -36,7 +36,7 @@
                                     <div class="post-footer">
                                         <!-- Bouton pour liker un post -->
                                         <div class="post-like">
-                                            <button class="like-button" data-post-id="<?= htmlspecialchars($post['id']) ?>"
+                                            <button class="like-button" data-post-id="<?= htmlspecialchars($post['id']) ?> aria-label="Like post"
                                                 data-liked="<?= $post['liked'] ? 'yes' : 'no' ?>">
                                                 <?php if ($post['liked']): ?>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -58,7 +58,7 @@
 
                                         <!-- Bouton pour commenter un post -->
                                         <div class="post-comment-count">
-                                            <button class="comment-button" data-post-id="<?= htmlspecialchars($post['id']) ?>">
+                                            <button class="comment-button" data-post-id="<?= htmlspecialchars($post['id']) ?>" aria-label="Comment on post">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
                                                     <path
@@ -75,7 +75,7 @@
                                         <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
                                             <div class="admin-section">
                                                 <div class="admin-actions">
-                                                    <button class="btn-delete-post"
+                                                    <button class="btn-delete-post" aria-label="Delete post"
                                                         data-post-id="<?= htmlspecialchars($post['id']); ?>">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                             fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
@@ -85,7 +85,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="admin-actions">
-                                                    <button class="btn-ban-user"
+                                                    <button class="btn-ban-user" aria-label="Ban user"
                                                         data-user-id="<?= htmlspecialchars($post['user_id']); ?>">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                             fill="currentColor" class="bi bi-person-fill-slash" viewBox="0 0 16 16">
