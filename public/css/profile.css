@@ -12,8 +12,7 @@
 .profile hr {
     align-self: center;
     width: 80%;
-    margin: 10px 0;
-    border: 0.2px solid rgb(15, 15, 15);
+    border: 1px solid rgb(15, 15, 15);
     border-radius: 1px;
 }
 
@@ -24,7 +23,7 @@
 }
 
 .profile-right-container {
-    width: 30%;
+    width: 40%;
     height: 100%;
     border-radius: 18px;
     background-color: black;
@@ -32,10 +31,10 @@
     flex-direction: column;
 }
 
-.profile-right-container h2 {
+.profile-name  {
     color: white;
-    font-size: 20px;
-    padding-left: 15px;
+    font-size: 15px;
+    padding: 15px;
 }
 
 .profile-right-container img {
@@ -45,10 +44,17 @@
 }
 
 .profile-stats {
+    padding: 20px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 30px;
+}
+
+.profile-stats > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .profile-stats-card {
@@ -80,16 +86,20 @@
     height: 100px;
 }
 
-.profile-name {
-    display: flex;
-    flex-direction: column;
-    font-size: 20px;
-}
-
 .profile-name h1 {
     margin: 0;
 }
 
 .profile-name p {
     margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .profile {
+        flex-direction: column-reverse;
+        width: 90%;
+    }
+    .profile-right-container {
+        width: 100%;
+    }
 }

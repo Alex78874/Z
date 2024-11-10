@@ -29,6 +29,17 @@ class UserController extends Controller
         $postsCount = $this->postModel->getPostsCountsByUserId(userId: $id);
         $likesCount = $this->likeModel->getLikesCountByUserId(userId: $id);
 
+        $posts = $this->postModel->getPostsByUserId($id);
+        foreach ($posts as $key => $post) {
+            $posts[$key]['comment_count'] = $this->postModel->getCommentCountParent($post['id']);
+            $posts[$key]['like_count'] = $this->likeModel->getLikesCountByPostId($post['id']);
+            if (isset($_SESSION['user']['id'])) {
+                $posts[$key]['liked'] = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+            } else {
+                $posts[$key]['liked'] = false;
+            }
+        }
+
         if (!$user) {
             send404('Utilisateur non trouvé.');
         }
@@ -37,7 +48,8 @@ class UserController extends Controller
             'user' => $user,
             'commentsCount' => $commentsCount,
             'postsCount' => $postsCount,
-            'likesCount' => $likesCount
+            'likesCount' => $likesCount,
+            'posts' => $posts
         ];
 
         view(view: '/user/profile', data: $data);
