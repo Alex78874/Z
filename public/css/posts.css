@@ -9,7 +9,7 @@
 }
 
 .create-post {
-    width: 40%;
+    width: 100%;
     padding: 5px;
     display: flex;
     flex-direction: column;

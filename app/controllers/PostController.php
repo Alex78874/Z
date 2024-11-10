@@ -45,10 +45,10 @@ class PostController extends Controller
                     $uploadDir = __DIR__ . '/../../public/images/';
                     // Générer un nom de fichier unique
                     $newFileName = uniqid('img_') . '.webp';
-                    $destPath = $uploadDir . $newFileName;
+                    $destPath = "{$uploadDir}{$newFileName}";
 
                     if (move_uploaded_file($fileTmpPath, $destPath)) {
-                        $attachmentPath = '/images/' . $newFileName;
+                        $attachmentPath = "/images/{$newFileName}";
                     }
                 }
             }
