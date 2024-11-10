@@ -281,7 +281,8 @@ class PostController extends Controller
         $comment_count = $this->postModel->getCommentCount($id);
         $comments = $this->postModel->getComments($id);
         $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
-        if (isset($_SESSION['user']['id'])) {
+
+        if (isset($_SESSION['user'])) {
             $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
         } else {
             $liked = false;
