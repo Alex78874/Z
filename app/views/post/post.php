@@ -26,7 +26,7 @@
                 <div class="post-footer">
                     <div class="post-like">
                         <button class="like-button" data-post-id="<?= htmlspecialchars($post['id']) ?>"
-                            data-liked="<?= $post['liked'] ? 'yes' : 'no' ?>">
+                            data-liked="<?= $post['liked'] ? 'yes' : 'no' ?>" aria-label="Like post">
                             <?php if ($post['liked']): ?>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-heart-fill" viewBox="0 0 16 16">
@@ -45,7 +45,7 @@
                         <span class="like-count"><?= htmlspecialchars($post['like_count']) ?></span>
                     </div>
                     <div class="post-comment-count">
-                        <button class="comment-button">
+                        <button class="comment-button" aria-label="Comment on post">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-chat-left-text" viewBox="0 0 16 16">
                                 <path
@@ -60,7 +60,7 @@
                     <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
                         <div class="admin-section">
                             <div class="admin-actions">
-                                <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($post['id']); ?>">
+                                <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($post['id']); ?>" aria-label="Delete post">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-trash3" viewBox="0 0 16 16">
                                         <path
@@ -69,7 +69,7 @@
                                 </button>
                             </div>
                             <div class="admin-actions">
-                                <button class="btn-ban-user" data-user-id="<?= htmlspecialchars($post['user_id']); ?>">
+                                <button class="btn-ban-user" data-user-id="<?= htmlspecialchars($post['user_id']); ?>" aria-label="Ban user">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-person-fill-slash" viewBox="0 0 16 16">
                                         <path
@@ -87,7 +87,7 @@
                     <input type="hidden" name="post_id" value="<?= htmlspecialchars($post['id']) ?>">
                     <input type="hidden" name="parent_id" value="<?= htmlspecialchars($post['id']) ?>">
                     <textarea name="reply_content" placeholder="Répondre..." required></textarea>
-                    <button type="submit">Répondre</button>
+                    <button type="submit" aria-label="Reply to post">Répondre</button>
                 </form>
             </div>
 
@@ -119,7 +119,7 @@
                             <div class="post-footer">
                                 <div class="post-like">
                                     <button class="like-button" data-post-id="<?= htmlspecialchars($comment['id']) ?>"
-                                        data-liked="<?= $comment['liked'] ? 'yes' : 'no' ?>">
+                                        data-liked="<?= $comment['liked'] ? 'yes' : 'no' ?>" aria-label="Like comment">
                                         <?php if ($comment['liked']): ?>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 class="bi bi-heart-fill" viewBox="0 0 16 16">
@@ -138,7 +138,7 @@
                                     <span class="like-count"><?= htmlspecialchars($comment['like_count']) ?></span>
                                 </div>
                                 <div class="post-comment-count">
-                                    <button class="comment-button">
+                                    <button class="comment-button" aria-label="Reply to comment">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             class="bi bi-chat-left-text" viewBox="0 0 16 16">
                                             <path
@@ -153,7 +153,7 @@
                                 <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
                                     <div class="admin-section">
                                         <div class="admin-actions">
-                                            <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($comment['id']); ?>">
+                                            <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($comment['id']); ?>" aria-label="Delete comment">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                     class="bi bi-trash3" viewBox="0 0 16 16">
                                                     <path
@@ -162,7 +162,7 @@
                                             </button>
                                         </div>
                                         <div class="admin-actions">
-                                            <button class="btn-ban-user" data-user-id="<?= htmlspecialchars($comment['user_id']); ?>">
+                                            <button class="btn-ban-user" data-user-id="<?= htmlspecialchars($comment['user_id']); ?>" aria-label="Ban user">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                     class="bi bi-person-fill-slash" viewBox="0 0 16 16">
                                                     <path
