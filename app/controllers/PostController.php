@@ -113,7 +113,12 @@ class PostController extends Controller
                 $user = $this->userModel->getById($post['user_id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
                 $comment_count = $this->postModel->getCommentCountParent($post['id']);
-                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+                
+                if (isset($_SESSION['user']['id'])) {
+                    $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+                } else {
+                    $liked = false;
+                }
 
                 $postsData[] = [
                     'id' => $post['id'],
@@ -282,7 +287,7 @@ class PostController extends Controller
         $comments = $this->postModel->getComments($id);
         $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
 
-        if (isset($_SESSION['user'])) {
+        if (isset($_SESSION['user']['id'])) {
             $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
         } else {
             $liked = false;
@@ -300,7 +305,12 @@ class PostController extends Controller
                 $user = $this->userModel->getById($comment['user_id']);
                 $comment_count = $this->postModel->getCommentCount($comment['id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($comment['id']);
-                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $comment['id']);
+
+                if (isset($_SESSION['user']['id'])) {
+                    $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $comment['id']);
+                } else {
+                    $liked = false;
+                }
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
                 $comment['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
