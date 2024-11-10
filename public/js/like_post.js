@@ -22,7 +22,7 @@ function handleLike(event) {
       if (response.headers.get("content-type")?.includes("application/json")) {
         return response.json();
       } else {
-        throw new Error("Unexpected content type");
+        throw new Error("Vous devez être connecté pour aimer un post.");
       }
     })
     .then((data) => {
@@ -51,7 +51,7 @@ function handleLike(event) {
       }
     })
     .catch((error) => {
-      alert("Network error: " + error.message);
+      alert("Erreur : " + error.message);
       console.error("Network error:", error);
     });
 }

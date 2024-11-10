@@ -45,10 +45,10 @@ class PostController extends Controller
                     $uploadDir = __DIR__ . '/../../public/images/';
                     // Générer un nom de fichier unique
                     $newFileName = uniqid('img_') . '.webp';
-                    $destPath = $uploadDir . $newFileName;
+                    $destPath = "{$uploadDir}{$newFileName}";
 
                     if (move_uploaded_file($fileTmpPath, $destPath)) {
-                        $attachmentPath = '/images/' . $newFileName;
+                        $attachmentPath = "/images/{$newFileName}";
                     }
                 }
             }
@@ -113,7 +113,12 @@ class PostController extends Controller
                 $user = $this->userModel->getById($post['user_id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
                 $comment_count = $this->postModel->getCommentCountParent($post['id']);
-                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+                
+                if (isset($_SESSION['user']['id'])) {
+                    $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+                } else {
+                    $liked = false;
+                }
 
                 $postsData[] = [
                     'id' => $post['id'],
@@ -281,7 +286,12 @@ class PostController extends Controller
         $comment_count = $this->postModel->getCommentCount($id);
         $comments = $this->postModel->getComments($id);
         $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
-        $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+
+        if (isset($_SESSION['user']['id'])) {
+            $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+        } else {
+            $liked = false;
+        }
 
         if ($post) {
             $user = $this->userModel->getById($post['user_id']);
@@ -295,7 +305,12 @@ class PostController extends Controller
                 $user = $this->userModel->getById($comment['user_id']);
                 $comment_count = $this->postModel->getCommentCount($comment['id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($comment['id']);
-                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $comment['id']);
+
+                if (isset($_SESSION['user']['id'])) {
+                    $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $comment['id']);
+                } else {
+                    $liked = false;
+                }
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
                 $comment['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');

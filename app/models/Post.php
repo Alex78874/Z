@@ -5,6 +5,7 @@ class Post extends Model {
 
     public function __construct() {
         parent::__construct(); // Appel au constructeur de la classe parente
+        
     }
 
     public function createPost($userId, $content, $attachementPath): bool {

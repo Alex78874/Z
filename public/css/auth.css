@@ -1,0 +1,105 @@
+/* Styles for the login and register pages */
+
+.login,
+.register {
+    width: 100%;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Title styling */
+.login-title,
+.register-title {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* Error messages */
+.register-error-messages {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Form container */
+.login-form,
+.register-form {
+    width: 40%;
+    max-width: 400px;
+    min-width: 300px;
+    margin: 0 auto;
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* Fieldset styling */
+.register-fieldset {
+    border: none;
+    padding: 0;
+}
+
+/* Labels */
+.login-label,
+.register-label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* Input fields */
+.login-input,
+.register-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* Buttons */
+.login-button,
+.register-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #007BFF;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    font-family: "Reddit Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.login-button:hover,
+.register-button:hover {
+    background-color: #0056b3;
+}
+
+/* Privacy notice and forgot password links */
+.register-privacy-notice,
+.login-forgot-password {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-privacy-link,
+.login-forgot-password a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.register-privacy-link:hover,
+.login-forgot-password a:hover {
+    text-decoration: underline;
+}
