@@ -3,6 +3,7 @@
         <h2>Créer un nouveau post</h2>
         <form class="create-post-form" id="create-post-form" method="post" action="post" enctype="multipart/form-data">
             <textarea name="content" placeholder="Quoi de neuf ?" required></textarea>
+            <div id="post-preview"></div>
             <div class="create-post-form-footer">
                 <button type="submit">Publier</button>
                 <label for="attachment" class="attachment-label">

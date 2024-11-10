@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const content = formData.get("content").trim();
     const fileInput = form.querySelector('input[name="attachment"]');
     const file = fileInput.files[0];
-    console.log(file);
 
     if (content === "") {
       alert("Le contenu du post ne peut pas être vide.");
@@ -23,16 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
         img.src = e.target.result;
 
         img.onload = function () {
-          console.log("aaaa");
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
           canvas.width = img.width;
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
+          
+          // Add the canvas to the post preview
+          const previewContainer = document.getElementById("post-preview");
+          previewContainer.innerHTML = ""; // Clear previous preview
+          previewContainer.appendChild(canvas);
 
           canvas.toBlob(function (blob) {
             formData.set("attachment", blob, "image.webp");
-            console.log(formData);
             sendPostData(formData);
           }, "image/webp");
         };
@@ -59,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then((data) => {
         if (data.success) {
-          console.log(data);
           form.reset();
           // Ajouter le nouveau post en haut de la liste des posts
           const postsContainer = document.querySelector(".posts-container");
@@ -71,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
-        console.log(data);
         console.error("Erreur:", error);
       });
   }
