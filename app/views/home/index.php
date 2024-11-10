@@ -1,4 +1,3 @@
-<!-- Titre -->
 <div class="scroll-up">
     <button class="button-scroll-up" aria-label="Scroll to top">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up"
@@ -10,7 +9,7 @@
 </div>
 
 <!-- Afficher les posts -->
-<!-- False pour ne pas re-afficher le header et le footer dans la vue en double-->
+<!-- False pour ne pas re-afficher le header et le footer dans la vue en double avec layout = false-->
 <?php view(view: 'post/posts', data: ['posts' => $posts], layout: false); ?>
 
 <!-- Liens vers des fichiers JavaScript -->
