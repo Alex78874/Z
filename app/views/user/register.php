@@ -1,7 +1,7 @@
 <div class="register">
     <h1 class="register-title">Inscription</h1>
     <div id="errorMessages" class="register-error-messages" style="color: red;"></div>
-    <form id="registerForm" class="register-form" method="post" action="<?= url(path: 'register') ?>">
+    <form id="registerForm" class="register-form" method="post" action="register">
         <fieldset class="register-fieldset">
             <label for="username" class="register-label">Nom d'utilisateur :</label>
             <input type="text" id="username" name="username" class="register-input" required minlength="3"
