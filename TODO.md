@@ -14,8 +14,8 @@
   - [X] Ajout pouvoir rajouter une image
 - [ ] Randomiser avatar
 - [ ] CSS Page profile
-- [ ] CSS Page Login
-- [ ] CSS Page Register
+- [X] CSS Page Login
+- [X] CSS Page Register
 - [X] CSS Page Post
 - [ ] Barre de recherche
 - [ ] Clean up BDD
