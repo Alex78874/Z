@@ -3,3 +3,4 @@
 .htaccess
 public/.htaccess
 .env.local
+public/images/*.webp
