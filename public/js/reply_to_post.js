@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (response.success) {
           addCommentToUI(response.comment);
         } else {
-          alert('Error posting reply: ' + response.message);
+          alert('Erreur : ' + response.message);
         }
       })
       .catch(error => {
-        alert('Network error: ' + error.message);
+        alert('Network error : ' + error.message);
       });
     });
   });
