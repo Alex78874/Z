@@ -12,13 +12,13 @@
   - [X] Ajout de commentaire a un post
   - [X] Ajout pouvoir like un post
   - [X] Ajout pouvoir rajouter une image
-- [ ] Randomiser avatar
 - [X] CSS Page profile
 - [X] CSS Page Login
 - [X] CSS Page Register
 - [X] CSS Page Post
-- [ ] Barre de recherche
 - [X] Clean up BDD
+- [ ] Barre de recherche
+- [ ] Randomiser avatar
 
 ## Notes
 
