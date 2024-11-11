@@ -47,7 +47,7 @@ class AuthController extends Controller
 
             // Selectionner un avatar aléatoire
             $avatarNumber = rand(1, 13);
-            $avatarUrl = url("images/avatar_$avatarNumber.webp");
+            $avatarUrl = url("images/avatars/avatar_$avatarNumber.webp");
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $this->userModel->createUser($username, $email, $hashedPassword, $avatarUrl);
@@ -88,7 +88,7 @@ class AuthController extends Controller
                     'id' => $user['id'],
                     'username' => $user['username'],
                     'email' => $user['email'],
-                    'avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
+                    'avatar' => $user['avatar_url'] ?? url("images/avatars/avatar_1.webp"),
                     'registration_date' => $user['registration_date'],
                 ];
                 $this->redirect('/');

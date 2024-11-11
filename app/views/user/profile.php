@@ -17,7 +17,7 @@
                                     <div class="post-header">
                                         <div class="post-user">
                                             <img class="post-avatar"
-                                                src="<?= htmlspecialchars(url($user['avatar_url'] ?? "images/avatar_1.webp")) ?>"
+                                                src="<?= htmlspecialchars(url($user['avatar_url'] ?? "images/avatars/avatar_1.webp")) ?>"
                                                 alt="Avatar de l'utilisateur">
                                             <strong><?= htmlspecialchars($user['username']) ?></strong>
                                             <!-- Nom de l'utilisateur -->
@@ -108,7 +108,7 @@
             </div>
 
             <div class="profile-right-container">
-                <img src="<?= htmlspecialchars($user['avatar_url'] ?? url("images/avatar_1.webp")); ?>"
+                <img src="<?= htmlspecialchars($user['avatar_url'] ?? url("images/avatars/avatar_1.webp")); ?>"
                     alt="Avatar de <?= htmlspecialchars($user['username']); ?>">
 
                 <div class="profile-name">

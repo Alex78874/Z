@@ -34,7 +34,7 @@ class HomeController extends Controller
                 'id' => $post['id'],
                 'user_id' => $post['user_id'],
                 'username' => $user['username'] ?? 'Utilisateur inconnu',
-                'user_avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
+                'user_avatar' => $user['avatar_url'] ?? url("images/avatars/avatar_1.webp"),
                 'publication_date' => $post['publication_date'],
                 'content' => $post['content'],
                 'like_count' => $like_count,
