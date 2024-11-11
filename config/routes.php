@@ -185,4 +185,12 @@ return [
         'methods' => ['POST'],
         'params' => ['id'],
     ],
+
+    // Route pour rechercher des posts
+    [
+        'path' => 'search',
+        'controller' => 'PostController',
+        'action' => 'search',
+        'methods' => ['GET'],
+    ],
 ];

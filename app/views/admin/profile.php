@@ -3,7 +3,7 @@
     <main>
         <section class="profile">
             <div class="profile-header">
-                <img src="<?= htmlspecialchars($admin['avatar_url']); ?>"
+                <img src="<?= htmlspecialchars($admin['avatar_url'] ?? url("images/avatar_1.webp")); ?>"
                     alt="Avatar de <?= htmlspecialchars($admin['username']); ?>">
                 <h1><?= htmlspecialchars($admin['username']); ?></h1>
                 <p>Email : <?= htmlspecialchars($admin['email']); ?></p>

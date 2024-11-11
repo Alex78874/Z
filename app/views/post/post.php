@@ -8,7 +8,7 @@
             <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>">
                 <div class="post-header">
                     <div class="post-user">
-                        <img class="post-avatar" src="<?= htmlspecialchars($post['user_avatar']) ?>"
+                        <img class="post-avatar" src="<?= htmlspecialchars($post['user_avatar'] ?? url("images/avatar_1.webp")) ?>"
                             alt="Avatar de l'utilisateur">
                         <strong><?= htmlspecialchars($post['username']) ?></strong>
                         <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span>
@@ -101,7 +101,7 @@
                         <div class="post" data-post-id="<?= htmlspecialchars($comment['id']) ?>">
                             <div class="post-header">
                                 <div class="post-user">
-                                    <img class="post-avatar" src="<?= htmlspecialchars($comment['user_avatar']) ?>"
+                                    <img class="post-avatar" src="<?= htmlspecialchars($comment['user_avatar'] ?? url("images/avatar_1.webp")) ?>"
                                         alt="Avatar de l'utilisateur">
                                     <strong><?= htmlspecialchars($comment['username']) ?></strong>
                                     <span class="post-date"><?= htmlspecialchars($comment['publication_date']) ?></span>

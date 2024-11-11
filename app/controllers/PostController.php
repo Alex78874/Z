@@ -66,7 +66,7 @@ class PostController extends Controller
                         'id' => $newPost['id'],
                         'user_id' => $user['id'],
                         'username' => $user['username'] ?? 'Utilisateur inconnu',
-                        'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
+                        'user_avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
                         'publication_date' => $newPost['publication_date'],
                         'content' => $newPost['content'],
                         'comment_count' => $comment_count,
@@ -125,7 +125,7 @@ class PostController extends Controller
                     'id' => $post['id'],
                     'user_id' => $user['id'],
                     'username' => $user['username'] ?? 'Utilisateur inconnu',
-                    'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
+                    'user_avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
                     'publication_date' => $post['publication_date'],
                     'content' => $post['content'],
                     'like_count' => $like_count,
@@ -250,7 +250,7 @@ class PostController extends Controller
                             'id' => $reply['id'],
                             'user_id' => $user['id'],
                             'username' => $user['username'] ?? 'Utilisateur inconnu',
-                            'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
+                            'user_avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
                             'publication_date' => $reply['publication_date'],
                             'content' => $reply['content'],
                             'like_count' => 0,
@@ -300,7 +300,7 @@ class PostController extends Controller
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
             $post['user_id'] = $user['id'];
-            $post['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
+            $post['user_avatar'] = $user['avatar_url'] ?? url("images/avatar_1.webp");
             $post['comment_count'] = $comment_count;
             $post['like_count'] = $like_count;
             $post['liked'] = $liked;
@@ -318,7 +318,7 @@ class PostController extends Controller
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
                 $comment['user_id'] = $user['id'];
-                $comment['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
+                $comment['user_avatar'] = $user['avatar_url'] ?? url("images/avatar_1.webp");
                 $comment['comment_count'] = $comment_count;
                 $comment['like_count'] = $like_count;
                 $comment['liked'] = $liked;
@@ -333,14 +333,6 @@ class PostController extends Controller
             echo "Post non trouvé.";
         }
     }
-
-    // // Méthode pour afficher tous les posts d'un utilisateur
-    // public function userPosts($userId): void
-    // {
-    //     $posts = $this->postModel->getPostsByUserId($userId);
-    //     $user = $this->userModel->getById($userId);
-    //     $this->view('post/user_posts', ['posts' => $posts, 'user' => $user]);
-    // }
 
     public function delete($id): void
     {
@@ -371,4 +363,31 @@ class PostController extends Controller
             }
         }
     }
+
+    public function search(): void
+    {
+        $query = $_GET['q'] ?? '';
+
+        if ($this->isAjaxRequest()) {
+            $posts = $this->postModel->searchPosts($query);
+
+            $postsData = [];
+            foreach ($posts as $post) {
+                $user = $this->userModel->getById($post['user_id']);
+                $postsData[] = [
+                    'id' => $post['id'],
+                    'username' => $user['username'] ?? 'Utilisateur inconnu',
+                    'content' => $post['content'],
+                    // Add other necessary fields
+                ];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'posts' => $postsData]);
+            exit();
+        } else {
+            $posts = $this->postModel->searchPosts($query);
+            $this->view('post/search_results', ['posts' => $posts]);
+        }
+}
 }

@@ -27,11 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
           canvas.width = img.width;
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
-          
-          // Add the canvas to the post preview
-          const previewContainer = document.getElementById("post-preview");
-          previewContainer.innerHTML = ""; // Clear previous preview
-          previewContainer.appendChild(canvas);
 
           canvas.toBlob(function (blob) {
             formData.set("attachment", blob, "image.webp");

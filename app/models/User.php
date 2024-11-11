@@ -7,12 +7,13 @@ class User extends Model {
         parent::__construct(); // Appel au constructeur de la classe parente
     }
 
-    public function createUser($username, $email, $hashedPassword): bool {
+    public function createUser($username, $email, $hashedPassword, $avatarUrl): bool {
         // Utilisation de la méthode `create` de la classe parente pour insérer l'utilisateur
         return $this->create([
             'username' => $username,
             'email' => $email,
-            'password' => $hashedPassword
+            'password' => $hashedPassword,
+            'avatar_url' => $avatarUrl
         ]);
     }
 

@@ -17,7 +17,7 @@
 - [X] CSS Page Register
 - [X] CSS Page Post
 - [X] Clean up BDD
-- [ ] Barre de recherche
+- [X] Barre de recherche
 - [ ] Randomiser avatar
 
 ## Notes
