@@ -8,12 +8,12 @@
     <meta name="description" content="X social media">
     <link rel="icon" type="image/x-icon" href="<?= url('images/favicon.ico'); ?>">
     
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/posts.css">
-    <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="../css/profile.css">
-    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="<?= url('css/header.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/posts.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/footer.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/home.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/profile.css'); ?>">
+    <link rel="stylesheet" href="<?= url('css/auth.css'); ?>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
         <nav>
             <div class="nav-links">
                 <div class="nav-home">
-                    <a href="<?= url('/'); ?>">
+                    <a href="<?= url('/'); ?>" aria-label="Accueil">
                         <img src="<?= url('images/logo.svg'); ?>" alt="Logo">
                     </a>
                 </div>
@@ -47,7 +47,7 @@
 
                     <div class="nav-user">
                         <div class="nav-profile">
-                            <a href="<?= url('user/' . $_SESSION['user']['id']); ?>">
+                            <a href="<?= url('user/' . $_SESSION['user']['id']); ?>" aria-label="Profil de <?= htmlspecialchars($_SESSION['user']['username']); ?>">
                                 <p>
                                     <?= htmlspecialchars($_SESSION['user']['username']); ?>
                                 </p>
@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="nav-logout">
-                            <a href="<?= url('logout'); ?>">
+                            <a href="<?= url('logout'); ?>" aria-label="Déconnexion">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -73,12 +73,12 @@
 
                     <div class="nav-connection">
                         <div class="nav-login">
-                            <a href="<?= url('login'); ?>">
+                            <a href="<?= url('login'); ?>" aria-label="Connexion">
                                 Connexion
                             </a>
                         </div>
                         <div class="nav-register">
-                            <a href="<?= url('register'); ?>">
+                            <a href="<?= url('register'); ?>" aria-label="Inscription">
                                 Inscription
                             </a>
                         </div>

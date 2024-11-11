@@ -67,6 +67,12 @@ class Router
         );
     }
 
+    /**
+     * Sanitize the given URI by removing query strings, base path, and trailing slashes.
+     *
+     * @param string $uri The URI to sanitize.
+     * @return string The sanitized URI.
+     */
     private function sanitizeUri($uri): string
     {
         // Supprimer les query strings
@@ -91,16 +97,25 @@ class Router
         return $uri;
     }
 
+
+    /**
+     * Calls the specified action on the given controller with the provided parameters.
+     *
+     * @param string $controllerName The name of the controller class.
+     * @param string $actionName The name of the action method to call.
+     * @param array $params Optional parameters to pass to the action method.
+     *
+     * @return void
+     *
+     * @throws \Exception If the controller class or action method does not exist.
+     */
     private function callAction($controllerName, $actionName, $params = []): void
     {
-        // Ajouter le namespace si vous en utilisez
         $controllerClass = $controllerName;
 
-        // Vérifier si la classe existe
         if (class_exists(class: $controllerClass)) {
             $controller = new $controllerClass();
 
-            // Vérifier si la méthode existe
             if (method_exists(object_or_class: $controller, method: $actionName)) {
                 call_user_func_array(callback: [$controller, $actionName], args: $params);
             } else {

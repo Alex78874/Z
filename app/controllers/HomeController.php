@@ -32,6 +32,7 @@ class HomeController extends Controller
                 
             $postsData[] = [
                 'id' => $post['id'],
+                'user_id' => $post['user_id'],
                 'username' => $user['username'] ?? 'Utilisateur inconnu',
                 'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
                 'publication_date' => $post['publication_date'],
