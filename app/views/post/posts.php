@@ -29,8 +29,9 @@
                 <div class="post" data-post-id="<?= htmlspecialchars($post['id']) ?>"> <!-- Ajout de l'attribut data-post-id -->
                     <div class="post-header">
                         <div class="post-user">
+                            <a href="<?= url("/user/{$post['user_id']}") ?>">
                             <img class="post-avatar" src="<?= htmlspecialchars($post['user_avatar'] ?? url("images/avatars/avatar_1.webp")) ?>"
-                                alt="Avatar de l'utilisateur">
+                                alt="Avatar de l'utilisateur"> </a>
                             <strong><?= htmlspecialchars($post['username']) ?></strong> <!-- Nom de l'utilisateur -->
                             <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span>
                             <!-- Date de publication -->
