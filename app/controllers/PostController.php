@@ -334,14 +334,6 @@ class PostController extends Controller
         }
     }
 
-    // // Méthode pour afficher tous les posts d'un utilisateur
-    // public function userPosts($userId): void
-    // {
-    //     $posts = $this->postModel->getPostsByUserId($userId);
-    //     $user = $this->userModel->getById($userId);
-    //     $this->view('post/user_posts', ['posts' => $posts, 'user' => $user]);
-    // }
-
     public function delete($id): void
     {
         $this->startSession();
@@ -371,4 +363,31 @@ class PostController extends Controller
             }
         }
     }
+
+    public function search(): void
+    {
+        $query = $_GET['q'] ?? '';
+
+        if ($this->isAjaxRequest()) {
+            $posts = $this->postModel->searchPosts($query);
+
+            $postsData = [];
+            foreach ($posts as $post) {
+                $user = $this->userModel->getById($post['user_id']);
+                $postsData[] = [
+                    'id' => $post['id'],
+                    'username' => $user['username'] ?? 'Utilisateur inconnu',
+                    'content' => $post['content'],
+                    // Add other necessary fields
+                ];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'posts' => $postsData]);
+            exit();
+        } else {
+            $posts = $this->postModel->searchPosts($query);
+            $this->view('post/search_results', ['posts' => $posts]);
+        }
+}
 }

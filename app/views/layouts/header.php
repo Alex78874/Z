@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="X social media">
     <link rel="icon" type="image/x-icon" href="<?= url('images/favicon.ico'); ?>">
-    
+
     <link rel="stylesheet" href="<?= url('css/header.css'); ?>">
     <link rel="stylesheet" href="<?= url('css/posts.css'); ?>">
     <link rel="stylesheet" href="<?= url('css/footer.css'); ?>">
@@ -17,7 +17,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -32,22 +33,23 @@
                 </div>
                 <!-- Barre de recherche au milleu de la navbar -->
                 <div class="nav-search">
-                    <form action="<?= url('search'); ?>" method="get">
+                    <form id="search-form" action="#" method="get">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-search" viewBox="0 0 16 16">
                             <path
                                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                         </svg>
-                        <input type="text" name="q" placeholder="Rechercher sur Z"
-                            value="<?= isset($q) ? htmlspecialchars($q) : ''; ?>">
+                        <input type="text" name="q" placeholder="Rechercher sur Z" autocomplete="off">
                     </form>
+                    <div id="search-results" class="search-results"></div>
                 </div>
 
                 <?php if (isset($_SESSION['user'])): ?>
 
                     <div class="nav-user">
                         <div class="nav-profile">
-                            <a href="<?= url('user/' . $_SESSION['user']['id']); ?>" aria-label="Profil de <?= htmlspecialchars($_SESSION['user']['username']); ?>">
+                            <a href="<?= url('user/' . $_SESSION['user']['id']); ?>"
+                                aria-label="Profil de <?= htmlspecialchars($_SESSION['user']['username']); ?>">
                                 <p>
                                     <?= htmlspecialchars($_SESSION['user']['username']); ?>
                                 </p>
@@ -86,6 +88,7 @@
                 <?php endif; ?>
             </div>
         </nav>
+        <script src="<?= url('js/search.js'); ?>" type="module"></script>
     </header>
 
     <!-- Contenu principal -->
