@@ -90,7 +90,7 @@ class AdminAuthController extends Controller
                     'id' => $admin['id'],
                     'username' => $admin['username'],
                     'email' => $admin['email'],
-                    'avatar' => $admin['avatar_url'] ?? url("images/avatar.png"),
+                    'avatar' => $admin['avatar_url'] ?? url("images/avatar_1.webp"),
                     'registration_date' => $admin['registration_date'],
                 ];
                 $_SESSION['admin_logged_in'] = true;
@@ -102,7 +102,7 @@ class AdminAuthController extends Controller
                         'id' => $user['id'],
                         'username' => $user['username'],
                         'email' => $user['email'],
-                        'avatar' => $user['avatar_url'] ?? url("images/avatar.png"),
+                        'avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
                         'registration_date' => $user['registration_date'],
                     ];
                 }

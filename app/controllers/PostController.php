@@ -66,7 +66,7 @@ class PostController extends Controller
                         'id' => $newPost['id'],
                         'user_id' => $user['id'],
                         'username' => $user['username'] ?? 'Utilisateur inconnu',
-                        'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
+                        'user_avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
                         'publication_date' => $newPost['publication_date'],
                         'content' => $newPost['content'],
                         'comment_count' => $comment_count,
@@ -125,7 +125,7 @@ class PostController extends Controller
                     'id' => $post['id'],
                     'user_id' => $user['id'],
                     'username' => $user['username'] ?? 'Utilisateur inconnu',
-                    'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
+                    'user_avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
                     'publication_date' => $post['publication_date'],
                     'content' => $post['content'],
                     'like_count' => $like_count,
@@ -250,7 +250,7 @@ class PostController extends Controller
                             'id' => $reply['id'],
                             'user_id' => $user['id'],
                             'username' => $user['username'] ?? 'Utilisateur inconnu',
-                            'user_avatar' => $user['avatar_url'] ?? 'images/avatar.png',
+                            'user_avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
                             'publication_date' => $reply['publication_date'],
                             'content' => $reply['content'],
                             'like_count' => 0,
@@ -300,7 +300,7 @@ class PostController extends Controller
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
             $post['user_id'] = $user['id'];
-            $post['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
+            $post['user_avatar'] = $user['avatar_url'] ?? url("images/avatar_1.webp");
             $post['comment_count'] = $comment_count;
             $post['like_count'] = $like_count;
             $post['liked'] = $liked;
@@ -318,7 +318,7 @@ class PostController extends Controller
 
                 $comment['username'] = $user['username'] ?? 'Utilisateur inconnu';
                 $comment['user_id'] = $user['id'];
-                $comment['user_avatar'] = $user['avatar_url'] ?? url('images/avatar.png');
+                $comment['user_avatar'] = $user['avatar_url'] ?? url("images/avatar_1.webp");
                 $comment['comment_count'] = $comment_count;
                 $comment['like_count'] = $like_count;
                 $comment['liked'] = $liked;

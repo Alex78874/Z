@@ -45,8 +45,12 @@ class AuthController extends Controller
                 return;
             }
 
+            // Selectionner un avatar aléatoire
+            $avatarNumber = rand(1, 13);
+            $avatarUrl = url("images/avatar_$avatarNumber.webp");
+
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $this->userModel->createUser($username, $email, $hashedPassword);
+            $this->userModel->createUser($username, $email, $hashedPassword, $avatarUrl);
 
             $this->redirect('/login');
         } else {
@@ -84,7 +88,7 @@ class AuthController extends Controller
                     'id' => $user['id'],
                     'username' => $user['username'],
                     'email' => $user['email'],
-                    'avatar' => $user['avatar_url'] ?? url("images/avatar.png"),
+                    'avatar' => $user['avatar_url'] ?? url("images/avatar_1.webp"),
                     'registration_date' => $user['registration_date'],
                 ];
                 $this->redirect('/');
