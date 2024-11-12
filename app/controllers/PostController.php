@@ -114,7 +114,7 @@ class PostController extends Controller
                 $user = $this->userModel->getById($post['user_id']);
                 $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
                 $comment_count = $this->postModel->getCommentCountParent($post['id']);
-                
+
                 if (isset($_SESSION['user']['id'])) {
                     $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
                 } else {
@@ -286,17 +286,18 @@ class PostController extends Controller
     public function show($id): void
     {
         $post = $this->postModel->getPostById($id);
-        $comment_count = $this->postModel->getCommentCount($id);
-        $comments = $this->postModel->getComments($id);
-        $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
-
-        if (isset($_SESSION['user']['id'])) {
-            $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
-        } else {
-            $liked = false;
-        }
 
         if ($post) {
+            $comment_count = $this->postModel->getCommentCount($id);
+            $comments = $this->postModel->getComments($id);
+            $like_count = $this->likeModel->getLikesCountByPostId($post['id']);
+
+            if (isset($_SESSION['user']['id'])) {
+                $liked = $this->likeModel->hasUserLikedPost($_SESSION['user']['id'], $post['id']);
+            } else {
+                $liked = false;
+            }
+
             $user = $this->userModel->getById($post['user_id']);
             $post['username'] = $user['username'] ?? 'Utilisateur inconnu';
             $post['user_id'] = $user['id'];
@@ -330,23 +331,52 @@ class PostController extends Controller
             ];
             $this->view('post/post', data: $data);
         } else {
-            echo "Post non trouvé.";
+            send404('Post non trouvé');
         }
     }
 
     public function delete($id): void
     {
         $this->startSession();
-        if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+
+        // Vérifier si l'utilisateur est connecté ou si c'est un admin
+        $userId = $_SESSION['user']['id'] ?? null;
+        $isAdmin = $_SESSION['admin_logged_in'] ?? false;
+
+        if (!$userId && !$isAdmin) {
             if ($this->isAjaxRequest()) {
                 echo json_encode(['success' => false, 'message' => 'Accès non autorisé.']);
                 exit();
             } else {
-                $this->redirect('/admin/login');
+                $this->redirect('/login');
                 exit();
             }
         }
 
+        // Récupérer le post
+        $post = $this->postModel->getPostById($id);
+        if (!$post) {
+            if ($this->isAjaxRequest()) {
+                echo json_encode(['success' => false, 'message' => 'Post non trouvé.']);
+                exit();
+            } else {
+                echo "Post non trouvé.";
+                exit();
+            }
+        }
+
+        // Vérifier que l'utilisateur est l'auteur du post ou un administrateur
+        if ($post['user_id'] != $userId && !$isAdmin) {
+            if ($this->isAjaxRequest()) {
+                echo json_encode(['success' => false, 'message' => 'Vous n' . "'" . 'êtes pas autorisé à supprimer ce post.']);
+                exit();
+            } else {
+                echo "Vous n'êtes pas autorisé à supprimer ce post.";
+                exit();
+            }
+        }
+
+        // Supprimer le post
         $success = $this->postModel->deletePost($id);
         if ($this->isAjaxRequest()) {
             if ($success) {
@@ -389,5 +419,5 @@ class PostController extends Controller
             $posts = $this->postModel->searchPosts($query);
             $this->view('post/search_results', ['posts' => $posts]);
         }
-}
+    }
 }

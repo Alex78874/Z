@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('postId :', postId);
 
             if (confirm('Voulez-vous vraiment supprimer ce post ?')) {
-                fetch('post/delete/' + postId, {
+                fetch('/post/delete/' + postId, {
                     method: 'DELETE',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest',

@@ -30,8 +30,9 @@
                     <div class="post-header">
                         <div class="post-user">
                             <a href="<?= url("/user/{$post['user_id']}") ?>">
-                            <img class="post-avatar" src="<?= htmlspecialchars($post['user_avatar'] ?? url("images/avatars/avatar_1.webp")) ?>"
-                                alt="Avatar de l'utilisateur"> </a>
+                                <img class="post-avatar"
+                                    src="<?= htmlspecialchars($post['user_avatar'] ?? url("images/avatars/avatar_1.webp")) ?>"
+                                    alt="Avatar de l'utilisateur"> </a>
                             <strong><?= htmlspecialchars($post['username']) ?></strong> <!-- Nom de l'utilisateur -->
                             <span class="post-date"><?= htmlspecialchars($post['publication_date']) ?></span>
                             <!-- Date de publication -->
@@ -70,7 +71,8 @@
 
                         <!-- Bouton pour commenter un post -->
                         <div class="post-comment-count">
-                            <button class="comment-button" data-post-id="<?= htmlspecialchars($post['id']) ?>" aria-label="Comment on post">
+                            <button class="comment-button" data-post-id="<?= htmlspecialchars($post['id']) ?>"
+                                aria-label="Comment on post">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-chat-left-text" viewBox="0 0 16 16">
                                     <path
@@ -87,7 +89,8 @@
                         <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
                             <div class="admin-section">
                                 <div class="admin-actions">
-                                    <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($post['id']); ?>" aria-label="Delete post">
+                                    <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($post['id']); ?>"
+                                        aria-label="Delete post">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             class="bi bi-trash3" viewBox="0 0 16 16">
                                             <path
@@ -96,11 +99,26 @@
                                     </button>
                                 </div>
                                 <div class="admin-actions">
-                                    <button class="btn-ban-user" data-user-id="<?= htmlspecialchars($post['user_id']); ?>" aria-label="Ban user">
+                                    <button class="btn-ban-user" data-user-id="<?= htmlspecialchars($post['user_id']); ?>"
+                                        aria-label="Ban user">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             class="bi bi-person-fill-slash" viewBox="0 0 16 16">
                                             <path
                                                 d="M13.879 10.414a2.501 2.501 0 0 0-3.465 3.465zm.707.707-3.465 3.465a2.501 2.501 0 0 0 3.465-3.465m-4.56-1.096a3.5 3.5 0 1 1 4.949 4.95 3.5 3.5 0 0 1-4.95-4.95ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        <?php elseif (isset($_SESSION['user']['id']) && $_SESSION['user']['id'] === $post['user_id']): ?>
+                            <!-- Actions utilisateur -->
+                            <div class="user-section">
+                                <div class="user-actions">
+                                    <button class="btn-delete-post" data-post-id="<?= htmlspecialchars($post['id']); ?>"
+                                        aria-label="Delete post">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path
+                                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
                                         </svg>
                                     </button>
                                 </div>
